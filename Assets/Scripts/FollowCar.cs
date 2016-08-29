@@ -48,7 +48,7 @@ public class FollowCar : MonoBehaviour {
 					inPinArea = true;
 				} 
 
-				float speed = leadCar.GetComponent<CarMovement> ().speedometer;
+				float speed = leadCar.GetComponent<CarMovement> ().speed;
 				transform.position = Vector3.Lerp (
 					transform.position, 
 					end, Time.deltaTime * speed

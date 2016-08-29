@@ -154,15 +154,17 @@ public class MakeCarsTurn : MonoBehaviour {
 			for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 				if (Camera.main.GetComponent<CarMangment> ().cars [i] != null) {
 					if (Camera.main.GetComponent<CarMangment> ().cars [i] != leadCar) {
-						if (Mathf.Abs (Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle / 2) {
-							Vector3 targetPosition = leadCar.transform.position;
-							targetPosition.y = Camera.main.GetComponent<CarMangment> ().cars [i].transform.position.y;
-							Quaternion targetRotation = Quaternion.LookRotation(targetPosition - Camera.main.GetComponent<CarMangment> ().cars [i].transform.position);
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
-								Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
-								targetRotation, 
-								Time.deltaTime * 7
-							);
+						if (!Camera.main.GetComponent<CarMangment> ().cars [i].GetComponent<CarMovement> ().carFlipped) {
+							if (Mathf.Abs (Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle / 2) {
+								Vector3 targetPosition = leadCar.transform.position;
+								targetPosition.y = Camera.main.GetComponent<CarMangment> ().cars [i].transform.position.y;
+								Quaternion targetRotation = Quaternion.LookRotation (targetPosition - Camera.main.GetComponent<CarMangment> ().cars [i].transform.position);
+								Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
+									Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
+									targetRotation, 
+									Time.deltaTime * 7
+								);
+							}
 						}
 					}
 				}
@@ -172,14 +174,14 @@ public class MakeCarsTurn : MonoBehaviour {
 
 	public void turnLeft(){
 		GameObject leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-		if (leadCar.transform.rotation.y > -0.65f) {
+		if (leadCar.transform.rotation.y > -0.65f && !leadCar.GetComponent<CarMovement>().carFlipped) {
 			leadCar.transform.Rotate(0, -Time.deltaTime * turnSpeed, 0);
 		}
 	}
 
 	public void turnRight(){
 		GameObject leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-		if (leadCar.transform.rotation.y < 0.65f) {
+		if (leadCar.transform.rotation.y < 0.65f && !leadCar.GetComponent<CarMovement>().carFlipped) {
 			leadCar.transform.Rotate(0, Time.deltaTime * turnSpeed, 0);
 		}
 	}

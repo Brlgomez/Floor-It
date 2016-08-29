@@ -22,7 +22,8 @@ public class EvilCarAttributes : MonoBehaviour {
 	void Start () {
 		smoke = gameObject.GetComponent<ParticleSystem> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<Collider> ());
+		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<MeshCollider> ());
+		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<BoxCollider> ());
 		transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
 		GetComponent<Rigidbody> ().useGravity = true;
 		exploded = false;
@@ -66,16 +67,18 @@ public class EvilCarAttributes : MonoBehaviour {
 
 	void lookAtLeadCar(){
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-			leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-			if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
-				Vector3 targetPosition = leadCar.transform.position;
-				targetPosition.y = transform.position.y;
-				Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
-				transform.rotation = Quaternion.Slerp (
-					transform.rotation, 
-					targetRotation, 
-					Time.deltaTime * 7
-				);
+			if (!GetComponent<CarMovement> ().carFlipped) {
+				leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
+				if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
+					Vector3 targetPosition = leadCar.transform.position;
+					targetPosition.y = transform.position.y;
+					Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
+					transform.rotation = Quaternion.Slerp (
+						transform.rotation, 
+						targetRotation, 
+						Time.deltaTime * 7
+					);
+				}
 			}
 		}
 	}

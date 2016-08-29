@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class BlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3.0f;
-	static int speedUpForce = 750;
+	static int speedUpForce = 700;
 	static float onSlowDownBlockAcc = -5.0f;
 	static int speedDownForce = -400;
-	static float onJumpBlockHeight = 4.0f;
+	static float onJumpBlockHeight = 3.5f;
 	static float sizeBig = 1.5f;
 	static float sizeSmall = 0.5f;
 
@@ -69,9 +69,11 @@ public class BlockAttributes : MonoBehaviour {
 	}
 
 	public void onJumpBlock (GameObject car, Rigidbody rb) {
-		Camera.main.GetComponent<SoundEffects> ().playBounceSound (car.transform.position);
-		Camera.main.GetComponent<Points> ().incrementPoints (jumpBlockPoints);
-		rb.velocity += Vector3.up * onJumpBlockHeight;
+		if (rb.velocity.y < onJumpBlockHeight) {
+			Camera.main.GetComponent<SoundEffects> ().playBounceSound (car.transform.position);
+			Camera.main.GetComponent<Points> ().incrementPoints (jumpBlockPoints);
+			rb.velocity += Vector3.up * onJumpBlockHeight;
+		}
 	}
 
 	public void onFlyingBlock (GameObject car, Rigidbody rb) {

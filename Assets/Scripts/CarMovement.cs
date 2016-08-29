@@ -35,12 +35,15 @@ public class CarMovement : MonoBehaviour {
 	public float resizeCounter;
 	float resizeLimit = 10;
 
+	public bool carFlipped;
+
 	void Start () {
 		//level = Camera.main.GetComponent<LevelManagement>().level;
 
 		rb = GetComponent<Rigidbody> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<Collider> ());
+		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<MeshCollider> ());
+		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<BoxCollider> ());
 
 		gameOver = false;
 		flying = false;
@@ -60,13 +63,20 @@ public class CarMovement : MonoBehaviour {
 		flyingTimer = 0;
 		flyingTime = 10; // in seconds
 
+		carFlipped = false;
+
 		//gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
 	}
 
 	void FixedUpdate () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !gameOver) {
 			float deltaTime = Time.deltaTime;
-			rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+			if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+				rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+				carFlipped = false;
+			} else {
+				carFlipped = true;
+			}
 			forceTimer += deltaTime;
 			if (gameObject == Camera.main.GetComponent<CarMangment> ().cars [0] && tag != "Evil Car") {
 				speedometer = (transform.position - lastPos).magnitude / Time.smoothDeltaTime;
@@ -138,7 +148,6 @@ public class CarMovement : MonoBehaviour {
 				flyingTimer = 0;
 				rb.useGravity = true;
 				rb.angularDrag = 1;
-				//rb.mass = 5;
 				Behaviour halo = (Behaviour)gameObject.transform.GetChild(0).GetComponent("Halo");
 				halo.enabled = false;
 				Camera.main.GetComponent<SoundEffects> ().playBubblePopSound (transform.position);
@@ -237,12 +246,6 @@ public class CarMovement : MonoBehaviour {
 					Camera.main.GetComponent<AddBlock> ().superPointBlockActivated = true;
 				}
 			} 
-			if (hit.tag == "On road" || hit.name == "TempFloor") {
-				//car flipped 
-				if (Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit && !flying) {
-					setToGameOver ();
-				}
-			}
 		}
 	}
 }
