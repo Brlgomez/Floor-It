@@ -54,7 +54,7 @@ public class CarMovement : MonoBehaviour {
 			speed = 0.5f;
 		}
 		acceleration = 0.01f;
-		distToGround = transform.position.y + 0.025f;
+		distToGround = transform.position.y;
 		yPosFallingBarrier = invisibleFloor.transform.position.y;
 	}
 

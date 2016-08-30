@@ -10,17 +10,17 @@ public class Draggable : MonoBehaviour {
 	bool isMouseDrag;
 	Vector3 screenPosition;
 	Vector3 offset;
-	public bool inPause;
+	public bool onPauseButton;
 	bool gotDragged;
 	int yPosition = -1;
 
 	void Start () {
 		highlight = GameObject.Find ("Highlight");
-		inPause = false;
+		onPauseButton = false;
 	}
 
 	void Update () {
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !inPause) {
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !onPauseButton) {
 			// initial touching an object or the invisible board
 			if (Input.GetMouseButtonDown (0)) {
 				mouseDown ();

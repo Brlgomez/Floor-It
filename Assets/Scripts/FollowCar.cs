@@ -48,10 +48,14 @@ public class FollowCar : MonoBehaviour {
 					inPinArea = true;
 				} 
 
-				float speed = leadCar.GetComponent<CarMovement> ().speed;
+				float distanceFromLead = Vector2.Distance (
+					new Vector2 (transform.position.x, transform.position.z), 
+					new Vector2 (leadCar.transform.position.x, leadCar.transform.position.z)
+				);
+
 				transform.position = Vector3.Lerp (
 					transform.position, 
-					end, Time.deltaTime * speed
+					end, Time.deltaTime * distanceFromLead
 				);
 			}
 		}

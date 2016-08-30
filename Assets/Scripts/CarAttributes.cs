@@ -13,7 +13,7 @@ public class CarAttributes : MonoBehaviour {
 			}
 			car.GetComponent<CarMovement>().resizeCounter = 0;
 			car.GetComponent<CarMovement>().resized = false;
-			car.GetComponent<CarMovement>().distToGround = car.transform.position.y + 0.025f;
+			car.GetComponent<CarMovement> ().distToGround = car.transform.position.y;
 			car.transform.localScale = new Vector3 (1, 1, 1);
 			car.GetComponent<Rigidbody>().mass = 5;
 		}
