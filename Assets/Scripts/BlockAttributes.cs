@@ -69,7 +69,7 @@ public class BlockAttributes : MonoBehaviour {
 	}
 
 	public void onJumpBlock (GameObject car, Rigidbody rb) {
-		if (rb.velocity.y < onJumpBlockHeight) {
+		if (rb.velocity.y < onJumpBlockHeight && !car.GetComponent<CarMovement> ().flying) {
 			Camera.main.GetComponent<SoundEffects> ().playBounceSound (car.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (jumpBlockPoints);
 			rb.velocity += Vector3.up * onJumpBlockHeight;

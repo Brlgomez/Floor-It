@@ -88,7 +88,6 @@ public class CarMovement : MonoBehaviour {
 			if (speed < slowestSpeed) {
 				speed = slowestSpeed;
 			}
-
 			/*
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null && level == LevelManagement.drive) {
 				if (gameObject.name == Camera.main.GetComponent<FollowCar> ().leadCar.name &&
@@ -142,16 +141,21 @@ public class CarMovement : MonoBehaviour {
 		
 	void flyingConditions () {
 		if (flying) {
+			if (transform.position.y > 5) {
+				rb.drag = 5;
+			}
 			flyingTimer += Time.deltaTime;
 			if (flyingTimer > flyingTime) {
 				flying = false;
 				flyingTimer = 0;
 				rb.useGravity = true;
 				rb.angularDrag = 1;
+				rb.drag = 0.5f;
 				Behaviour halo = (Behaviour)gameObject.transform.GetChild(0).GetComponent("Halo");
 				halo.enabled = false;
 				Camera.main.GetComponent<SoundEffects> ().playBubblePopSound (transform.position);
 			}
+
 		}
 	}
 
