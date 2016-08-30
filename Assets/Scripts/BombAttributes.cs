@@ -19,14 +19,14 @@ public class BombAttributes : MonoBehaviour {
 	public Material XBombMaterial;
 	public Material transparentMaterial;
 
-	void Start () {
+	void Awake () {
 		smoke = gameObject.GetComponent<ParticleSystem> ();
 		timeLimit = 3;
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null && 
 			Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4 < timeLimit) {
 			timeLimit -= Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4;
 		}
-		if (Random.Range (0, 2) < 1) {
+		if (Random.Range (0, 2) < 1 && name != AllBlockNames.bombBlock) {
 			GetComponent<Renderer> ().material = XBombMaterial;
 			isBombX = true;
 		} else {

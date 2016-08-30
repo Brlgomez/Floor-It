@@ -261,26 +261,27 @@ public class AddBlock : MonoBehaviour {
 		} else if (superPointBlockActivated) {
 			block = AllBlockNames.pointBlock;
 		} else {
+			randBlockIndex = (int)Random.Range (0, blockNames.Length);
+			float cameraZPos = Camera.main.transform.position.z;
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
 			}
-			randBlockIndex = (int)Random.Range (0, blockNames.Length);
-			if (rand < extraPercent && numberOfCars <= maxAmountOfCars) {
+			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && Camera.main.transform.position.z > 50) {
 				block = AllBlockNames.extraCarBlock;
-			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit) {
+			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > 200) {
 				superCounter = 0;
 				block = AllBlockNames.superAccelerateBlock;
-			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit) {
+			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > 200) {
 				superCounter = 0;
 				block = AllBlockNames.superDecelerateBlock;
-			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit) {
+			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > 100) {
 				bombCounter = 0;
 				block = AllBlockNames.bombBlock;
-			} else if (rand < comSuperPercent && superCounter > superLimit) {
+			} else if (rand < comSuperPercent && superCounter > superLimit && cameraZPos > 200) {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
 				block = AllBlockNames.commonSuperBlocks [randBlockIndex];
-			} else if (rand < evilCarPercent && evilCarCounter > evilCarLimit) {
+			} else if (rand < evilCarPercent && evilCarCounter > evilCarLimit && cameraZPos > 150) {
 				evilCarCounter = 0;
 				block = AllBlockNames.evilCarBlock;
 			} else {

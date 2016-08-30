@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3.0f;
-	static int speedUpForce = 700;
+	static int speedUpForce = 650;
 	static float onSlowDownBlockAcc = -5.0f;
 	static int speedDownForce = -400;
 	static float onJumpBlockHeight = 3.5f;

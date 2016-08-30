@@ -67,7 +67,7 @@ public class EvilCarAttributes : MonoBehaviour {
 
 	void lookAtLeadCar(){
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-			if (!GetComponent<CarMovement> ().carFlipped) {
+			if (!GetComponent<CarMovement> ().carFlipped && GetComponent<CarMovement>().evilCarWithinRange) {
 				leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
 				if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
 					Vector3 targetPosition = leadCar.transform.position;

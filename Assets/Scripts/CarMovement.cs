@@ -17,25 +17,27 @@ public class CarMovement : MonoBehaviour {
 	public float slowestSpeed;
 	public float fastestSpeed;
 	public float acceleration;
-	float jumpHeight;
+	float jumpHeight = 5.0f;
 	public float distToGround;
 
 	float yPosFallingBarrier;
-	float carFlippedLimit;
+	static float carFlippedLimit = 0f; //0 - 1;
 
-	float flyingTimer;
-	float flyingTime;
+	float flyingTimer = 0;
+	float flyingTime = 10; // in seconds;
 
 	float forceTimer;
 	float forceLimit = 0.5f;
 
 	//string level;
 
-	public bool resized = false;
+	public bool resized;
 	public float resizeCounter;
 	float resizeLimit = 10;
 
 	public bool carFlipped;
+
+	public bool evilCarWithinRange;
 
 	void Start () {
 		//level = Camera.main.GetComponent<LevelManagement>().level;
@@ -53,17 +55,17 @@ public class CarMovement : MonoBehaviour {
 
 		slowestSpeed = 0.5f;
 		fastestSpeed = 10.0f;
+
 		acceleration = 0.01f;
-		jumpHeight = 5.0f;
 		distToGround = transform.position.y + 0.025f;
 
 		yPosFallingBarrier = invisibleFloor.transform.position.y;
-		carFlippedLimit = 0f; //0 - 1
 
-		flyingTimer = 0;
-		flyingTime = 10; // in seconds
+		resized = false;
 
 		carFlipped = false;
+
+		evilCarWithinRange = true;
 
 		//gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
 	}
@@ -72,7 +74,16 @@ public class CarMovement : MonoBehaviour {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !gameOver) {
 			float deltaTime = Time.deltaTime;
 			if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-				rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+				if (tag.Equals ("Evil Car")) {
+					if (Vector3.Distance (Camera.main.GetComponent<FollowCar> ().leadCar.transform.position, transform.position) < 5) {
+						evilCarWithinRange = true;
+						rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+					} else {
+						evilCarWithinRange = false;
+					}
+				} else {
+					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+				}
 				carFlipped = false;
 			} else {
 				carFlipped = true;
@@ -125,12 +136,12 @@ public class CarMovement : MonoBehaviour {
 	void checkGameOverConditions(){
 		// car is too far away form lead car
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-			if (transform.position.z - Camera.main.GetComponent<FollowCar> ().leadCar.transform.position.z < -20) {
+			if (transform.position.z - Camera.main.GetComponent<FollowCar> ().leadCar.transform.position.z < -15) {
 				setToGameOver ();
 			}
 		}
 		//car is stopped
-		if (rb.IsSleeping () && !flying) {
+		if (rb.IsSleeping () && !flying && tag != "Evil Car") {
 			setToGameOver ();
 		}
 		// car has fallen
