@@ -10,38 +10,35 @@ public class CarMovement : MonoBehaviour {
 
 	public bool gameOver;
 	public bool flying;
-	public float speed;
+	public bool resized;
+	public bool carFlipped;
+	public bool evilCarWithinRange;
 	public float speedometer;
 	Vector3 lastPos;
 
-	public float slowestSpeed;
-	public float fastestSpeed;
+	public float speed;
 	public float acceleration;
-	float jumpHeight = 5.0f;
 	public float distToGround;
+	public static float slowestSpeed = 0.5f;
+	public static float fastestSpeed = 10.0f;
+	public static float jumpHeight = 5.0f;
 
 	float yPosFallingBarrier;
-	static float carFlippedLimit = 0f; //0 - 1;
+	static float carFlippedLimit = 0f; //0 to -1;
 
-	float flyingTimer = 0;
-	float flyingTime = 10; // in seconds;
-
-	float forceTimer;
-	float forceLimit = 0.5f;
+	public float flyingTimer = 0;
+	public static float flyingTime = 10; // in seconds;
+	public float forceTimer = 0;
+	public static float forceLimit = 0.5f;
+	public float resizeCounter = 0;
+	public static float resizeLimit = 10;
 
 	//string level;
 
-	public bool resized;
-	public float resizeCounter;
-	float resizeLimit = 10;
-
-	public bool carFlipped;
-
-	public bool evilCarWithinRange;
-
 	void Start () {
 		//level = Camera.main.GetComponent<LevelManagement>().level;
-
+		//GetComponent<Renderer> ().material = regularCarMaterial;
+	
 		rb = GetComponent<Rigidbody> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
 		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<MeshCollider> ());
@@ -49,88 +46,75 @@ public class CarMovement : MonoBehaviour {
 
 		gameOver = false;
 		flying = false;
+		resized = false;
+		carFlipped = false;
+		evilCarWithinRange = true;
+
 		if (speed == 0) {
 			speed = 0.5f;
 		}
-
-		slowestSpeed = 0.5f;
-		fastestSpeed = 10.0f;
-
 		acceleration = 0.01f;
 		distToGround = transform.position.y + 0.025f;
-
 		yPosFallingBarrier = invisibleFloor.transform.position.y;
-
-		resized = false;
-
-		carFlipped = false;
-
-		evilCarWithinRange = true;
-
-		//gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
 	}
 
 	void FixedUpdate () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !gameOver) {
 			float deltaTime = Time.deltaTime;
-			if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-				if (tag.Equals ("Evil Car")) {
+			forceTimer += deltaTime;
+			if (tag.Equals ("Evil Car")) {
+				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
 					if (Vector3.Distance (Camera.main.GetComponent<FollowCar> ().leadCar.transform.position, transform.position) < 5) {
 						evilCarWithinRange = true;
+						carFlipped = false;
 						rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
 					} else {
 						evilCarWithinRange = false;
+						carFlipped = true;
 					}
-				} else {
-					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
 				}
-				carFlipped = false;
 			} else {
-				carFlipped = true;
-			}
-			forceTimer += deltaTime;
-			if (gameObject == Camera.main.GetComponent<CarMangment> ().cars [0] && tag != "Evil Car") {
-				speedometer = (transform.position - lastPos).magnitude / Time.smoothDeltaTime;
-				lastPos = transform.position;
-			}
-			if (speed < fastestSpeed) {
-				speed += deltaTime * acceleration;
-			}
-			if (speed < slowestSpeed) {
-				speed = slowestSpeed;
-			}
-			/*
-			if (Camera.main.GetComponent<FollowCar> ().leadCar != null && level == LevelManagement.drive) {
-				if (gameObject.name == Camera.main.GetComponent<FollowCar> ().leadCar.name &&
-					gameObject.GetComponent<Renderer> ().material.name != (leadCarMaterial.name + " (Instance)")) {
-
-					gameObject.GetComponent<Renderer> ().material = leadCarMaterial;
-				} else if (gameObject.name != Camera.main.GetComponent<FollowCar> ().leadCar.name && 
-					gameObject.GetComponent<Renderer> ().material.name == (leadCarMaterial.name + " (Instance)")){
-
-					gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
+				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+					carFlipped = false;
+				} else {
+					carFlipped = true;
+				}
+				if (gameObject == Camera.main.GetComponent<CarMangment> ().cars [0]) {
+					speedometer = (transform.position - lastPos).magnitude / Time.smoothDeltaTime;
+					lastPos = transform.position;
+				}
+				if (speed < fastestSpeed) {
+					speed += deltaTime * acceleration;
+				}
+				if (speed < slowestSpeed) {
+					speed = slowestSpeed;
 				}
 			}
-			*/
-
 			checkGameOverConditions ();
 			if (resized) {
-				resizeCounter += deltaTime;
-				if(resizeCounter > resizeLimit){
-					if (rb.mass > 5) {
-						Camera.main.GetComponent<SoundEffects> ().playResizeSmallSound (transform.position);
-					} else {
-						Camera.main.GetComponent<SoundEffects> ().playResizeBigSound (transform.position);
-					}
-					resizeCounter = 0;
-					resized = false;
-					distToGround = transform.position.y + 0.025f;
-					transform.localScale = new Vector3 (1, 1, 1);
-					rb.mass = 5;
-				}
+				Camera.main.GetComponent<CarAttributes> ().resizedTimer (gameObject);
 			}
-			flyingConditions ();
+			if (flying) {
+				Camera.main.GetComponent<CarAttributes> ().flyingTimer (gameObject);
+			}
 		}
+	}
+
+	void changeMaterial(){
+		/*
+		if (Camera.main.GetComponent<FollowCar> ().leadCar != null && level == LevelManagement.drive) {
+			if (gameObject.name == Camera.main.GetComponent<FollowCar> ().leadCar.name &&
+				gameObject.GetComponent<Renderer> ().material.name != (leadCarMaterial.name + " (Instance)")) {
+
+				gameObject.GetComponent<Renderer> ().material = leadCarMaterial;
+			} else if (gameObject.name != Camera.main.GetComponent<FollowCar> ().leadCar.name && 
+				gameObject.GetComponent<Renderer> ().material.name == (leadCarMaterial.name + " (Instance)")){
+
+				gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
+			}
+		}
+		*/
 	}
 
 	void checkGameOverConditions(){
@@ -140,50 +124,13 @@ public class CarMovement : MonoBehaviour {
 				setToGameOver ();
 			}
 		}
-		//car is stopped
-		if (rb.IsSleeping () && !flying && tag != "Evil Car") {
-			setToGameOver ();
-		}
 		// car has fallen
 		if (transform.position.y < yPosFallingBarrier) {
 			setToGameOver ();
 		}
-	}
-		
-	void flyingConditions () {
-		if (flying) {
-			if (transform.position.y > 5) {
-				rb.drag = 5;
-			}
-			flyingTimer += Time.deltaTime;
-			if (flyingTimer > flyingTime) {
-				flying = false;
-				flyingTimer = 0;
-				rb.useGravity = true;
-				rb.angularDrag = 1;
-				rb.drag = 0.5f;
-				Behaviour halo = (Behaviour)gameObject.transform.GetChild(0).GetComponent("Halo");
-				halo.enabled = false;
-				Camera.main.GetComponent<SoundEffects> ().playBubblePopSound (transform.position);
-			}
-
-		}
-	}
-
-	public void jump () {
-		if (IsGrounded () && !gameOver) {
-			Quaternion newRoation = new Quaternion (
-				transform.rotation.x + (Random.Range (-0.02f, 0.02f)), 
-				transform.rotation.y, 
-				transform.rotation.z + (Random.Range (-0.02f, 0.02f)), 
-				transform.rotation.w
-			);
-			transform.rotation = Quaternion.Slerp (
-				transform.rotation, 
-				newRoation, 
-				Time.deltaTime * 100
-			);
-			rb.velocity += Vector3.up * jumpHeight;
+		//car is stopped, evil cars can be stopped
+		if (rb.IsSleeping () && !flying && tag != "Evil Car") {
+			setToGameOver ();
 		}
 	}
 
@@ -193,74 +140,10 @@ public class CarMovement : MonoBehaviour {
 		gameObject.tag = "Dead Car";
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
 	}
-
-	bool IsGrounded () {
-		return Physics.Raycast (transform.position, -Vector3.up, distToGround);
-	}
-
-	public void addForce (int multiplier) {
-		if (forceTimer > forceLimit) {
-			rb.AddForce (rb.transform.forward * multiplier);
-			forceTimer = 0;
-		}
-	}
-
+		
 	void OnTriggerEnter(Collider hit) {
 		if (!gameOver) {
-			if ((hit.transform.tag == "Car" || hit.transform.tag == "Evil Car") && transform.tag == "Evil Car") {
-				gameObject.GetComponent<EvilCarAttributes> ().explodeNow = true;
-			}
-			string blockName = hit.transform.name.Split ('_') [0];
-			if (blockName == AllBlockNames.accelerateBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onSpeedBlock (GameObject.Find (hit.transform.name), gameObject);
-			} else if (blockName == AllBlockNames.bouncyBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onJumpBlock (gameObject, rb);
-			} else if (blockName == AllBlockNames.decelerateBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onSlowDownBlock (GameObject.Find (hit.transform.name), gameObject);
-			} else if (blockName == AllBlockNames.extraCarBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name));
-			} else if (blockName == AllBlockNames.flyBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onFlyingBlock (gameObject, rb);
-			} else if (blockName == AllBlockNames.shuffleBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name));
-			} else if (blockName == AllBlockNames.invisibleBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onInvisibleBlock (GameObject.Find (hit.transform.name));
-			} else if (blockName == AllBlockNames.pointBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onPointBlock (GameObject.Find (hit.transform.name));
-			} else if (blockName == AllBlockNames.sizeBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onSizeBlock (GameObject.Find (hit.transform.name), gameObject);
-			} else if (blockName == AllBlockNames.superAccelerateBlock) {
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superSpeedBlockActivated = true;
-				}
-			} else if (blockName == AllBlockNames.superDecelerateBlock) {
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superSlowBlockActivated = true;
-				}
-			} else if (blockName == AllBlockNames.superBlock) {
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superBlockActivated = true;
-				}
-			} else if (blockName == AllBlockNames.superBouncyBlock) {
-				Camera.main.GetComponent<BlockAttributes> ().onJumpBlock (gameObject, rb);
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superBouncyBlockActivated = true;
-				}
-			} else if (blockName == AllBlockNames.superBullseyeBlock) {
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superBullseyeBlockActivated = true;
-				}
-			} else if (blockName == AllBlockNames.superPointBlock) {
-				if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-					Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), gameObject);
-					Camera.main.GetComponent<AddBlock> ().superPointBlockActivated = true;
-				}
-			} 
+			Camera.main.GetComponent<CarAttributes> ().onBlock (hit, gameObject, rb);
 		}
 	}
 }

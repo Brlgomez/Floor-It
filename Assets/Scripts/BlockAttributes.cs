@@ -30,11 +30,11 @@ public class BlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playAccelerationSound (block.transform.position);
 			float multiplier = car.transform.localScale.x;
 			float force = speedUpForce * multiplier;
-			car.GetComponent<CarMovement> ().addForce ((int)force);
+			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
 			Camera.main.GetComponent<Points> ().incrementPoints (speedBlockPoints);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
-				float fasterSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().fastestSpeed;
+				float fasterSpeed = CarMovement.fastestSpeed;
 				if (currentSpeed < fasterSpeed) {
 					changeSpeedOfAllCars (onSpeedBlockAcc);
 				}
@@ -48,10 +48,10 @@ public class BlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playDecelerationSound (block.transform.position);
 			float multiplier = car.transform.localScale.x;
 			float force = speedDownForce * multiplier;
-			car.GetComponent<CarMovement> ().addForce ((int)force);
+			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
-				float slowestSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().slowestSpeed;
+				float slowestSpeed = CarMovement.slowestSpeed;
 				if (currentSpeed > slowestSpeed) {
 					changeSpeedOfAllCars (onSlowDownBlockAcc);
 				}
