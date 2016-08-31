@@ -3,7 +3,6 @@ Library/*
 Build/*
 Obj/
 UnityGenerated/
-*.DS_Store
 
 ExportedObj/
 .consulo/
