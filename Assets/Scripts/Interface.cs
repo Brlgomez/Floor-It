@@ -227,7 +227,7 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<MakeCarsTurn>().rightButtonPressed = false;
 	}
 
-	public void changeHUDSprite (string blockName) {
+	public void changeHUDSprite (string blockName, string fullBlockName) {
 		if (blockName == AllBlockNames.hillBlock) {
 			nextBlockSprite.sprite = hill;
 		} else if (blockName == AllBlockNames.jaggedBlock) {
@@ -253,7 +253,7 @@ public class Interface : MonoBehaviour {
 		} else if (blockName == AllBlockNames.evilCarBlock) {
 			nextBlockSprite.sprite = evilCar;
 		} else if (blockName == AllBlockNames.bombBlock) {
-			if (GameObject.Find (blockName).GetComponent<BombAttributes> ().isBombX) {
+			if (GameObject.Find (fullBlockName).GetComponent<BombAttributes> ().isBombX) {
 				nextBlockSprite.sprite = bombX;
 			} else {
 				nextBlockSprite.sprite = bombT;
@@ -261,7 +261,7 @@ public class Interface : MonoBehaviour {
 		} else if (blockName == AllBlockNames.superBlock) {
 			nextBlockSprite.sprite = super;
 		} else if (blockName == AllBlockNames.sizeBlock) {
-			if (GameObject.Find (blockName).GetComponent<SizeBlockAttributes> ().big) {
+			if (GameObject.Find (fullBlockName).GetComponent<SizeBlockAttributes> ().big) {
 				nextBlockSprite.sprite = resizeBig;
 			} else {
 				nextBlockSprite.sprite = resizeSmall;

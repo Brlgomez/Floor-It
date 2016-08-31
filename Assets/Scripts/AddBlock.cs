@@ -69,6 +69,12 @@ public class AddBlock : MonoBehaviour {
 	// if the counter goes above the limit, a super block can now possibly spawn
 	static float evilCarLimit = 25;
 
+	/* How far a car must be in order for blocks to spawn */
+	float extraCarDistSpawn = 50;
+	float bombBlockDistSpawn = 100;
+	float evilCarDistSpawn = 150;
+	float superBlockDistSpawn = 200;
+
 	/* automatically add blocks */
 	// a counter that will increment and will show when it can properly add a new block
 	float countForNextBlock = 0;
@@ -105,10 +111,18 @@ public class AddBlock : MonoBehaviour {
 	public string[] blockNames;
 	// will increment whenever a new block is spawned
 	int numBlocksCount = 0;
+	// Time.deltaTime
 	float deltaTime;
 
 	void Start () {
 		level = Camera.main.GetComponent<LevelManagement> ().level;
+
+		if (level == LevelManagement.bowl) {
+			extraCarDistSpawn = 5;
+			bombBlockDistSpawn = 10;
+			evilCarDistSpawn = 15;
+			superBlockDistSpawn = 20;
+		}
 
 		// initial block
 		GameObject temp = GameObject.Find (AllBlockNames.standardBlock);
@@ -193,16 +207,12 @@ public class AddBlock : MonoBehaviour {
 		}
 	}
 
-	public void touchedPiece () {
-		hudBlock.tag = "Selected";
-	}
-
 	public void addNewPiece () {
 		blockAttributes (hudBlock.name);
 		hudBlock.tag = "On road";
 		spawnBlockByPowerUp ();
 		hudBlock.tag = "On hud";
-		Camera.main.GetComponent<Interface> ().changeHUDSprite (hudBlock.name.Split ('_') [0]);
+		Camera.main.GetComponent<Interface> ().changeHUDSprite (hudBlock.name.Split ('_') [0], hudBlock.name);
 	}
 
 	void automaticallyAddBlocks () {
@@ -217,25 +227,6 @@ public class AddBlock : MonoBehaviour {
 		hudBlock.tag = "On road";	
 		Vector3 positionOfNewBlock = new Vector3 (nextX, -1, nextBlockZ);
 		hudBlock.transform.position = positionOfNewBlock;
-	}
-
-	void ifHudBlockNull () {
-		GameObject temp = GameObject.Find (AllBlockNames.standardBlock);
-		hudBlock = Instantiate (temp);
-		hudBlock.tag = "On hud";
-	}
-
-	void blockAttributes (string block) {
-		string blockName = block.Split ('_') [0];
-		if (blockName == AllBlockNames.bullseyeBlock || blockName == AllBlockNames.superBullseyeBlock) {
-			spawnBall ();
-		}
-		if (blockName == AllBlockNames.bombBlock) {
-			hudBlock.GetComponent<BombAttributes> ().placed = true;
-		}
-		if (blockName == AllBlockNames.evilCarBlock) {
-			spawnEvilCar ();
-		}
 	}
 
 	void spawnBlockByPowerUp () {
@@ -266,22 +257,22 @@ public class AddBlock : MonoBehaviour {
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
 			}
-			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && Camera.main.transform.position.z > 50) {
+			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && cameraZPos > extraCarDistSpawn) {
 				block = AllBlockNames.extraCarBlock;
-			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > 200) {
+			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				block = AllBlockNames.superAccelerateBlock;
-			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > 200) {
+			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				block = AllBlockNames.superDecelerateBlock;
-			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > 100) {
+			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > bombBlockDistSpawn) {
 				bombCounter = 0;
 				block = AllBlockNames.bombBlock;
-			} else if (rand < comSuperPercent && superCounter > superLimit && cameraZPos > 200) {
+			} else if (rand < comSuperPercent && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
 				block = AllBlockNames.commonSuperBlocks [randBlockIndex];
-			} else if (rand < evilCarPercent && evilCarCounter > evilCarLimit && cameraZPos > 150) {
+			} else if (rand < evilCarPercent && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
 				evilCarCounter = 0;
 				block = AllBlockNames.evilCarBlock;
 			} else {
@@ -293,6 +284,34 @@ public class AddBlock : MonoBehaviour {
 		hudBlock = Instantiate (temp);
 		hudBlock.name = block + "_" + numBlocksCount;
 		numBlocksCount++;
+		if (block == AllBlockNames.bombBlock) {
+			hudBlock.AddComponent<BombAttributes> ();
+		}
+	}
+
+	void ifHudBlockNull () {
+		GameObject temp = GameObject.Find (AllBlockNames.standardBlock);
+		hudBlock = Instantiate (temp);
+		hudBlock.tag = "On hud";
+	}
+
+	public void touchedPiece () {
+		hudBlock.tag = "Selected";
+	}
+
+	void blockAttributes (string block) {
+		string blockName = block.Split ('_') [0];
+		if (blockName == AllBlockNames.bullseyeBlock || blockName == AllBlockNames.superBullseyeBlock) {
+			Camera.main.GetComponent<BlockAttributes> ().spawnBall (hudBlock);
+		}
+
+		if (blockName == AllBlockNames.bombBlock) {
+			hudBlock.GetComponent<BombAttributes> ().placed = true;
+		}
+
+		if (blockName == AllBlockNames.evilCarBlock) {
+			Camera.main.GetComponent<BlockAttributes> ().spawnEvilCar (hudBlock, leadCarSpeed);
+		}
 	}
 
 	int nextBlockXPosition () {
@@ -322,37 +341,7 @@ public class AddBlock : MonoBehaviour {
 		}
 		return xStart [xStartIndex];
 	}
-
-	void spawnBall () {
-		Camera.main.GetComponent<Points> ().incrementPoints (1);
-		int randomYSpawnPosition = Random.Range (10, 30);
-		GameObject sphereTemp = GameObject.Find ("Sphere");
-		GameObject sphere = Instantiate (sphereTemp);
-		sphere.AddComponent<SphereActions> ();
-		sphere.name = sphereTemp.name + "_Clone";
-		sphere.transform.position = new Vector3 (
-			hudBlock.transform.position.x, 
-			randomYSpawnPosition, 
-			hudBlock.transform.position.z
-		);
-	}
-
-	void spawnEvilCar () {
-		int randomYSpawnPosition = Random.Range (1, 3);
-		float evilCarSpeed = leadCarSpeed * 1.1f;
-		GameObject evilCarTemp = GameObject.Find ("Evil Car");
-		GameObject evilCar = Instantiate (evilCarTemp);
-		evilCar.AddComponent<CarMovement> ();
-		evilCar.GetComponent<CarMovement> ().speed = evilCarSpeed;
-		evilCar.AddComponent<EvilCarAttributes> ();
-		evilCar.name = evilCarTemp.name + "_Clone";
-		evilCar.transform.position = new Vector3 (
-			hudBlock.transform.position.x, 
-			randomYSpawnPosition,
-			hudBlock.transform.position.z
-		);
-	}
-
+		
 	void resizeArray (int size, ref int[] array, int shift) {
 		int[] temp = new int[size];
 		for (int i = 0; i < size; i++) {

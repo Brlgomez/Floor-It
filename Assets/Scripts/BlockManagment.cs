@@ -10,7 +10,7 @@ public class BlockManagment : MonoBehaviour {
 
 	void Start () {
 		lastCarPosition = new Vector2 (Camera.main.transform.position.x, Camera.main.transform.position.z);
-		maxDistAway = -8.5f;
+		maxDistAway = -10f;
 		timerLimit = 5;
 	}
 	

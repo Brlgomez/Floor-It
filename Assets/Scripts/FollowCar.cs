@@ -53,6 +53,8 @@ public class FollowCar : MonoBehaviour {
 					new Vector2 (leadCar.transform.position.x, leadCar.transform.position.z)
 				);
 
+				distanceFromLead = Mathf.Clamp (distanceFromLead, 1, 10);
+
 				transform.position = Vector3.Lerp (
 					transform.position, 
 					end, Time.deltaTime * distanceFromLead

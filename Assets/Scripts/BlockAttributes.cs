@@ -19,6 +19,8 @@ public class BlockAttributes : MonoBehaviour {
 	static int shuffleBlockPoints = 3;
 	static int invisibleBlockPoints = 3;
 	static int sizeBlockPoints = 3;
+	static int spherePoints = 1;
+	static int evilCarPoints = 3;
 
 	float numberOfCars;
 
@@ -134,6 +136,12 @@ public class BlockAttributes : MonoBehaviour {
 					spawnZ
 				);
 			}
+			nextCar.transform.rotation = new Quaternion (
+				0,
+				temp.transform.rotation.y,
+				0,
+				temp.transform.rotation.w
+			);
 		}
 	}
 
@@ -229,5 +237,36 @@ public class BlockAttributes : MonoBehaviour {
 			} 
 			block.GetComponent<BlockActivated> ().activated ();
 		}
+	}
+
+	public void spawnBall (GameObject block) {
+		Camera.main.GetComponent<Points> ().incrementPoints (spherePoints);
+		int randomYSpawnPosition = Random.Range (10, 30);
+		GameObject sphereTemp = GameObject.Find ("Sphere");
+		GameObject sphere = Instantiate (sphereTemp);
+		sphere.AddComponent<SphereActions> ();
+		sphere.name = sphereTemp.name + "_Clone";
+		sphere.transform.position = new Vector3 (
+			block.transform.position.x, 
+			randomYSpawnPosition, 
+			block.transform.position.z
+		);
+	}
+
+	public void spawnEvilCar (GameObject block, float leadCarSpeed) {
+		Camera.main.GetComponent<Points> ().incrementPoints (evilCarPoints);
+		int randomYSpawnPosition = Random.Range (1, 3);
+		float evilCarSpeed = leadCarSpeed * 1.1f;
+		GameObject evilCarTemp = GameObject.Find ("Evil Car");
+		GameObject evilCar = Instantiate (evilCarTemp);
+		evilCar.AddComponent<CarMovement> ();
+		evilCar.GetComponent<CarMovement> ().speed = evilCarSpeed;
+		evilCar.AddComponent<EvilCarAttributes> ();
+		evilCar.name = evilCarTemp.name + "_Clone";
+		evilCar.transform.position = new Vector3 (
+			block.transform.position.x, 
+			randomYSpawnPosition,
+			block.transform.position.z
+		);
 	}
 }

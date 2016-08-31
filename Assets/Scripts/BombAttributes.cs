@@ -16,22 +16,22 @@ public class BombAttributes : MonoBehaviour {
 	public bool placed;
 	public bool isBombX;
 	public bool isTransparent;
-	public Material XBombMaterial;
-	public Material transparentMaterial;
+	Material XBombMaterial;
+	Material transparentMaterial;
 
 	void Awake () {
 		smoke = gameObject.GetComponent<ParticleSystem> ();
-		timeLimit = 3;
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null && 
 			Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4 < timeLimit) {
 			timeLimit -= Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4;
 		}
 		if (Random.Range (0, 2) < 1 && name != AllBlockNames.bombBlock) {
-			GetComponent<Renderer> ().material = XBombMaterial;
+			GetComponent<Renderer> ().material = GameObject.Find("XBombPlaceHolder").GetComponent<Renderer>().material;
 			isBombX = true;
 		} else {
 			isBombX = false;
 		}
+		transparentMaterial = GameObject.Find ("InvisibleFloor").GetComponent<Renderer> ().material;
 		colorStart = GetComponent<Renderer> ().material.color;
 		colorEnd = new Color (
 			GetComponent<Renderer> ().material.color.r, 
@@ -39,6 +39,7 @@ public class BombAttributes : MonoBehaviour {
 			GetComponent<Renderer> ().material.color.b
 		);
 		rend = GetComponent<Renderer>();
+		timeLimit = 3;
 		isTransparent = false;
 		exploded = false;
 		particlePlayed = false;
