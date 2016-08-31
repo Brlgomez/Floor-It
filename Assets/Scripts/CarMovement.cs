@@ -75,6 +75,7 @@ public class CarMovement : MonoBehaviour {
 				}
 			} else {
 				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+					//rb.velocity = transform.forward * Time.deltaTime * speed * 50;
 					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
 					carFlipped = false;
 				} else {
