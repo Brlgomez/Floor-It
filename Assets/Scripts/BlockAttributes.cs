@@ -13,8 +13,8 @@ public class BlockAttributes : MonoBehaviour {
 	static float sizeSmall = 0.5f;
 
 	static int pointBlockPoints = 10;
-	static int speedBlockPoints = 3;
-	static int jumpBlockPoints = 1;
+	static int speedBlockPoints = 1;
+	static int jumpBlockPoints = 2;
 	static int flyBlockPoints = 3;
 	static int shuffleBlockPoints = 3;
 	static int invisibleBlockPoints = 3;

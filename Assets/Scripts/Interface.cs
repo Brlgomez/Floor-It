@@ -19,6 +19,7 @@ public class Interface : MonoBehaviour {
 
 	public Text loadingText;
 	public Text score;
+	public Text pointText;
 	public Text speed;
 
 	public Button leftButton;
@@ -47,6 +48,9 @@ public class Interface : MonoBehaviour {
 	float updateCount;
 	float updateLimit;
 
+	bool gotPoints;
+	float pointAlpha;
+
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
@@ -72,10 +76,15 @@ public class Interface : MonoBehaviour {
 		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
 
 		updateLimit = 0.25f;
+
+		gotPoints = false;
+		pointAlpha = 0;
 	}
 
 	void Update(){
-		updateGUI ();
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
+			updateGUI ();
+		}
 		if (Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			trueGameOver ();
 		}
@@ -94,6 +103,13 @@ public class Interface : MonoBehaviour {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
 				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total * Camera.main.GetComponent<Points>().highestMulti).ToString ();
 				speed.text = string.Format("{0:F1}\nKm/h", normalizedSpeed);
+			}
+		}
+		if (gotPoints) {
+			pointAlpha -= Time.deltaTime * 0.75f;
+			pointText.GetComponent<Text> ().color = new Color (1, 1, 1, pointAlpha);
+			if (pointAlpha < 0) {
+				gotPoints = false;
 			}
 		}
 	}
@@ -292,5 +308,12 @@ public class Interface : MonoBehaviour {
 
 	public void disableTextureOverlay(){ 			
 		Camera.main.GetComponent<ScreenOverlay> ().intensity = 0;
+	}
+
+	public void changePointsText(float pointAmount){
+		pointText.text = "+" + pointAmount;
+		gotPoints = true;
+		pointAlpha = 1.0f;
+		pointText.GetComponent<Text> ().color = textOn;
 	}
 }

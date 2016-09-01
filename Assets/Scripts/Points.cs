@@ -33,7 +33,7 @@ public class Points : MonoBehaviour {
 				timerCount = 0;
 				for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 					if (!Camera.main.GetComponent<CarMangment> ().cars [i].GetComponent<CarMovement> ().gameOver) {
-						incrementPoints (1);
+						total += 1;
 					}
 				}
 			}
@@ -42,7 +42,7 @@ public class Points : MonoBehaviour {
 
 	public void checkScore () {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
-			if (level == "BuildARoad01") {
+			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
@@ -53,7 +53,7 @@ public class Points : MonoBehaviour {
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
-			} else if (level == "Bowling") {
+			} else if (level == LevelManagement.bowl) {
 				GameObject[] pins = GameObject.FindGameObjectsWithTag ("Pin");
 				foreach (GameObject pin in pins) {
 					if ((pin.transform.up.y < 0.5f) || (pin.transform.position.y < 0)) {
@@ -70,7 +70,7 @@ public class Points : MonoBehaviour {
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
-			} else if (level == "Driving") {
+			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
@@ -87,5 +87,6 @@ public class Points : MonoBehaviour {
 
 	public void incrementPoints(float multiplier){
 		total += multiplier;
+		Camera.main.GetComponent<Interface> ().changePointsText (multiplier);
 	}
 }

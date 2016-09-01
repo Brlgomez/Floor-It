@@ -101,6 +101,8 @@ public class AddBlock : MonoBehaviour {
 	static int shiftPercent = resizePercent + 40;
 	// row must have more at least 4 blocks in a row in order for a bomb to spawn
 	static int blocksPerRowForBomb = 4;
+	// row must have more at least 3 blocks in a row in order for an evil car to spawn
+	static int blocksPerRowForEvilCar = 3;
 	// player must be at least 4 units away in order for blocks to spawn
 	static int distBlocksSpawn = 4;
 
@@ -272,7 +274,7 @@ public class AddBlock : MonoBehaviour {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
 				block = AllBlockNames.commonSuperBlocks [randBlockIndex];
-			} else if (rand < evilCarPercent && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
+			} else if (rand < evilCarPercent && blockPerRow >= blocksPerRowForEvilCar && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
 				evilCarCounter = 0;
 				block = AllBlockNames.evilCarBlock;
 			} else {

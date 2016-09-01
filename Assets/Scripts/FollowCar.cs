@@ -11,6 +11,8 @@ public class FollowCar : MonoBehaviour {
 	public bool inPinArea;
 
 	string level;
+	Vector3 prevLeadPos;
+	Vector3 currLeadCarPos;
 
 	void Start (){
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -18,6 +20,8 @@ public class FollowCar : MonoBehaviour {
 			pinZPosition = GameObject.Find ("Pins").transform.position.z;
 		}
 		inPinArea = false;
+		prevLeadPos = Vector3.zero;
+		currLeadCarPos = Vector3.zero;
 	}
 
 	void Update () {
@@ -27,10 +31,28 @@ public class FollowCar : MonoBehaviour {
 			if (tempX != 0) {
 				xPositionOfCam = tempX;
 			}
+			if (leadCar != null && level == LevelManagement.drive) {
+				prevLeadPos = new Vector3 (
+					leadCar.transform.position.x, 
+					leadCar.transform.position.y + 1, 
+					leadCar.transform.position.z
+				);
+			}
 			for (int i = 0; i < aliveCars.Length; i++) {
 				leadCar = getLeadCar (leadCar, aliveCars [i]);
 				lastCar = getLastCar (lastCar, aliveCars [i]);
 			}
+			if (leadCar != null && level == LevelManagement.drive) {
+				currLeadCarPos = new Vector3 (
+					leadCar.transform.position.x, 
+					leadCar.transform.position.y + 1, 
+					leadCar.transform.position.z
+				);
+				if (prevLeadPos != currLeadCarPos) {
+					drawLine (prevLeadPos, currLeadCarPos, Color.red, 0.2f);
+				}
+			}
+
 			if (leadCar != null) {
 				yPositionOfCam = getYPositionOfCam (leadCar, lastCar);
 				int yPosShift = 10;
@@ -135,6 +157,19 @@ public class FollowCar : MonoBehaviour {
 		} else {
 			return 0;
 		}
+	}
+
+	void drawLine(Vector3 start, Vector3 end, Color color, float duration) {
+		GameObject myLine = new GameObject();
+		myLine.transform.position = start;
+		myLine.AddComponent<LineRenderer>();
+		LineRenderer lr = myLine.GetComponent<LineRenderer>();
+		lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+		lr.SetColors(color, color);
+		lr.SetWidth(0.1f, 0.1f);
+		lr.SetPosition(0, start);
+		lr.SetPosition(1, end);
+		GameObject.Destroy(myLine, duration);
 	}
 }
 	
