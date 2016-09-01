@@ -120,7 +120,6 @@ public class BlockAttributes : MonoBehaviour {
 			GameObject lastCar = Camera.main.GetComponent<FollowCar> ().lastCar;
 			nextCar.GetComponent<CarMovement> ().speed = temp.GetComponent<CarMovement> ().speed;
 			nextCar.GetComponent<CarMovement> ().resized = false;
-			//nextCar.GetComponent<Renderer> ().material = temp.GetComponent<CarMovement> ().regularCarMaterial;
 			nextCar.transform.localScale = new Vector3 (1, 1, 1);
 			numberOfCars++;
 			if (spawnZ == 0) {
@@ -142,6 +141,9 @@ public class BlockAttributes : MonoBehaviour {
 				0,
 				temp.transform.rotation.w
 			);
+			for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
+				GameObject.FindGameObjectsWithTag ("Car") [i].GetComponent<CarMovement> ().changeMaterial ();
+			}
 		}
 	}
 

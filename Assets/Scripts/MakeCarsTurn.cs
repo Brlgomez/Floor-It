@@ -148,22 +148,20 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	void lookAtLeadCar(){
-		GameObject leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-		for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
+		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
+		for (int i = 1; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 			GameObject aiCar = Camera.main.GetComponent<CarMangment> ().cars [i];
 			if (aiCar!= null) {
-				if (aiCar != leadCar) {
-					if (!(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
-						if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle / 2) {
-							Vector3 targetPosition = leadCar.transform.position;
-							targetPosition.y = aiCar.transform.position.y;
-							Quaternion targetRotation = Quaternion.LookRotation (targetPosition - aiCar.transform.position);
-							aiCar.transform.rotation = Quaternion.Slerp (
-								aiCar.transform.rotation, 
-								targetRotation, 
-								Time.deltaTime * 7
-							);
-						}
+				if (!(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
+					if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle / 2) {
+						Vector3 targetPosition = leadCar.transform.position;
+						targetPosition.y = aiCar.transform.position.y;
+						Quaternion targetRotation = Quaternion.LookRotation (targetPosition - aiCar.transform.position);
+						aiCar.transform.rotation = Quaternion.Slerp (
+							aiCar.transform.rotation, 
+							targetRotation, 
+							Time.deltaTime * 7
+						);
 					}
 				}
 			}
@@ -171,7 +169,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	public void turnLeft(){
-		GameObject leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
+		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
 			float turnPos = -0.75f * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {
@@ -190,7 +188,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	public void turnRight(){
-		GameObject leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
+		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
 			float turnPos = 0.75f * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {

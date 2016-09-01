@@ -5,8 +5,8 @@ public class CarMovement : MonoBehaviour {
 
 	private Rigidbody rb;
 	GameObject invisibleFloor;
-	//public Material leadCarMaterial;
-	//public Material regularCarMaterial;
+	public Material leadCarMaterial;
+	public Material regularCarMaterial;
 
 	public bool gameOver;
 	public bool flying;
@@ -33,11 +33,10 @@ public class CarMovement : MonoBehaviour {
 	public float resizeCounter = 0;
 	public static float resizeLimit = 10;
 
-	//string level;
+	string level;
 
 	void Start () {
-		//level = Camera.main.GetComponent<LevelManagement>().level;
-		//GetComponent<Renderer> ().material = regularCarMaterial;
+		level = Camera.main.GetComponent<LevelManagement>().level;
 	
 		rb = GetComponent<Rigidbody> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
@@ -56,6 +55,10 @@ public class CarMovement : MonoBehaviour {
 		acceleration = 0.01f;
 		distToGround = transform.position.y;
 		yPosFallingBarrier = invisibleFloor.transform.position.y;
+
+		if (name != "Car1") {
+			changeMaterial ();
+		}
 	}
 
 	void FixedUpdate () {
@@ -75,7 +78,6 @@ public class CarMovement : MonoBehaviour {
 				}
 			} else {
 				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-					//rb.velocity = transform.forward * Time.deltaTime * speed * 50;
 					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
 					carFlipped = false;
 				} else {
@@ -102,20 +104,36 @@ public class CarMovement : MonoBehaviour {
 		}
 	}
 
-	void changeMaterial(){
-		/*
-		if (Camera.main.GetComponent<FollowCar> ().leadCar != null && level == LevelManagement.drive) {
-			if (gameObject.name == Camera.main.GetComponent<FollowCar> ().leadCar.name &&
-				gameObject.GetComponent<Renderer> ().material.name != (leadCarMaterial.name + " (Instance)")) {
-
-				gameObject.GetComponent<Renderer> ().material = leadCarMaterial;
-			} else if (gameObject.name != Camera.main.GetComponent<FollowCar> ().leadCar.name && 
-				gameObject.GetComponent<Renderer> ().material.name == (leadCarMaterial.name + " (Instance)")){
-
-				gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
-			}
+	public void changeMaterial(){
+		if (gameObject.name == GameObject.FindGameObjectsWithTag("Car")[0].name) {
+			changeLeadMat ();
+		} else {
+			changeAIMat ();
 		}
-		*/
+	}
+
+	public void changeLeadMat(){
+		if (level == LevelManagement.drive) {
+			Renderer rend = gameObject.GetComponent<Renderer> ();
+			Material[] mats = new Material[rend.materials.Length];
+			for (int i = 0; i < rend.materials.Length; i++) {
+				mats [i] = rend.materials [i];
+			}
+			mats [2] = leadCarMaterial; 
+			rend.materials = mats;
+		}
+	}
+
+	public void changeAIMat(){
+		if (level == LevelManagement.drive) {
+			Renderer rend = gameObject.GetComponent<Renderer> ();
+			Material[] mats = new Material[rend.materials.Length];
+			for (int i = 0; i < rend.materials.Length; i++) {
+				mats [i] = rend.materials [i];
+			}
+			mats [2] = regularCarMaterial; 
+			rend.materials = mats;
+		}
 	}
 
 	void checkGameOverConditions(){
@@ -136,10 +154,21 @@ public class CarMovement : MonoBehaviour {
 	}
 
 	void setToGameOver () {
-		//gameObject.GetComponent<Renderer> ().material = regularCarMaterial;
 		gameOver = true;
 		gameObject.tag = "Dead Car";
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
+
+		Renderer rend = gameObject.GetComponent<Renderer> ();
+		Material[] mats = new Material[rend.materials.Length];
+		for (int i = 0; i < rend.materials.Length; i++) {
+			mats [i] = rend.materials [i];
+		}
+		mats [2] = regularCarMaterial; 
+		rend.materials = mats;
+
+		for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
+			GameObject.FindGameObjectsWithTag ("Car") [i].GetComponent<CarMovement> ().changeMaterial ();
+		}
 	}
 		
 	void OnTriggerEnter(Collider hit) {
