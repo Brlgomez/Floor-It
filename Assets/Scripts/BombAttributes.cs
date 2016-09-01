@@ -21,10 +21,6 @@ public class BombAttributes : MonoBehaviour {
 
 	void Awake () {
 		smoke = gameObject.GetComponent<ParticleSystem> ();
-		if (Camera.main.GetComponent<FollowCar> ().leadCar != null && 
-			Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4 < timeLimit) {
-			timeLimit -= Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed / 4;
-		}
 		if (Random.Range (0, 2) < 1 && name != AllBlockNames.bombBlock) {
 			GetComponent<Renderer> ().material = GameObject.Find("XBombPlaceHolder").GetComponent<Renderer>().material;
 			isBombX = true;

@@ -64,10 +64,14 @@ public class AddBlock : MonoBehaviour {
 	float superCounter = 0;
 	// if the counter goes above the limit, a super block can now possibly spawn
 	static float superLimit = 20;
-	// a counter that will increment for super blocks
+	// a counter that will increment for evil cars
 	float evilCarCounter = 0;
-	// if the counter goes above the limit, a super block can now possibly spawn
+	// if the counter goes above the limit, an evil car can now possibly spawn
 	static float evilCarLimit = 25;
+	// a counter that will increment for extra blocks
+	float extraCarCounter = 0;
+	// if the counter goes above the limit, an extra block can now possibly spawn
+	static float extraCarLimit = 10;
 
 	/* How far a car must be in order for blocks to spawn */
 	float extraCarDistSpawn = 50;
@@ -168,6 +172,7 @@ public class AddBlock : MonoBehaviour {
 			superCounter += deltaTime;
 			bombCounter += deltaTime;
 			evilCarCounter += deltaTime;
+			extraCarCounter += deltaTime;
 			checkForSuperBlocks ();
 			if (level == LevelManagement.drive) {
 				if (hudBlock != null && hudBlock.tag == "On hud") {
@@ -259,7 +264,8 @@ public class AddBlock : MonoBehaviour {
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
 			}
-			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && cameraZPos > extraCarDistSpawn) {
+			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
+				extraCarCounter = 0;
 				block = AllBlockNames.extraCarBlock;
 			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
