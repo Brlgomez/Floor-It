@@ -4,8 +4,6 @@ using System.Collections;
 public class SphereActions : MonoBehaviour {
 
 	void Start () {
-		GameObject invisibleFloor = GameObject.Find ("InvisibleFloor");
-		Physics.IgnoreCollision(invisibleFloor.GetComponent<Collider>(), GetComponent<Collider>());
 		Rigidbody rb = GetComponent<Rigidbody>();
 		rb.velocity += Vector3.forward * Random.Range(-0.25f, 0.25f);
 		rb.velocity += Vector3.right * Random.Range(-0.25f, 0.25f);

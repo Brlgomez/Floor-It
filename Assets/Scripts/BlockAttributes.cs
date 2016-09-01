@@ -141,9 +141,7 @@ public class BlockAttributes : MonoBehaviour {
 				0,
 				temp.transform.rotation.w
 			);
-			for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
-				GameObject.FindGameObjectsWithTag ("Car") [i].GetComponent<CarMovement> ().changeMaterial ();
-			}
+			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
 	}
 

@@ -5,8 +5,6 @@ public class CarMovement : MonoBehaviour {
 
 	private Rigidbody rb;
 	GameObject invisibleFloor;
-	public Material leadCarMaterial;
-	public Material regularCarMaterial;
 
 	public bool gameOver;
 	public bool flying;
@@ -36,29 +34,20 @@ public class CarMovement : MonoBehaviour {
 	string level;
 
 	void Start () {
-		level = Camera.main.GetComponent<LevelManagement>().level;
-	
+		level = Camera.main.GetComponent<LevelManagement> ().level;
 		rb = GetComponent<Rigidbody> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<MeshCollider> ());
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<BoxCollider> ());
-
+		yPosFallingBarrier = invisibleFloor.transform.position.y;
 		gameOver = false;
 		flying = false;
 		resized = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
-
 		if (speed == 0) {
 			speed = 0.5f;
 		}
 		acceleration = 0.01f;
 		distToGround = transform.position.y;
-		yPosFallingBarrier = invisibleFloor.transform.position.y;
-
-		if (name != "Car1") {
-			changeMaterial ();
-		}
 	}
 
 	void FixedUpdate () {
@@ -104,38 +93,6 @@ public class CarMovement : MonoBehaviour {
 		}
 	}
 
-	public void changeMaterial(){
-		if (gameObject.name == GameObject.FindGameObjectsWithTag("Car")[0].name) {
-			changeLeadMat ();
-		} else {
-			changeAIMat ();
-		}
-	}
-
-	public void changeLeadMat(){
-		if (level == LevelManagement.drive) {
-			Renderer rend = gameObject.GetComponent<Renderer> ();
-			Material[] mats = new Material[rend.materials.Length];
-			for (int i = 0; i < rend.materials.Length; i++) {
-				mats [i] = rend.materials [i];
-			}
-			mats [2] = leadCarMaterial; 
-			rend.materials = mats;
-		}
-	}
-
-	public void changeAIMat(){
-		if (level == LevelManagement.drive) {
-			Renderer rend = gameObject.GetComponent<Renderer> ();
-			Material[] mats = new Material[rend.materials.Length];
-			for (int i = 0; i < rend.materials.Length; i++) {
-				mats [i] = rend.materials [i];
-			}
-			mats [2] = regularCarMaterial; 
-			rend.materials = mats;
-		}
-	}
-
 	void checkGameOverConditions(){
 		// car is too far away form lead car
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
@@ -157,17 +114,15 @@ public class CarMovement : MonoBehaviour {
 		gameOver = true;
 		gameObject.tag = "Dead Car";
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
-
-		Renderer rend = gameObject.GetComponent<Renderer> ();
-		Material[] mats = new Material[rend.materials.Length];
-		for (int i = 0; i < rend.materials.Length; i++) {
-			mats [i] = rend.materials [i];
-		}
-		mats [2] = regularCarMaterial; 
-		rend.materials = mats;
-
-		for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
-			GameObject.FindGameObjectsWithTag ("Car") [i].GetComponent<CarMovement> ().changeMaterial ();
+		if (!tag.Equals ("Evil Car") && level == LevelManagement.drive) {
+			Renderer rend = gameObject.GetComponent<Renderer> ();
+			Material[] mats = new Material[rend.materials.Length];
+			for (int i = 0; i < rend.materials.Length; i++) {
+				mats [i] = rend.materials [i];
+			}
+			mats [2] = Camera.main.GetComponent<CarAttributes>().regularCarMaterial; 
+			rend.materials = mats;
+			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
 	}
 		

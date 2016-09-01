@@ -20,10 +20,8 @@ public class EvilCarAttributes : MonoBehaviour {
 	GameObject leadCar = null;
 
 	void Start () {
-		smoke = gameObject.GetComponent<ParticleSystem> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<MeshCollider> ());
-		Physics.IgnoreCollision (invisibleFloor.GetComponent<Collider> (), GetComponent<BoxCollider> ());
+		smoke = gameObject.GetComponent<ParticleSystem> ();
 		transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
 		GetComponent<Rigidbody> ().useGravity = true;
 		exploded = false;

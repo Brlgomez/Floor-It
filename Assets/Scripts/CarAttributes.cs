@@ -3,6 +3,32 @@ using System.Collections;
 
 public class CarAttributes : MonoBehaviour {
 
+	public Material leadCarMaterial;
+	public Material regularCarMaterial;
+	string level;
+
+	void Start () {
+		level = Camera.main.GetComponent<LevelManagement>().level;
+	}
+
+	public void changeMaterialOfCars() {
+		if(level == LevelManagement.drive){
+			for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
+				Renderer rend = GameObject.FindGameObjectsWithTag ("Car")[i].GetComponent<Renderer> ();
+				Material[] mats = new Material[rend.materials.Length];
+				for (int j = 0; j < rend.materials.Length; j++) {
+					mats [j] = rend.materials [j];
+				}
+				if (GameObject.FindGameObjectsWithTag ("Car")[i].name == GameObject.FindGameObjectsWithTag("Car")[0].name) {
+					mats [2] = leadCarMaterial; 
+				} else {
+					mats [2] = regularCarMaterial; 
+				}
+				rend.materials = mats;
+			}
+		}
+	}
+
 	public void resizedTimer(GameObject car){
 		car.GetComponent<CarMovement>().resizeCounter += Time.deltaTime;
 		if(car.GetComponent<CarMovement>().resizeCounter > CarMovement.resizeLimit){
@@ -21,6 +47,13 @@ public class CarAttributes : MonoBehaviour {
 
 	public void flyingTimer (GameObject car) {
 		car.GetComponent<CarMovement>().flyingTimer += Time.deltaTime;
+		Quaternion toRotation = new Quaternion (
+			0,
+			car.transform.rotation.y,
+			0,
+			car.transform.rotation.w
+		);
+		car.transform.rotation = Quaternion.Lerp(car.transform.rotation, toRotation, Time.time);
 		if (car.transform.position.y > 5) {
 			car.GetComponent<Rigidbody>().drag = 5;
 		}

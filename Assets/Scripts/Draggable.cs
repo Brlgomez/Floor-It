@@ -73,25 +73,27 @@ public class Draggable : MonoBehaviour {
 
 	// dragging the object
 	void mouseDrag () {
-		target.tag = "Picked Up";
-		// track mouse position.
-		Vector3 currentScreenSpace = new Vector3 (
-			Input.mousePosition.x, 
-			Input.mousePosition.y, 
-			screenPosition.z
-		);
-		// convert screen position to world position with offset changes.
-		Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenSpace) + offset;
-		// will update target gameobject's rounded current postion.
-		currentPosition = roundVector (currentPosition);
-		// will create a sphere and will determine if object can be dragged
-		// if no object is where the mouse it, the object will drag to it
-		Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
-		float radius = 0.5f;
-		Vector3 targetPos = target.transform.position;
-		if (!Physics.CheckSphere (spawnPos, radius) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
-			highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
-			target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+		if (target != null) {
+			target.tag = "Picked Up";
+			// track mouse position.
+			Vector3 currentScreenSpace = new Vector3 (
+				Input.mousePosition.x, 
+				Input.mousePosition.y, 
+			 	screenPosition.z
+			);
+			// convert screen position to world position with offset changes.
+			Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenSpace) + offset;
+			// will update target gameobject's rounded current postion.
+			currentPosition = roundVector (currentPosition);
+			// will create a sphere and will determine if object can be dragged
+			// if no object is where the mouse it, the object will drag to it
+			Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
+			float radius = 0.5f;
+			Vector3 targetPos = target.transform.position;
+			if (!Physics.CheckSphere (spawnPos, radius) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
+				highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+				target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+			}
 		}
 	}
 
