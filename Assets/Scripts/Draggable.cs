@@ -42,9 +42,6 @@ public class Draggable : MonoBehaviour {
 		target = returnClickedObject (out hitInfo);
 		if (target != null) {
 			isMouseDrag = true;
-			if (target.tag.Equals (TagManagement.blockOnHud) || target.tag.Equals (TagManagement.moveableObject)) {
-				Camera.main.GetComponent<AddBlock> ().touchedPiece ();
-			}
 			if (target.tag.Equals (TagManagement.blockOnRoad)) {
 				target.tag = TagManagement.pickedUp;
 			}
@@ -59,9 +56,6 @@ public class Draggable : MonoBehaviour {
 	void mouseUp () {
 		isMouseDrag = false;
 		if (target != null) {
-			if (target.tag == TagManagement.selected) {
-				Camera.main.GetComponent<AddBlock> ().addNewPiece ();
-			}
 			if (target.tag.Equals (TagManagement.pickedUp)) {
 				target.tag = TagManagement.blockOnRoad;
 			}
@@ -115,7 +109,6 @@ public class Draggable : MonoBehaviour {
 		
 	// add a new piece to the board with a click and that wasn't from the hud block
 	void addNewPieceByClick (Vector3 hit) {
-		Camera.main.GetComponent<AddBlock> ().touchedPiece ();
 		GameObject hudObject = Camera.main.GetComponent<AddBlock> ().hudBlock;
 		hit = roundVector (hit);
 		hudObject.transform.position = new Vector3 (hit.x, yPosition, hit.z);

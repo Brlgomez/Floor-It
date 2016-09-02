@@ -13,7 +13,8 @@ public class BlockAttributes : MonoBehaviour {
 	static float sizeSmall = 0.5f;
 
 	static int pointBlockPoints = 10;
-	static int speedBlockPoints = 1;
+	static int accelerateBlockPoints = 2;
+	static int decelerateBlockPoints = 2;
 	static int jumpBlockPoints = 2;
 	static int flyBlockPoints = 3;
 	static int shuffleBlockPoints = 3;
@@ -33,7 +34,7 @@ public class BlockAttributes : MonoBehaviour {
 			float multiplier = car.transform.localScale.x;
 			float force = speedUpForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
-			Camera.main.GetComponent<Points> ().incrementPoints (speedBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (accelerateBlockPoints);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 				float fasterSpeed = CarMovement.fastestSpeed;
@@ -51,6 +52,7 @@ public class BlockAttributes : MonoBehaviour {
 			float multiplier = car.transform.localScale.x;
 			float force = speedDownForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
+			Camera.main.GetComponent<Points> ().incrementPoints (decelerateBlockPoints);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 				float slowestSpeed = CarMovement.slowestSpeed;
@@ -240,7 +242,7 @@ public class BlockAttributes : MonoBehaviour {
 	}
 
 	public void spawnBall (GameObject block) {
-		Camera.main.GetComponent<Points> ().incrementPoints (spherePoints);
+		//Camera.main.GetComponent<Points> ().incrementPoints (spherePoints);
 		int randomYSpawnPosition = Random.Range (10, 30);
 		GameObject sphereTemp = GameObject.Find ("Sphere");
 		GameObject sphere = Instantiate (sphereTemp);
@@ -254,7 +256,7 @@ public class BlockAttributes : MonoBehaviour {
 	}
 
 	public void spawnEvilCar (GameObject block, float leadCarSpeed) {
-		Camera.main.GetComponent<Points> ().incrementPoints (evilCarPoints);
+		//Camera.main.GetComponent<Points> ().incrementPoints (evilCarPoints);
 		int randomYSpawnPosition = Random.Range (1, 3);
 		float evilCarSpeed = leadCarSpeed * 1.1f;
 		GameObject evilCarTemp = GameObject.Find (TagManagement.evilCar);

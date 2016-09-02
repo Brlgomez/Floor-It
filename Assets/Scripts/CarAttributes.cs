@@ -97,7 +97,7 @@ public class CarAttributes : MonoBehaviour {
 		}
 	}
 
-	public void onBlock(Collider hit, GameObject car, Rigidbody rb){
+	public void onBlock(Collision hit, GameObject car, Rigidbody rb){
 		if (car.tag == TagManagement.evilCar && (hit.transform.tag == TagManagement.car || hit.transform.tag == TagManagement.evilCar)) {
 			car.GetComponent<EvilCarAttributes> ().explodeNow = true;
 		}

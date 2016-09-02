@@ -54,7 +54,7 @@ public class CarMovement : MonoBehaviour {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !gameOver) {
 			float deltaTime = Time.deltaTime;
 			forceTimer += deltaTime;
-			if (tag.Equals ("Evil Car")) {
+			if (tag.Equals (TagManagement.evilCar)) {
 				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
 					Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
 					if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
@@ -107,16 +107,16 @@ public class CarMovement : MonoBehaviour {
 			setToGameOver ();
 		}
 		//car is stopped, evil cars can be stopped
-		if (rb.IsSleeping () && !flying && tag != "Evil Car") {
+		if (rb.IsSleeping () && !flying && tag != TagManagement.evilCar) {
 			setToGameOver ();
 		}
 	}
 
 	void setToGameOver () {
 		gameOver = true;
-		gameObject.tag = "Dead Car";
+		gameObject.tag = TagManagement.deadCar;
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
-		if (!tag.Equals ("Evil Car") && level == LevelManagement.drive) {
+		if (!tag.Equals (TagManagement.evilCar) && level == LevelManagement.drive) {
 			Renderer rend = gameObject.GetComponent<Renderer> ();
 			Material[] mats = new Material[rend.materials.Length];
 			for (int i = 0; i < rend.materials.Length; i++) {
@@ -128,7 +128,7 @@ public class CarMovement : MonoBehaviour {
 		}
 	}
 		
-	void OnTriggerEnter(Collider hit) {
+	void OnCollisionEnter(Collision hit) {
 		if (!gameOver) {
 			Camera.main.GetComponent<CarAttributes> ().onBlock (hit, gameObject, rb);
 		}

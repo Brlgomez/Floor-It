@@ -303,10 +303,6 @@ public class AddBlock : MonoBehaviour {
 		hudBlock.tag = TagManagement.blockOnHud;
 	}
 
-	public void touchedPiece () {
-		hudBlock.tag = TagManagement.selected;
-	}
-
 	void blockAttributes (string block) {
 		string blockName = block.Split ('_') [0];
 		if (blockName == AllBlockNames.bullseyeBlock || blockName == AllBlockNames.superBullseyeBlock) {

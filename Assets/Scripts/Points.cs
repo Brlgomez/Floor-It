@@ -12,7 +12,8 @@ public class Points : MonoBehaviour {
 	string level;
 	bool checkHighScore;
 	float timerCount;
-	static float timerLimit = 1;
+	static float timerLimit = 3;
+	float aliveCars;
 
 	void Start(){
 		total = 0;
@@ -23,18 +24,21 @@ public class Points : MonoBehaviour {
 		highestMulti = 1;
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		checkHighScore = false;
+		aliveCars = 1;
 	}
 
 	void Update () {
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
 			timerCount += Time.deltaTime;
 			if (timerCount > timerLimit) {
 				timerCount = 0;
+				aliveCars = 0;
 				for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 					if (!Camera.main.GetComponent<CarMangment> ().cars [i].GetComponent<CarMovement> ().gameOver) {
-						total += 1;
+						aliveCars++;
 					}
 				}
+				incrementPoints (aliveCars);
 			}
 		}
 	}

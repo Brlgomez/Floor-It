@@ -60,6 +60,7 @@ public class BombAttributes : MonoBehaviour {
 			}
 			if(timer > timeLimit && !exploded){
 				gameObject.GetComponent<Renderer> ().material = transparentMaterial;
+				GetComponent<Collider> ().enabled = false;
 				exploded = true;
 				if (isBombX) {
 					deleteBlocksX ();
