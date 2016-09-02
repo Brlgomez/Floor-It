@@ -307,14 +307,12 @@ public class AddBlock : MonoBehaviour {
 		string blockName = block.Split ('_') [0];
 		if (blockName == AllBlockNames.bullseyeBlock || blockName == AllBlockNames.superBullseyeBlock) {
 			Camera.main.GetComponent<BlockAttributes> ().spawnBall (hudBlock);
-		}
-
-		if (blockName == AllBlockNames.bombBlock) {
+		} else if (blockName == AllBlockNames.bombBlock) {
 			hudBlock.GetComponent<BombAttributes> ().placed = true;
-		}
-
-		if (blockName == AllBlockNames.evilCarBlock) {
+		} else if (blockName == AllBlockNames.evilCarBlock) {
 			Camera.main.GetComponent<BlockAttributes> ().spawnEvilCar (hudBlock, leadCarSpeed);
+		} else if (blockName == AllBlockNames.objectBlock) {
+			Camera.main.GetComponent<BlockAttributes> ().spawnObject (hudBlock);
 		}
 	}
 

@@ -110,6 +110,9 @@ public class CarMovement : MonoBehaviour {
 		if (rb.IsSleeping () && !flying && tag != TagManagement.evilCar) {
 			setToGameOver ();
 		}
+		if (Camera.main.GetComponent<CarMangment> ().cars.Length > 1 && level == LevelManagement.drive && carFlipped) {
+			setToGameOver ();
+		}
 	}
 
 	void setToGameOver () {

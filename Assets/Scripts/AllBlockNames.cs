@@ -20,7 +20,7 @@ public class AllBlockNames : MonoBehaviour {
 	public static string extraCarBlock = "ExtraCarBlock";
 	public static string bombBlock = "BombBlock";
 	public static string evilCarBlock = "EvilCarBlock";
-	public static string brickWallBlock = "BrickWallBlock";
+	public static string objectBlock = "ObjectBlock";
 
 	public static string superAccelerateBlock = "SuperAccelerateBlock";
 	public static string superDecelerateBlock = "SuperDecelerateBlock";
@@ -33,7 +33,7 @@ public class AllBlockNames : MonoBehaviour {
 	// common special blocks and can spawn at any time
 	public static string[] commonBlocks = {
 		accelerateBlock, bullseyeBlock, bouncyBlock, shuffleBlock, invisibleBlock, decelerateBlock, flyBlock, 
-		pointBlock, sizeBlock, brickWallBlock
+		pointBlock, sizeBlock, objectBlock
 	};
 	// common super blocks that can spawn if timer has passed the limit
 	public static string[] commonSuperBlocks = {

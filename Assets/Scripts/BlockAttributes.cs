@@ -271,4 +271,19 @@ public class BlockAttributes : MonoBehaviour {
 			block.transform.position.z
 		);
 	}
+
+	public void spawnObject (GameObject block) {
+		float rand = Random.Range (0, 100);
+		string obj;
+		if (rand > 50) {
+			obj = "BrickWall";
+		} else {
+			obj = "Cone";
+		}
+		GameObject temp = GameObject.Find (obj);
+		GameObject wall = Instantiate (temp);
+		wall.name = temp.name + "_Clone";
+		wall.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+		wall.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
+	}
 }
