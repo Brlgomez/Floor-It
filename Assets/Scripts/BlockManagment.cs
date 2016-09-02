@@ -4,23 +4,20 @@ using System.Collections;
 public class BlockManagment : MonoBehaviour {
 
 	float timerCount;
-	float timerLimit;
-	float maxDistAway;
+	static float timerLimit = 5;
+	static float maxDistAway = -10f;
 	Vector3 lastCarPosition;
 
 	void Start () {
 		lastCarPosition = new Vector2 (Camera.main.transform.position.x, Camera.main.transform.position.z);
-		maxDistAway = -10f;
-		timerLimit = 5;
 	}
 	
 	void Update () {
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && 
-			!Camera.main.GetComponent<FollowCar> ().inPinArea) {
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
 			timerCount += Time.deltaTime;
 			if (timerCount > timerLimit) {
 				timerCount = 0;
-				GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag ("On road");
+				GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 				if (Camera.main.GetComponent<FollowCar> ().lastCar != null) {
 					lastCarPosition = Camera.main.GetComponent<FollowCar> ().lastCar.transform.position;
 				}

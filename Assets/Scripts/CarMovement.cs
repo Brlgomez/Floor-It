@@ -4,24 +4,13 @@ using System.Collections;
 public class CarMovement : MonoBehaviour {
 
 	private Rigidbody rb;
-	GameObject invisibleFloor;
 
-	public bool gameOver;
-	public bool flying;
-	public bool resized;
-	public bool carFlipped;
-	public bool evilCarWithinRange;
-	public float speedometer;
-	Vector3 lastPos;
-
-	public float speed;
-	public float acceleration;
-	public float distToGround;
 	public static float slowestSpeed = 0.5f;
 	public static float fastestSpeed = 10.0f;
 	public static float jumpHeight = 5.0f;
 
-	float yPosFallingBarrier;
+	static float yPosFallingBarrier = -1;
+	static float distFromLeadForGameOver = -15;
 	static float carFlippedLimit = 0f; //0 to -1;
 
 	public float flyingTimer = 0;
@@ -31,23 +20,34 @@ public class CarMovement : MonoBehaviour {
 	public float resizeCounter = 0;
 	public static float resizeLimit = 10;
 
+	public bool gameOver;
+	public bool flying;
+	public bool resized;
+	public bool carFlipped;
+	public bool evilCarWithinRange;
+	static float evilCarRange = 5;
+	public float speedometer;
+	Vector3 lastPos;
+
+	public float speed;
+	public float acceleration;
+	public float distToGround;
+
 	string level;
 
 	void Start () {
-		level = Camera.main.GetComponent<LevelManagement> ().level;
 		rb = GetComponent<Rigidbody> ();
-		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		yPosFallingBarrier = invisibleFloor.transform.position.y;
+		level = Camera.main.GetComponent<LevelManagement> ().level;
 		gameOver = false;
 		flying = false;
 		resized = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
+		distToGround = transform.position.y;
 		if (speed == 0) {
 			speed = 0.5f;
 		}
 		acceleration = 0.01f;
-		distToGround = transform.position.y;
 	}
 
 	void FixedUpdate () {
@@ -56,7 +56,8 @@ public class CarMovement : MonoBehaviour {
 			forceTimer += deltaTime;
 			if (tag.Equals ("Evil Car")) {
 				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-					if (Vector3.Distance (Camera.main.GetComponent<FollowCar> ().leadCar.transform.position, transform.position) < 5) {
+					Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
+					if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
 						evilCarWithinRange = true;
 						carFlipped = false;
 						rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
@@ -96,7 +97,8 @@ public class CarMovement : MonoBehaviour {
 	void checkGameOverConditions(){
 		// car is too far away form lead car
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-			if (transform.position.z - Camera.main.GetComponent<FollowCar> ().leadCar.transform.position.z < -15) {
+			float leadCarZ = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position.z;
+			if (transform.position.z - leadCarZ < distFromLeadForGameOver) {
 				setToGameOver ();
 			}
 		}

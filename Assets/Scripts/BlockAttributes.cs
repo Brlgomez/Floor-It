@@ -150,7 +150,7 @@ public class BlockAttributes : MonoBehaviour {
 			block.GetComponent<BlockActivated> ().activated ();
 			Camera.main.GetComponent<SoundEffects> ().playShuffleSound (block.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints);
-			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag ("On road");
+			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
 				Vector3 tmp = allBlocks [i].transform.position;
 				int rand = Random.Range (i, allBlocks.Length);
@@ -165,7 +165,7 @@ public class BlockAttributes : MonoBehaviour {
 			block.GetComponent<BlockActivated> ().activated ();
 			Camera.main.GetComponent<SoundEffects> ().playInvisibleSound (block.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints);
-			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag ("On road");
+			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
 				if (allBlocks [i].name.Split ('_') [0] == AllBlockNames.bombBlock) {
 					allBlocks [i].GetComponent<BombAttributes> ().isTransparent = true;
@@ -257,7 +257,7 @@ public class BlockAttributes : MonoBehaviour {
 		Camera.main.GetComponent<Points> ().incrementPoints (evilCarPoints);
 		int randomYSpawnPosition = Random.Range (1, 3);
 		float evilCarSpeed = leadCarSpeed * 1.1f;
-		GameObject evilCarTemp = GameObject.Find ("Evil Car");
+		GameObject evilCarTemp = GameObject.Find (TagManagement.evilCar);
 		GameObject evilCar = Instantiate (evilCarTemp);
 		evilCar.AddComponent<CarMovement> ();
 		evilCar.GetComponent<CarMovement> ().speed = evilCarSpeed;

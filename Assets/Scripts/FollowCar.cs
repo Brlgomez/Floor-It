@@ -122,7 +122,6 @@ public class FollowCar : MonoBehaviour {
 	float getXPositionOfCam (GameObject[] aliveCars) { 
 		int amountOfAliveCars = 0;
 		float xPosCombined = 0;
-
 		for (int i = 0; i < aliveCars.Length; i++) {
 			if (aliveCars[i] != null && !aliveCars [i].GetComponent<CarMovement> ().gameOver) {
 				xPosCombined += aliveCars [i].transform.position.x;

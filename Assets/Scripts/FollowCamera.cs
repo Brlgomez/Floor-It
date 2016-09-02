@@ -4,12 +4,8 @@ using System.Collections;
 public class FollowCamera : MonoBehaviour {
 
 	float timerCount;
-	float timerLimit;
+	static float timerLimit = 5;
 
-	void Start () {
-		timerLimit = 5;
-	}
-	
 	void Update () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
 			timerCount += Time.deltaTime;

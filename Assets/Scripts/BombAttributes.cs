@@ -74,7 +74,7 @@ public class BombAttributes : MonoBehaviour {
 	}
 
 	void deleteBlocksX() {
-		GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag ("On road");
+		GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 		for (int i = 0; i < roadBlocks.Length; i++) {
 			if (roadBlocks [i].transform.position.x == transform.position.x - 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z - 2) {
@@ -97,7 +97,7 @@ public class BombAttributes : MonoBehaviour {
 	}
 
 	void deleteBlocksT() {
-		GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag ("On road");
+		GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 		for (int i = 0; i < roadBlocks.Length; i++) {
 			if (roadBlocks [i].transform.position.x == transform.position.x && 
 				roadBlocks [i].transform.position.z == transform.position.z - 2) {

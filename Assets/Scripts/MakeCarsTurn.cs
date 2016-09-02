@@ -148,7 +148,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	void lookAtLeadCar(){
-		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
+		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
 		for (int i = 1; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 			GameObject aiCar = Camera.main.GetComponent<CarMangment> ().cars [i];
 			if (aiCar!= null) {
@@ -169,7 +169,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	public void turnLeft(){
-		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
+		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
 			float turnPos = -0.75f * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {
@@ -188,7 +188,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	public void turnRight(){
-		GameObject leadCar = GameObject.FindGameObjectsWithTag("Car")[0];
+		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
 			float turnPos = 0.75f * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {

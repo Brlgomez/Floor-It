@@ -42,11 +42,11 @@ public class Draggable : MonoBehaviour {
 		target = returnClickedObject (out hitInfo);
 		if (target != null) {
 			isMouseDrag = true;
-			if (target.tag.Equals ("On hud") || target.tag.Equals ("Moveable")) {
+			if (target.tag.Equals (TagManagement.blockOnHud) || target.tag.Equals (TagManagement.moveableObject)) {
 				Camera.main.GetComponent<AddBlock> ().touchedPiece ();
 			}
-			if (target.tag.Equals ("On road")) {
-				target.tag = "Picked Up";
+			if (target.tag.Equals (TagManagement.blockOnRoad)) {
+				target.tag = TagManagement.pickedUp;
 			}
 			// convert world position to screen position
 			screenPosition = Camera.main.WorldToScreenPoint (target.transform.position);
@@ -59,11 +59,11 @@ public class Draggable : MonoBehaviour {
 	void mouseUp () {
 		isMouseDrag = false;
 		if (target != null) {
-			if (target.tag == "Selected") {
+			if (target.tag == TagManagement.selected) {
 				Camera.main.GetComponent<AddBlock> ().addNewPiece ();
 			}
-			if (target.tag.Equals ("Picked Up")) {
-				target.tag = "On road";
+			if (target.tag.Equals (TagManagement.pickedUp)) {
+				target.tag = TagManagement.blockOnRoad;
 			}
 			target.transform.position = roundVector (target.transform.position);
 			Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (target.transform.position);
@@ -74,11 +74,11 @@ public class Draggable : MonoBehaviour {
 	// dragging the object
 	void mouseDrag () {
 		if (target != null) {
-			target.tag = "Picked Up";
+			target.tag = TagManagement.pickedUp;
 			// track mouse position.
 			Vector3 currentScreenSpace = new Vector3 (
 				Input.mousePosition.x, 
-				Input.mousePosition.y, 
+				Input.mousePosition.y, 	
 			 	screenPosition.z
 			);
 			// convert screen position to world position with offset changes.
@@ -103,12 +103,10 @@ public class Draggable : MonoBehaviour {
 		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		if (Physics.Raycast (ray.origin, ray.direction * 10, out hit)) {
 			target = hit.collider.gameObject;
-			if (target.tag.Equals ("Invisible Floor")) {
+			if (target.tag.Equals (TagManagement.invisibleFloor)) {
 				addNewPieceByClick (hit.point);
 				Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hit.point);
-			} else if (target.tag.Equals ("Car")) {
-				//target.GetComponent<CarMovement> ().jump ();
-			} else if (target.tag.Equals ("Moveable") || target.tag.Equals ("On road") || target.tag.Equals ("On hud")) {
+			} else if (target.tag.Equals (TagManagement.moveableObject) || target.tag.Equals (TagManagement.blockOnRoad)) {
 				return target;
 			} 
 		}

@@ -13,13 +13,13 @@ public class CarAttributes : MonoBehaviour {
 
 	public void changeMaterialOfCars() {
 		if(level == LevelManagement.drive){
-			for (int i = 0; i < GameObject.FindGameObjectsWithTag ("Car").Length; i++) {
-				Renderer rend = GameObject.FindGameObjectsWithTag ("Car")[i].GetComponent<Renderer> ();
+			for (int i = 0; i < GameObject.FindGameObjectsWithTag (TagManagement.car).Length; i++) {
+				Renderer rend = GameObject.FindGameObjectsWithTag (TagManagement.car)[i].GetComponent<Renderer> ();
 				Material[] mats = new Material[rend.materials.Length];
 				for (int j = 0; j < rend.materials.Length; j++) {
 					mats [j] = rend.materials [j];
 				}
-				if (GameObject.FindGameObjectsWithTag ("Car")[i].name == GameObject.FindGameObjectsWithTag("Car")[0].name) {
+				if (i == 0) {
 					mats [2] = leadCarMaterial; 
 				} else {
 					mats [2] = regularCarMaterial; 
@@ -98,7 +98,7 @@ public class CarAttributes : MonoBehaviour {
 	}
 
 	public void onBlock(Collider hit, GameObject car, Rigidbody rb){
-		if (car.tag == "Evil Car" && (hit.transform.tag == "Car" || hit.transform.tag == "Evil Car")) {
+		if (car.tag == TagManagement.evilCar && (hit.transform.tag == TagManagement.car || hit.transform.tag == TagManagement.evilCar)) {
 			car.GetComponent<EvilCarAttributes> ().explodeNow = true;
 		}
 		string blockName = hit.transform.name.Split ('_') [0];

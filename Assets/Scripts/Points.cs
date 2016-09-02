@@ -12,7 +12,7 @@ public class Points : MonoBehaviour {
 	string level;
 	bool checkHighScore;
 	float timerCount;
-	float timerLimit;
+	static float timerLimit = 1;
 
 	void Start(){
 		total = 0;
@@ -23,7 +23,6 @@ public class Points : MonoBehaviour {
 		highestMulti = 1;
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		checkHighScore = false;
-		timerLimit = 1;
 	}
 
 	void Update () {

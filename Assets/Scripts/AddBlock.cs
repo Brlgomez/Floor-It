@@ -133,7 +133,7 @@ public class AddBlock : MonoBehaviour {
 		// initial block
 		GameObject temp = GameObject.Find (AllBlockNames.standardBlock);
 		hudBlock = Instantiate (temp);
-		hudBlock.tag = "On hud";
+		hudBlock.tag = TagManagement.blockOnHud;
 		hudBlock.name = temp.name + "_" + numBlocksCount;
 		numBlocksCount++;
 
@@ -175,8 +175,8 @@ public class AddBlock : MonoBehaviour {
 			extraCarCounter += deltaTime;
 			checkForSuperBlocks ();
 			if (level == LevelManagement.drive) {
-				if (hudBlock != null && hudBlock.tag == "On hud") {
-					hudBlock.tag = "Moveable";
+				if (hudBlock != null && hudBlock.tag == TagManagement.blockOnHud) {
+					hudBlock.tag = TagManagement.moveableObject;
 				}
 				if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 					leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
@@ -216,9 +216,9 @@ public class AddBlock : MonoBehaviour {
 
 	public void addNewPiece () {
 		blockAttributes (hudBlock.name);
-		hudBlock.tag = "On road";
-		spawnBlockByPowerUp ();
-		hudBlock.tag = "On hud";
+		hudBlock.tag = TagManagement.blockOnRoad;
+		spawnNextBlock ();
+		hudBlock.tag = TagManagement.blockOnHud;
 		Camera.main.GetComponent<Interface> ().changeHUDSprite (hudBlock.name.Split ('_') [0], hudBlock.name);
 	}
 
@@ -229,35 +229,35 @@ public class AddBlock : MonoBehaviour {
 			ifHudBlockNull ();
 		}
 		blockAttributes (hudBlock.name);
-		spawnBlockByPowerUp ();
+		spawnNextBlock ();
 		Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hudBlock.transform.position);
-		hudBlock.tag = "On road";	
 		Vector3 positionOfNewBlock = new Vector3 (nextX, -1, nextBlockZ);
 		hudBlock.transform.position = positionOfNewBlock;
+		hudBlock.tag = TagManagement.blockOnRoad;	
 	}
 
-	void spawnBlockByPowerUp () {
+	void spawnNextBlock () {
 		GameObject temp;
-		string block = "";
+		string nextBlock = "";
 		float rand = Random.Range (0, 100);
 		int numberOfCars = Camera.main.GetComponent<CarMangment> ().cars.Length;
 		if (superBlockActivated) {
 			if (rand > 0 && rand < extraPercent && numberOfCars <= maxAmountOfCars) {
-				block = AllBlockNames.extraCarBlock;
+				nextBlock = AllBlockNames.extraCarBlock;
 			} else {
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonBlocks.Length);
-				block = AllBlockNames.commonBlocks [randBlockIndex];
+				nextBlock = AllBlockNames.commonBlocks [randBlockIndex];
 			}
 		} else if (superSlowBlockActivated) {
-			block = AllBlockNames.decelerateBlock;
+			nextBlock = AllBlockNames.decelerateBlock;
 		} else if (superSpeedBlockActivated) {
-			block = AllBlockNames.accelerateBlock;
+			nextBlock = AllBlockNames.accelerateBlock;
 		} else if (superBouncyBlockActivated) {
-			block = AllBlockNames.bouncyBlock;
+			nextBlock = AllBlockNames.bouncyBlock;
 		} else if (superBullseyeBlockActivated) {
-			block = AllBlockNames.bullseyeBlock;
+			nextBlock = AllBlockNames.bullseyeBlock;
 		} else if (superPointBlockActivated) {
-			block = AllBlockNames.pointBlock;
+			nextBlock = AllBlockNames.pointBlock;
 		} else {
 			randBlockIndex = (int)Random.Range (0, blockNames.Length);
 			float cameraZPos = Camera.main.transform.position.z;
@@ -266,33 +266,33 @@ public class AddBlock : MonoBehaviour {
 			}
 			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
 				extraCarCounter = 0;
-				block = AllBlockNames.extraCarBlock;
+				nextBlock = AllBlockNames.extraCarBlock;
 			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
-				block = AllBlockNames.superAccelerateBlock;
+				nextBlock = AllBlockNames.superAccelerateBlock;
 			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
-				block = AllBlockNames.superDecelerateBlock;
+				nextBlock = AllBlockNames.superDecelerateBlock;
 			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > bombBlockDistSpawn) {
 				bombCounter = 0;
-				block = AllBlockNames.bombBlock;
+				nextBlock = AllBlockNames.bombBlock;
 			} else if (rand < comSuperPercent && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
-				block = AllBlockNames.commonSuperBlocks [randBlockIndex];
+				nextBlock = AllBlockNames.commonSuperBlocks [randBlockIndex];
 			} else if (rand < evilCarPercent && blockPerRow >= blocksPerRowForEvilCar && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
 				evilCarCounter = 0;
-				block = AllBlockNames.evilCarBlock;
+				nextBlock = AllBlockNames.evilCarBlock;
 			} else {
 				randBlockIndex = (int)Random.Range (0, blockNames.Length);
-				block = blockNames [randBlockIndex];
+				nextBlock = blockNames [randBlockIndex];
 			}
 		}
-		temp = GameObject.Find (block);
+		temp = GameObject.Find (nextBlock);
 		hudBlock = Instantiate (temp);
-		hudBlock.name = block + "_" + numBlocksCount;
+		hudBlock.name = nextBlock + "_" + numBlocksCount;
 		numBlocksCount++;
-		if (block == AllBlockNames.bombBlock) {
+		if (nextBlock == AllBlockNames.bombBlock) {
 			hudBlock.AddComponent<BombAttributes> ();
 		}
 	}
@@ -300,11 +300,11 @@ public class AddBlock : MonoBehaviour {
 	void ifHudBlockNull () {
 		GameObject temp = GameObject.Find (AllBlockNames.standardBlock);
 		hudBlock = Instantiate (temp);
-		hudBlock.tag = "On hud";
+		hudBlock.tag = TagManagement.blockOnHud;
 	}
 
 	public void touchedPiece () {
-		hudBlock.tag = "Selected";
+		hudBlock.tag = TagManagement.selected;
 	}
 
 	void blockAttributes (string block) {
