@@ -47,6 +47,8 @@ public class BombAttributes : MonoBehaviour {
 				timer+=Time.deltaTime;
 				if (!isTransparent) {
 					rend.material.color = Color.Lerp (colorStart, colorEnd, (timer * 1.1f) / timeLimit);
+				} else {
+					rend.material = transparentMaterial;
 				}
 			}
 			if (timer > timeLimit - 0.2f && !particlePlayed) {
@@ -59,7 +61,7 @@ public class BombAttributes : MonoBehaviour {
 				explosionForce ();
 			}
 			if(timer > timeLimit && !exploded){
-				gameObject.GetComponent<Renderer> ().material = transparentMaterial;
+				rend.material = transparentMaterial;
 				GetComponent<Collider> ().enabled = false;
 				exploded = true;
 				if (isBombX) {

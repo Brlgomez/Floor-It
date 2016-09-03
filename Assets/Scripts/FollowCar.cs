@@ -40,10 +40,10 @@ public class FollowCar : MonoBehaviour {
 				Vector3 end = new Vector3 (
 					xPositionOfCam + transform.rotation.y * 1000, 
 					yPositionOfCam, 
-					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2)
+					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2) - 1
 				);
 				if (level == LevelManagement.bowl && leadCar.transform.position.z > pinZPosition - 5) {
-					end = new Vector3 (0, 20, pinZPosition);
+					end = new Vector3 (0, 20, pinZPosition - 5);
 					inPinArea = true;
 				} 
 				float distanceFromLead = Vector2.Distance (

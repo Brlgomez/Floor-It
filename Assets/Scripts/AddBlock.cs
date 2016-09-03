@@ -74,10 +74,10 @@ public class AddBlock : MonoBehaviour {
 	static float extraCarLimit = 15;
 
 	/* How far a car must be in order for blocks to spawn */
-	float extraCarDistSpawn = 50;
-	float bombBlockDistSpawn = 100;
-	float evilCarDistSpawn = 150;
-	float superBlockDistSpawn = 200;
+	float extraCarDistSpawn = 40;
+	float bombBlockDistSpawn = 80;
+	float evilCarDistSpawn = 120;
+	float superBlockDistSpawn = 160;
 
 	/* automatically add blocks */
 	// a counter that will increment and will show when it can properly add a new block

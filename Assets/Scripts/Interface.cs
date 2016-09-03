@@ -21,6 +21,7 @@ public class Interface : MonoBehaviour {
 	public Text score;
 	public Text pointText;
 	public Text speed;
+	public Text instructions;
 
 	public Button leftButton;
 	public Text leftText;
@@ -29,7 +30,8 @@ public class Interface : MonoBehaviour {
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
-	private Image nextBlockSprite;
+	public Image nextBlockSprite;
+	public Image nextBlockBackground;
 
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
@@ -50,6 +52,7 @@ public class Interface : MonoBehaviour {
 
 	bool gotPoints;
 	float pointAlpha;
+	float instructionsAlpha;
 
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -79,6 +82,7 @@ public class Interface : MonoBehaviour {
 
 		gotPoints = false;
 		pointAlpha = 0;
+		instructionsAlpha = 1;
 	}
 
 	void Update(){
@@ -102,7 +106,7 @@ public class Interface : MonoBehaviour {
 			if (carSpeed != 0) {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
 				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total * Camera.main.GetComponent<Points>().highestMulti).ToString ();
-				speed.text = string.Format("{0:F1}\nKm/h", normalizedSpeed);
+				speed.text = string.Format("{0:F1} m/s", normalizedSpeed);
 			}
 		}
 		if (gotPoints) {
@@ -111,6 +115,10 @@ public class Interface : MonoBehaviour {
 			if (pointAlpha < 0) {
 				gotPoints = false;
 			}
+		}
+		if (instructionsAlpha > 0) {
+			instructionsAlpha -= Time.deltaTime * 0.25f;
+			instructions.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
 		}
 	}
 
@@ -121,14 +129,19 @@ public class Interface : MonoBehaviour {
 			pauseButton.GetComponent<Image> ().color = buttonOff;
 			pauseText.GetComponent<Text> ().color = textOff;
 			highScoreText.GetComponent<Text> ().color = textOn;
+			pointText.GetComponent<Text> ().color = textOff;
 		}
 		if (level == LevelManagement.floorIt) {
+			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
+			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			} else {
 				highScoreText.text = "High Score " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
 		} else if (level == LevelManagement.bowl) {
+			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
+			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreBowling;
 			} else {
@@ -146,6 +159,7 @@ public class Interface : MonoBehaviour {
 
 	public void pauseButtonClick() {
 		paused = !paused;
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 0;
 			pauseText.text = "I>";
@@ -153,6 +167,9 @@ public class Interface : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
 				turnOffLeftandRightButtons ();
+			} else {
+				nextBlockSprite.GetComponent<Image> ().color = buttonOff;
+				nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			}
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
@@ -162,9 +179,11 @@ public class Interface : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();
 			if (level == LevelManagement.drive) {
 				turnOnLeftandRightButtons ();
+			} else {
+				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.9f);;
+				nextBlockBackground.GetComponent<Image> ().color = new Vector4 (0.5f, 0.5f, 0.5f, 0.5f);
 			}
 		}
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 	}
 
 	void turnOnMainButtons() {
