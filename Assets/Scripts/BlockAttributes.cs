@@ -283,7 +283,7 @@ public class BlockAttributes : MonoBehaviour {
 		GameObject temp = GameObject.Find (obj);
 		GameObject wall = Instantiate (temp);
 		wall.name = temp.name + "_Clone";
-		wall.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+		wall.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
 		wall.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
 	}
 }

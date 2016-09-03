@@ -40,24 +40,25 @@ public class FollowCar : MonoBehaviour {
 				Vector3 end = new Vector3 (
 					xPositionOfCam + transform.rotation.y * 1000, 
 					yPositionOfCam, 
-					leadCar.transform.position.z + 2 - ((yPositionOfCam - yPosShift) / 2)
+					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2)
 				);
 				if (level == LevelManagement.bowl && leadCar.transform.position.z > pinZPosition - 5) {
 					end = new Vector3 (0, 20, pinZPosition);
 					inPinArea = true;
 				} 
-
 				float distanceFromLead = Vector2.Distance (
 					new Vector2 (transform.position.x, transform.position.z), 
 					new Vector2 (leadCar.transform.position.x, leadCar.transform.position.z)
 				);
-
 				distanceFromLead = Mathf.Clamp (distanceFromLead, 1, 10);
-
-				transform.position = Vector3.Lerp (
+				transform.position = Vector3.Slerp (
 					transform.position, 
 					end, Time.deltaTime * distanceFromLead
 				);
+			}
+			if (level == LevelManagement.bowl && transform.rotation.x < 0.61f) {
+				Quaternion newRotation = new Quaternion (0.65f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
+				transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime/2);
 			}
 		}
 	}
