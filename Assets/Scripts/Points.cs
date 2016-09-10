@@ -38,7 +38,7 @@ public class Points : MonoBehaviour {
 						aliveCars++;
 					}
 				}
-				incrementPoints (aliveCars);
+				incrementPointsCars (aliveCars);
 			}
 		}
 	}
@@ -91,8 +91,13 @@ public class Points : MonoBehaviour {
 		}
 	}
 
-	public void incrementPoints(float multiplier){
+	public void incrementPoints(float multiplier, GameObject obj){
 		total += multiplier;
-		Camera.main.GetComponent<Interface> ().changePointsText (multiplier);
+		Camera.main.GetComponent<Interface> ().changePointsText (multiplier, obj);
+	}
+
+	public void incrementPointsCars(float multiplier){
+		total += multiplier;
+		Camera.main.GetComponent<Interface> ().changeCarPointsText (multiplier);
 	}
 }

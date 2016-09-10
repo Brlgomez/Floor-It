@@ -56,7 +56,7 @@ public class BombAttributes : MonoBehaviour {
 				ParticleSystem.EmissionModule em = smoke.emission;
 				em.enabled = true;
 				particlePlayed = true;
-				Camera.main.GetComponent<Points> ().incrementPoints (3);
+				Camera.main.GetComponent<Points> ().incrementPoints (3, gameObject);
 				Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 				explosionForce ();
 			}

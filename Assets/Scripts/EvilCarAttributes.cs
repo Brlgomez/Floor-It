@@ -53,7 +53,7 @@ public class EvilCarAttributes : MonoBehaviour {
 			}
 		}
 		if (!smoke.isPlaying && particlePlayed) {
-			Camera.main.GetComponent<Points> ().incrementPoints (5);
+			Camera.main.GetComponent<Points> ().incrementPoints (5, gameObject);
 			Destroy (gameObject);
 		}
 	}

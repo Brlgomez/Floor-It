@@ -34,7 +34,7 @@ public class BlockAttributes : MonoBehaviour {
 			float multiplier = car.transform.localScale.x;
 			float force = speedUpForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
-			Camera.main.GetComponent<Points> ().incrementPoints (accelerateBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (accelerateBlockPoints, block);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 				float fasterSpeed = CarMovement.fastestSpeed;
@@ -52,7 +52,7 @@ public class BlockAttributes : MonoBehaviour {
 			float multiplier = car.transform.localScale.x;
 			float force = speedDownForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
-			Camera.main.GetComponent<Points> ().incrementPoints (decelerateBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (decelerateBlockPoints, block);
 			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 				float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 				float slowestSpeed = CarMovement.slowestSpeed;
@@ -75,7 +75,7 @@ public class BlockAttributes : MonoBehaviour {
 	public void onJumpBlock (GameObject car, Rigidbody rb) {
 		if (rb.velocity.y < onJumpBlockHeight && !car.GetComponent<CarMovement> ().flying) {
 			Camera.main.GetComponent<SoundEffects> ().playBounceSound (car.transform.position);
-			Camera.main.GetComponent<Points> ().incrementPoints (jumpBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (jumpBlockPoints, car);
 			rb.velocity += Vector3.up * onJumpBlockHeight;
 		}
 	}
@@ -84,7 +84,7 @@ public class BlockAttributes : MonoBehaviour {
 		if (!car.GetComponent<CarMovement> ().flying) {
 			car.GetComponent<CarMovement> ().flying = true;
 			Camera.main.GetComponent<SoundEffects> ().playBubbleSound (transform.position);
-			Camera.main.GetComponent<Points> ().incrementPoints (flyBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (flyBlockPoints, car);
 			Behaviour halo = (Behaviour)car.transform.GetChild (0).GetComponent ("Halo");
 			halo.enabled = true;
 			rb.useGravity = false;
@@ -151,7 +151,7 @@ public class BlockAttributes : MonoBehaviour {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated ();
 			Camera.main.GetComponent<SoundEffects> ().playShuffleSound (block.transform.position);
-			Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints, block);
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
 				Vector3 tmp = allBlocks [i].transform.position;
@@ -166,7 +166,7 @@ public class BlockAttributes : MonoBehaviour {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated ();
 			Camera.main.GetComponent<SoundEffects> ().playInvisibleSound (block.transform.position);
-			Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints, block);
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
 				if (allBlocks [i].name.Split ('_') [0] == AllBlockNames.bombBlock) {
@@ -188,14 +188,14 @@ public class BlockAttributes : MonoBehaviour {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated ();
 			Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
-			Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 		}
 	}
 
 	public void onSizeBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated ();
-			Camera.main.GetComponent<Points> ().incrementPoints (sizeBlockPoints);
+			Camera.main.GetComponent<Points> ().incrementPoints (sizeBlockPoints, block);
 			if (block.GetComponent<SizeBlockAttributes> ().big) {
 				car.transform.localScale = new Vector3 (sizeBig, sizeBig, sizeBig);
 				car.GetComponent<CarMovement> ().distToGround *= sizeBig;
@@ -234,7 +234,7 @@ public class BlockAttributes : MonoBehaviour {
 			} else if (blockName == AllBlockNames.superAccelerateBlock) {
 				onSpeedBlock (block, car);
 			} else if (blockName == AllBlockNames.superPointBlock) {
-				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints);
+				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 				Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
 			} 
 			block.GetComponent<BlockActivated> ().activated ();

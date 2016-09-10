@@ -52,22 +52,14 @@ public class MainMenu : MonoBehaviour {
 		highScore.text = "High Score " + highScoreInfinite;
 		bowlingHighScore.text = "High Score " + highScoreBowling;
 		drivingHighScore.text = "High Score " + highScoreDriving;
-		cashText.text = "Cash " + cash;
 		loading = false;
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
 		textOn = new Vector4 (1, 1, 1, 1);
 		textOff = new Vector4 (1, 1, 1, 0);
 		viewSettings = false;
-		soundButton.GetComponent<Button> ().enabled = false;
-		soundButton.GetComponent<Image> ().color = buttonOff;
-		soundText.GetComponent<Text> ().color = textOff;
-		musicButton.GetComponent<Button> ().enabled = false;
-		musicButton.GetComponent<Image> ().color = buttonOff;
-		musicText.GetComponent<Text> ().color = textOff;
-		vibrationButton.GetComponent<Button> ().enabled = false;
-		vibrationButton.GetComponent<Image> ().color = buttonOff;
-		vibrationText.GetComponent<Text> ().color = textOff;
+		settingsOff ();
+		cashText.text = "Cash " + cash;
 		if (PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
 			soundText.text = "Sound Effects: On";
 		} else {

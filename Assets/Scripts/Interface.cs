@@ -20,6 +20,7 @@ public class Interface : MonoBehaviour {
 	public Text loadingText;
 	public Text score;
 	public Text pointText;
+	public Text carPointText;
 	public Text speed;
 	public Text instructions;
 
@@ -51,7 +52,9 @@ public class Interface : MonoBehaviour {
 	float updateLimit;
 
 	bool gotPoints;
+	bool carPoints;
 	float pointAlpha;
+	float carPointAlpha;
 	float instructionsAlpha;
 
 	void Start () {
@@ -81,7 +84,9 @@ public class Interface : MonoBehaviour {
 		updateLimit = 0.25f;
 
 		gotPoints = false;
+		carPoints = false;
 		pointAlpha = 0;
+		carPointAlpha = 0;
 		instructionsAlpha = 1;
 	}
 
@@ -114,6 +119,13 @@ public class Interface : MonoBehaviour {
 			pointText.GetComponent<Text> ().color = new Color (1, 1, 1, pointAlpha);
 			if (pointAlpha < 0) {
 				gotPoints = false;
+			}
+		}
+		if (carPoints) {
+			carPointAlpha -= Time.deltaTime * 0.75f;
+			carPointText.GetComponent<Text> ().color = new Color (1, 1, 1, carPointAlpha);
+			if (carPointAlpha < 0) {
+				carPoints = false;
 			}
 		}
 		if (instructionsAlpha > 0) {
@@ -329,10 +341,23 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<ScreenOverlay> ().intensity = 0;
 	}
 
-	public void changePointsText(float pointAmount){
+	public void changePointsText(float pointAmount, GameObject obj){
 		pointText.text = "+" + pointAmount;
 		gotPoints = true;
 		pointAlpha = 1.0f;
 		pointText.GetComponent<Text> ().color = textOn;
+		Vector3 pointPosition = new Vector3 (
+			obj.transform.position.x,
+			obj.transform.position.y,
+			obj.transform.position.z + 1
+		);
+		pointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint(pointPosition);
+	}
+
+	public void changeCarPointsText(float pointAmount) {
+		carPointText.text = "+" + pointAmount;
+		carPoints = true;
+		carPointAlpha = 1.0f;
+		carPointText.GetComponent<Text> ().color = textOn;
 	}
 }
