@@ -86,7 +86,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	void Update(){
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
+		if (!Camera.main.GetComponent<Interface> ().paused) {
 			updateGUI ();
 		}
 		if (Camera.main.GetComponent<CarMangment>().trueGameOver) {

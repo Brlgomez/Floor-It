@@ -20,8 +20,8 @@ public class BlockAttributes : MonoBehaviour {
 	static int shuffleBlockPoints = 3;
 	static int invisibleBlockPoints = 3;
 	static int sizeBlockPoints = 3;
-	static int spherePoints = 1;
-	static int evilCarPoints = 3;
+	//static int spherePoints = 1;
+	//static int evilCarPoints = 3;
 
 	float numberOfCars;
 

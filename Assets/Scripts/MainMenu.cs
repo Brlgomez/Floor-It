@@ -11,18 +11,22 @@ public class MainMenu : MonoBehaviour {
 	public Button settingsButton;
 	public Button soundButton;
 	public Button musicButton;
+	public Button vibrationButton;
 
 	public Text floorItText;
 	public Text bowlingText;
 	public Text driveText;
 	public Text soundText;
 	public Text musicText;
+	public Text vibrationText;
 	public Text highScore;
 	public Text bowlingHighScore;
 	public Text drivingHighScore;
+	public Text cashText;
 	int highScoreInfinite;
 	int highScoreBowling;
 	int highScoreDriving;
+	int cash;
 
 	bool viewSettings;
 	public Text loadingText;
@@ -40,12 +44,15 @@ public class MainMenu : MonoBehaviour {
 		settingsButton.onClick.AddListener (delegate { settingsButtonClick (); });
 		soundButton.onClick.AddListener (delegate { soundEffectsButtonClick (); });
 		musicButton.onClick.AddListener (delegate { musicButtonClick (); });
+		vibrationButton.onClick.AddListener (delegate { vibrationButtonClick (); });
 		highScoreInfinite = PlayerPrefs.GetInt ("High Score Infinite", 0);
 		highScoreBowling = PlayerPrefs.GetInt ("High Score Bowling", 0);
 		highScoreDriving = PlayerPrefs.GetInt ("High Score Driving", 0);
+		cash = PlayerPrefs.GetInt ("Cash", 0);
 		highScore.text = "High Score " + highScoreInfinite;
 		bowlingHighScore.text = "High Score " + highScoreBowling;
 		drivingHighScore.text = "High Score " + highScoreDriving;
+		cashText.text = "Cash " + cash;
 		loading = false;
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
@@ -58,6 +65,9 @@ public class MainMenu : MonoBehaviour {
 		musicButton.GetComponent<Button> ().enabled = false;
 		musicButton.GetComponent<Image> ().color = buttonOff;
 		musicText.GetComponent<Text> ().color = textOff;
+		vibrationButton.GetComponent<Button> ().enabled = false;
+		vibrationButton.GetComponent<Image> ().color = buttonOff;
+		vibrationText.GetComponent<Text> ().color = textOff;
 		if (PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
 			soundText.text = "Sound Effects: On";
 		} else {
@@ -68,6 +78,11 @@ public class MainMenu : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		} else {
 			musicText.text = "Music: Off";
+		}
+		if (PlayerPrefs.GetInt ("Play Vibrations", 0) == 0){
+			vibrationText.text = "Vibration: On";
+		} else {
+			vibrationText.text = "Vibration: Off";
 		}
 	}
 
@@ -110,6 +125,9 @@ public class MainMenu : MonoBehaviour {
 		musicButton.GetComponent<Button> ().enabled = true;
 		musicButton.GetComponent<Image> ().color = buttonOn;
 		musicText.GetComponent<Text> ().color = textOn;
+		vibrationButton.GetComponent<Button> ().enabled = true;
+		vibrationButton.GetComponent<Image> ().color = buttonOn;
+		vibrationText.GetComponent<Text> ().color = textOn;
 	}
 
 	void settingsOff(){
@@ -136,6 +154,9 @@ public class MainMenu : MonoBehaviour {
 		musicButton.GetComponent<Button> ().enabled = false;
 		musicButton.GetComponent<Image> ().color = buttonOff;
 		musicText.GetComponent<Text> ().color = textOff;
+		vibrationButton.GetComponent<Button> ().enabled = false;
+		vibrationButton.GetComponent<Image> ().color = buttonOff;
+		vibrationText.GetComponent<Text> ().color = textOff;
 	}
 
 	public void playButtonClick() {
@@ -196,6 +217,19 @@ public class MainMenu : MonoBehaviour {
 		} else {
 			PlayerPrefs.SetInt ("Play Music", 0);
 			musicText.text = "Music: On";
+			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
+		}
+		PlayerPrefs.Save ();
+	}
+
+	public void vibrationButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		if(PlayerPrefs.GetInt ("Play Vibrations", 0) == 0){
+			PlayerPrefs.SetInt ("Play Vibrations", 1);
+			vibrationText.text = "Vibration: Off";
+		} else {
+			PlayerPrefs.SetInt ("Play Vibrations", 0);
+			vibrationText.text = "Vibration: On";
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		}
 		PlayerPrefs.Save ();

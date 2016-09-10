@@ -41,11 +41,15 @@ public class EvilCarAttributes : MonoBehaviour {
 				smoke.Play ();
 				ParticleSystem.EmissionModule em = smoke.emission;
 				Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
-				ChangeMaterial (invisibleFloor.GetComponent<Renderer>().material);	
+				ChangeMaterial (invisibleFloor.GetComponent<Renderer>().material);
 				GetComponent<Collider> ().enabled = false;
 				em.enabled = true;
 				exploded = true;
 				particlePlayed = true;
+				int playVibration = PlayerPrefs.GetInt ("Play Vibrations", 0);
+				if (playVibration == 0) {
+					Handheld.Vibrate();
+				}
 			}
 		}
 		if (!smoke.isPlaying && particlePlayed) {

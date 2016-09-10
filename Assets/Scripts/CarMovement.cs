@@ -63,8 +63,12 @@ public class CarMovement : MonoBehaviour {
 						rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
 					} else {
 						evilCarWithinRange = false;
-						carFlipped = true;
+						carFlipped = false;
+						rb.MovePosition (transform.position + transform.forward * deltaTime);
 					}
+				} else {
+					evilCarWithinRange = false;
+					carFlipped = true;
 				}
 			} else {
 				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
@@ -107,7 +111,7 @@ public class CarMovement : MonoBehaviour {
 			setToGameOver ();
 		}
 		//car is stopped, evil cars can be stopped
-		if (rb.IsSleeping () && !flying && tag != TagManagement.evilCar) {
+		if (rb.IsSleeping () && !flying) {
 			setToGameOver ();
 		}
 		// immidiately game over a car if flipped so other cars wont continue following it

@@ -47,6 +47,7 @@ public class Points : MonoBehaviour {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
+				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total)));
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
 					highscoreInfinite = Mathf.FloorToInt (total);
@@ -64,6 +65,7 @@ public class Points : MonoBehaviour {
 					}
 				}
 				checkHighScore = true;
+				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total * highestMulti)));
 				if (Mathf.FloorToInt (total * highestMulti) > highscoreBowling) {
 					newHighScore = true;
 					highscoreBowling = Mathf.FloorToInt (total * highestMulti);
@@ -75,6 +77,7 @@ public class Points : MonoBehaviour {
 				}
 			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
+				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total)));
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
 					highscoreDriving = Mathf.FloorToInt (total);
