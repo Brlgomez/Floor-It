@@ -9,6 +9,7 @@ public class CarMangment : MonoBehaviour {
 	public bool allPinsStopped;
 	public Mesh[] carMeshes;
 	public GameObject[] carColliders;
+	public Material[] carMaterial;
 	public float carMass;
 	public float carSteering;
 
@@ -27,11 +28,24 @@ public class CarMangment : MonoBehaviour {
 		if (carNum == 0) {
 			carMass = 5;
 			carSteering = 0.75f;
-		} else {
-			carMass = 10;
+		} else if (carNum == 1) {
+			carMass = 12;
 			carSteering = 0.5f;
+		} else if (carNum == 2) {
+			carMass = 10;
+			carSteering = 0.65f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
+		Renderer rend = GameObject.Find("Car").GetComponent<Renderer> ();
+		Material[] mats = new Material[rend.materials.Length];
+		for (int j = 0; j < rend.materials.Length; j++) {
+			if (j == 1 || j == 3) {
+				mats [j] = carMaterial [carNum]; 
+			} else {
+				mats [j] = rend.materials [j];
+			}
+		}
+		rend.materials = mats;
 	}
 
 	void Update(){
