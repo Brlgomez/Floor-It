@@ -22,6 +22,8 @@ public class MainMenu : MonoBehaviour {
 	public Text driveText;
 	public Text storeText;
 	public Text settingsText;
+	public Text sudanText;
+	public Text limoText;
 	public Text soundText;
 	public Text musicText;
 	public Text vibrationText;
@@ -48,6 +50,8 @@ public class MainMenu : MonoBehaviour {
 
 	public Mesh[] carMeshes;
 
+	static int limoAmount = 100;
+
 	void Start () {
 		playButton.onClick.AddListener(delegate { playButtonClick(); });
 		playBowlingButton.onClick.AddListener(delegate { playBowlingButtonClick(); });
@@ -59,6 +63,15 @@ public class MainMenu : MonoBehaviour {
 		vibrationButton.onClick.AddListener (delegate { vibrationButtonClick (); });
 		sudanButton.onClick.AddListener (delegate { sudanButtonClick (); });
 		limoButton.onClick.AddListener (delegate { limoButtonClick (); });
+
+		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
+		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
+		textOn = new Vector4 (1, 1, 1, 1);
+		textOff = new Vector4 (1, 1, 1, 0);
+		loading = false;
+		viewSettings = false;
+		viewStore = false;
+
 		highScoreInfinite = PlayerPrefs.GetInt ("High Score Infinite", 0);
 		highScoreBowling = PlayerPrefs.GetInt ("High Score Bowling", 0);
 		highScoreDriving = PlayerPrefs.GetInt ("High Score Driving", 0);
@@ -67,16 +80,8 @@ public class MainMenu : MonoBehaviour {
 		highScore.text = "High Score " + highScoreInfinite;
 		bowlingHighScore.text = "High Score " + highScoreBowling;
 		drivingHighScore.text = "High Score " + highScoreDriving;
-		loading = false;
-		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
-		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
-		textOn = new Vector4 (1, 1, 1, 1);
-		textOff = new Vector4 (1, 1, 1, 0);
-		viewSettings = false;
-		viewStore = false;
-		menuOn ();
 		GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes[carNumber];
-		cashText.text = "Cash " + cash;
+		cashText.text = "$" + cash;
 		if (PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
 			soundText.text = "Sound Effects: On";
 		} else {
@@ -93,6 +98,11 @@ public class MainMenu : MonoBehaviour {
 		} else {
 			vibrationText.text = "Vibration: Off";
 		}
+		if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 0) {
+			limoText.text = "$" + limoAmount;
+		}
+		menuOn ();
+		//PlayerPrefs.DeleteAll();
 	}
 		
 	void menuOn(){
@@ -124,7 +134,6 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	void settingsOn(){
-		//PlayerPrefs.DeleteAll();
 		turnOffAll();
 		title.text = "Settings";
 		settingsButton.GetComponent<Button> ().enabled = true;
@@ -156,6 +165,8 @@ public class MainMenu : MonoBehaviour {
 		sudanButton.GetComponent<Image> ().color = textOn;
 		limoButton.GetComponent<Button> ().enabled = true;
 		limoButton.GetComponent<Image> ().color = textOn;
+		limoText.GetComponent<Text> ().enabled = true;
+		limoText.GetComponent<Text> ().color = textOn;
 	}
 
 	void turnOffAll(){
@@ -200,6 +211,8 @@ public class MainMenu : MonoBehaviour {
 		sudanButton.GetComponent<Image> ().color = buttonOff;
 		limoButton.GetComponent<Button> ().enabled = false;
 		limoButton.GetComponent<Image> ().color = buttonOff;
+		limoText.GetComponent<Text> ().enabled = false;
+		limoText.GetComponent<Text> ().color = textOff;
 	}
 
 	public void playButtonClick() {
@@ -301,10 +314,23 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void limoButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes[1];
-		PlayerPrefs.SetInt ("Car Type", 1);
-		PlayerPrefs.Save ();
+		if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 0 && PlayerPrefs.GetInt ("Cash", 0) >= limoAmount) {
+			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+			PlayerPrefs.SetInt("Limo Unlocked", 1);
+			PlayerPrefs.SetInt ("Cash", PlayerPrefs.GetInt ("Cash", 0) - limoAmount);
+			GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes [1];
+			PlayerPrefs.SetInt ("Car Type", 1);
+			PlayerPrefs.Save ();
+			limoText.text = "";
+			cashText.text = "$" + PlayerPrefs.GetInt ("Cash", 0);
+		} else if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 1) {
+			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+			GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes [1];
+			PlayerPrefs.SetInt ("Car Type", 1);
+			PlayerPrefs.Save ();
+		} else {
+			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
+		}
 	}
 
 	IEnumerator loadNewScene(string level) {

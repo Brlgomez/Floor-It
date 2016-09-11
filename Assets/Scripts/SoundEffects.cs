@@ -18,6 +18,8 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip carDeathSound;
 	public AudioClip highScoreSound;
 	public AudioClip buttonClickSound;
+	public AudioClip badChoiceSound;
+	public AudioClip boughtItemSound;
 	public AudioClip bubbleSound;
 	public AudioClip bubblePopSound;
 	public AudioClip coinSound;
@@ -133,7 +135,19 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playButtonClick() {
 		if (playSoundEffects == 0) {
-			AudioSource.PlayClipAtPoint (buttonClickSound, Vector3.Lerp(Camera.main.transform.position, Camera.main.transform.position, 0.9f));
+			source.PlayOneShot (buttonClickSound);
+		}
+	}
+
+	public void playBoughtItemSound() {
+		if (playSoundEffects == 0) {
+			source.PlayOneShot (boughtItemSound);
+		}
+	}
+
+	public void playBadChoiceSound() {
+		if (playSoundEffects == 0) {
+			source.PlayOneShot (badChoiceSound);
 		}
 	}
 
