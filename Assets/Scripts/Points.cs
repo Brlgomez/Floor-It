@@ -12,7 +12,7 @@ public class Points : MonoBehaviour {
 	string level;
 	bool checkHighScore;
 	float timerCount;
-	static float timerLimit = 3;
+	static float timerLimit = 2;
 	float aliveCars;
 
 	void Start(){

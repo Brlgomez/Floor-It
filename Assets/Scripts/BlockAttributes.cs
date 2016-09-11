@@ -199,11 +199,13 @@ public class BlockAttributes : MonoBehaviour {
 			if (block.GetComponent<SizeBlockAttributes> ().big) {
 				car.transform.localScale = new Vector3 (sizeBig, sizeBig, sizeBig);
 				car.GetComponent<CarMovement> ().distToGround *= sizeBig;
+				car.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment>().carMass;
 				car.GetComponent<Rigidbody> ().mass *= sizeBig;
 				Camera.main.GetComponent<SoundEffects> ().playResizeBigSound (car.transform.position);
 			} else {
 				car.transform.localScale = new Vector3 (sizeSmall, sizeSmall, sizeSmall);
 				car.GetComponent<CarMovement> ().distToGround *= sizeSmall;
+				car.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment>().carMass;
 				car.GetComponent<Rigidbody> ().mass *= sizeSmall;
 				Camera.main.GetComponent<SoundEffects> ().playResizeSmallSound (car.transform.position);
 			}

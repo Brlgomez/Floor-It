@@ -62,7 +62,7 @@ public class MainMenu : MonoBehaviour {
 		highScoreInfinite = PlayerPrefs.GetInt ("High Score Infinite", 0);
 		highScoreBowling = PlayerPrefs.GetInt ("High Score Bowling", 0);
 		highScoreDriving = PlayerPrefs.GetInt ("High Score Driving", 0);
-		carNumber = PlayerPrefs.GetInt ("Car Number", 0);
+		carNumber = PlayerPrefs.GetInt ("Car Type", 0);
 		cash = PlayerPrefs.GetInt ("Cash", 0);
 		highScore.text = "High Score " + highScoreInfinite;
 		bowlingHighScore.text = "High Score " + highScoreBowling;
@@ -296,14 +296,14 @@ public class MainMenu : MonoBehaviour {
 	public void sudanButtonClick() {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes[0];
-		PlayerPrefs.SetInt ("Car Number", 0);
+		PlayerPrefs.SetInt ("Car Type", 0);
 		PlayerPrefs.Save ();
 	}
 
 	public void limoButtonClick() {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes[1];
-		PlayerPrefs.SetInt ("Car Number", 1);
+		PlayerPrefs.SetInt ("Car Type", 1);
 		PlayerPrefs.Save ();
 	}
 

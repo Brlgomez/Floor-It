@@ -64,10 +64,7 @@ public class BombAttributes : MonoBehaviour {
 				rend.material = transparentMaterial;
 				GetComponent<Collider> ().enabled = false;
 				exploded = true;
-				int playVibration = PlayerPrefs.GetInt ("Play Vibrations", 0);
-				if (playVibration == 0) {
-					Handheld.Vibrate();
-				}
+				Camera.main.GetComponent<Vibration> ().vibrate();
 				if (isBombX) {
 					deleteBlocksX ();
 				} else if (!isBombX) {

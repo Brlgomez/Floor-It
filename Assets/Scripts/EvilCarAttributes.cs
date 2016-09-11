@@ -46,10 +46,7 @@ public class EvilCarAttributes : MonoBehaviour {
 				em.enabled = true;
 				exploded = true;
 				particlePlayed = true;
-				int playVibration = PlayerPrefs.GetInt ("Play Vibrations", 0);
-				if (playVibration == 0) {
-					Handheld.Vibrate();
-				}
+				Camera.main.GetComponent<Vibration> ().vibrate();
 			}
 		}
 		if (!smoke.isPlaying && particlePlayed) {

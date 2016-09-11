@@ -32,7 +32,7 @@ public class CarAttributes : MonoBehaviour {
 	public void resizedTimer(GameObject car){
 		car.GetComponent<CarMovement>().resizeCounter += Time.deltaTime;
 		if(car.GetComponent<CarMovement>().resizeCounter > CarMovement.resizeLimit){
-			if (car.GetComponent<Rigidbody>().mass > 5) {
+			if (car.GetComponent<Rigidbody>().mass > Camera.main.GetComponent<CarMangment>().carMass) {
 				Camera.main.GetComponent<SoundEffects> ().playResizeSmallSound (car.transform.position);
 			} else {
 				Camera.main.GetComponent<SoundEffects> ().playResizeBigSound (car.transform.position);
@@ -41,7 +41,7 @@ public class CarAttributes : MonoBehaviour {
 			car.GetComponent<CarMovement>().resized = false;
 			car.GetComponent<CarMovement> ().distToGround = car.transform.position.y;
 			car.transform.localScale = new Vector3 (1, 1, 1);
-			car.GetComponent<Rigidbody>().mass = 5;
+			car.GetComponent<Rigidbody>().mass = Camera.main.GetComponent<CarMangment>().carMass;
 		}
 	}
 
