@@ -34,6 +34,9 @@ public class CarMangment : MonoBehaviour {
 		} else if (carNum == 2) {
 			carMass = 8;
 			carSteering = 0.65f;
+		} else if (carNum == 3) {
+			carMass = 4;
+			carSteering = 1.0f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
 		Renderer rend = GameObject.Find("Car").GetComponent<Renderer> ();

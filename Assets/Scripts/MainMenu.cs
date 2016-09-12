@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour {
 	public Button sudanButton;
 	public Button limoButton;
 	public Button truckButton;
+	public Button sportButton;
+	public Button buyButton;
 	public Button soundButton;
 	public Button musicButton;
 	public Button vibrationButton;
@@ -26,6 +28,8 @@ public class MainMenu : MonoBehaviour {
 	public Text sudanText;
 	public Text limoText;
 	public Text truckText;
+	public Text sportText;
+	public Text buyText;
 	public Text soundText;
 	public Text musicText;
 	public Text vibrationText;
@@ -54,7 +58,8 @@ public class MainMenu : MonoBehaviour {
 	public GameObject car;
 
 	static int truckAmount = 500;
-	static int limoAmount = 5000;
+	static int sportAmount = 5000;
+	static int limoAmount = 10000;
 
 	void Start () {
 		playButton.onClick.AddListener(delegate { playButtonClick(); });
@@ -68,6 +73,8 @@ public class MainMenu : MonoBehaviour {
 		sudanButton.onClick.AddListener (delegate { sudanButtonClick (); });
 		limoButton.onClick.AddListener (delegate { limoButtonClick (); });
 		truckButton.onClick.AddListener (delegate { truckButtonClick (); });
+		sportButton.onClick.AddListener (delegate { sportButtonClick (); });
+		buyButton.onClick.AddListener (delegate { buyButtonClick (); });
 
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
@@ -88,7 +95,7 @@ public class MainMenu : MonoBehaviour {
 		GameObject newCar = (GameObject)Instantiate(cars[carNumber], car.transform.position, car.transform.rotation);
 		Destroy (car);
 		car = newCar;
-		cashText.text = "$" + cash;
+		cashText.text = cash + " EXP";
 		if (PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
 			soundText.text = "Sound Effects: On";
 		} else {
@@ -106,10 +113,13 @@ public class MainMenu : MonoBehaviour {
 			vibrationText.text = "Vibration: Off";
 		}
 		if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 0) {
-			limoText.text = "$" + limoAmount;
+			limoText.text = limoAmount + " EXP";
 		}
 		if (PlayerPrefs.GetInt ("Truck Unlocked", 0) == 0) {
-			truckText.text = "$" + truckAmount;
+			truckText.text = truckAmount + " EXP";
+		}
+		if (PlayerPrefs.GetInt ("Sport Unlocked", 0) == 0) {
+			sportText.text = sportAmount + " EXP";
 		}
 		menuOn ();
 		//PlayerPrefs.DeleteAll();
@@ -187,6 +197,14 @@ public class MainMenu : MonoBehaviour {
 		truckButton.GetComponent<Image> ().color = textOn;
 		truckText.GetComponent<Text> ().enabled = true;
 		truckText.GetComponent<Text> ().color = textOn;
+		sportButton.GetComponent<Button> ().enabled = true;
+		sportButton.GetComponent<Image> ().color = textOn;
+		sportText.GetComponent<Text> ().enabled = true;
+		sportText.GetComponent<Text> ().color = textOn;
+		buyButton.GetComponent<Button> ().enabled = true;
+		buyButton.GetComponent<Image> ().color = textOn;
+		buyText.GetComponent<Text> ().enabled = true;
+		buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}
@@ -239,6 +257,14 @@ public class MainMenu : MonoBehaviour {
 		truckButton.GetComponent<Image> ().color = buttonOff;
 		truckText.GetComponent<Text> ().enabled = false;
 		truckText.GetComponent<Text> ().color = textOff;
+		sportButton.GetComponent<Button> ().enabled = false;
+		sportButton.GetComponent<Image> ().color = buttonOff;
+		sportText.GetComponent<Text> ().enabled = false;
+		sportText.GetComponent<Text> ().color = textOff;
+		buyButton.GetComponent<Button> ().enabled = false;
+		buyButton.GetComponent<Image> ().color = buttonOff;
+		buyText.GetComponent<Text> ().enabled = false;
+		buyText.GetComponent<Text> ().color = textOff;
 
 		cashText.GetComponent<Text> ().color = textOff;
 	}
@@ -354,7 +380,7 @@ public class MainMenu : MonoBehaviour {
 			PlayerPrefs.SetInt ("Car Type", 1);
 			PlayerPrefs.Save ();
 			limoText.text = "";
-			cashText.text = "$" + PlayerPrefs.GetInt ("Cash", 0);
+			cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
 		} else if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 1) {
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 			GameObject newCar = (GameObject)Instantiate(cars[1], car.transform.position, car.transform.rotation);
@@ -378,7 +404,7 @@ public class MainMenu : MonoBehaviour {
 			PlayerPrefs.SetInt ("Car Type", 2);
 			PlayerPrefs.Save ();
 			truckText.text = "";
-			cashText.text = "$" + PlayerPrefs.GetInt ("Cash", 0);
+			cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
 		} else if (PlayerPrefs.GetInt ("Truck Unlocked", 0) == 1) {
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 			GameObject newCar = (GameObject)Instantiate(cars[2], car.transform.position, car.transform.rotation);
@@ -389,6 +415,37 @@ public class MainMenu : MonoBehaviour {
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
 		}
+	}
+
+	public void sportButtonClick() {
+		if (PlayerPrefs.GetInt ("Sport Unlocked", 0) == 0 && PlayerPrefs.GetInt ("Cash", 0) >= sportAmount) {
+			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+			PlayerPrefs.SetInt("Sport Unlocked", 1);
+			PlayerPrefs.SetInt ("Cash", PlayerPrefs.GetInt ("Cash", 0) - sportAmount);
+			GameObject newCar = (GameObject)Instantiate(cars[3], car.transform.position, car.transform.rotation);
+			Destroy (car);
+			car = newCar;
+			PlayerPrefs.SetInt ("Car Type", 3);
+			PlayerPrefs.Save ();
+			sportText.text = "";
+			cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
+		} else if (PlayerPrefs.GetInt ("Sport Unlocked", 0) == 1) {
+			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+			GameObject newCar = (GameObject)Instantiate(cars[3], car.transform.position, car.transform.rotation);
+			Destroy (car);
+			car = newCar;
+			PlayerPrefs.SetInt ("Car Type", 3);
+			PlayerPrefs.Save ();
+		} else {
+			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
+		}
+	}
+
+	public void buyButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+		PlayerPrefs.SetInt ("Cash", PlayerPrefs.GetInt ("Cash", 0) + 55555);
+		PlayerPrefs.Save ();
+		cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
 	}
 
 	IEnumerator loadNewScene(string level) {
