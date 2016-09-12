@@ -111,7 +111,7 @@ public class BlockAttributes : MonoBehaviour {
 			for (int i = 0; i < aliveCarsZPos.Count; i++) {
 				currentZ = aliveCarsZPos [i];
 				if (previousZ != 0 && previousZ - currentZ > 2) {
-					spawnZ = previousZ + Random.Range (-1.5f, -1.0f);
+					spawnZ = previousZ + Random.Range (-1.75f, -1.25f);
 					break;
 				}
 				previousZ = currentZ;
@@ -128,7 +128,7 @@ public class BlockAttributes : MonoBehaviour {
 				nextCar.transform.position = new Vector3 (
 					lastCar.transform.position.x + Random.Range (-0.5f, 0.5f), 
 					lastCar.GetComponent<CarMovement> ().distToGround, 
-					lastCar.transform.position.z + Random.Range (-1.5f, -1.0f)
+					lastCar.transform.position.z + Random.Range (-1.75f, -1.25f)
 				);
 			} else {
 				nextCar.transform.position = new Vector3 (
@@ -143,6 +143,7 @@ public class BlockAttributes : MonoBehaviour {
 				0,
 				temp.transform.rotation.w
 			);
+			nextCar.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment> ().carMass;
 			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
 	}

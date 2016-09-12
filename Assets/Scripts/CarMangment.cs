@@ -39,7 +39,7 @@ public class CarMangment : MonoBehaviour {
 		Renderer rend = GameObject.Find("Car").GetComponent<Renderer> ();
 		Material[] mats = new Material[rend.materials.Length];
 		for (int j = 0; j < rend.materials.Length; j++) {
-			if (j == 1 || j == 3) {
+			if (j == 1) {
 				mats [j] = carMaterial [carNum]; 
 			} else {
 				mats [j] = rend.materials [j];
