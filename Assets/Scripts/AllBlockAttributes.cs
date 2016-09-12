@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BlockAttributes : MonoBehaviour {
+public class AllBlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3.0f;
 	static int speedUpForce = 650;

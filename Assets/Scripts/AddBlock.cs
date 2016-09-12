@@ -306,13 +306,13 @@ public class AddBlock : MonoBehaviour {
 	void blockAttributes (string block) {
 		string blockName = block.Split ('_') [0];
 		if (blockName == AllBlockNames.bullseyeBlock || blockName == AllBlockNames.superBullseyeBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().spawnBall (hudBlock);
+			Camera.main.GetComponent<AllBlockAttributes> ().spawnBall (hudBlock);
 		} else if (blockName == AllBlockNames.bombBlock) {
 			hudBlock.GetComponent<BombAttributes> ().placed = true;
 		} else if (blockName == AllBlockNames.evilCarBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().spawnEvilCar (hudBlock, leadCarSpeed);
+			Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (hudBlock, leadCarSpeed);
 		} else if (blockName == AllBlockNames.objectBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().spawnObject (hudBlock);
+			Camera.main.GetComponent<AllBlockAttributes> ().spawnObject (hudBlock);
 		}
 	}
 

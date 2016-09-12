@@ -105,52 +105,52 @@ public class CarAttributes : MonoBehaviour {
 		}
 		string blockName = hit.transform.name.Split ('_') [0];
 		if (blockName == AllBlockNames.accelerateBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onSpeedBlock (GameObject.Find (hit.transform.name), car);
+			Camera.main.GetComponent <AllBlockAttributes> ().onSpeedBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.bouncyBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onJumpBlock (car, rb);
+			Camera.main.GetComponent<AllBlockAttributes> ().onJumpBlock (car, rb);
 		} else if (blockName == AllBlockNames.decelerateBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onSlowDownBlock (GameObject.Find (hit.transform.name), car);
+			Camera.main.GetComponent<AllBlockAttributes> ().onSlowDownBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.extraCarBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name));
 		} else if (blockName == AllBlockNames.flyBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onFlyingBlock (car, rb);
+			Camera.main.GetComponent<AllBlockAttributes> ().onFlyingBlock (car, rb);
 		} else if (blockName == AllBlockNames.shuffleBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name));
 		} else if (blockName == AllBlockNames.invisibleBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onInvisibleBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onInvisibleBlock (GameObject.Find (hit.transform.name));
 		} else if (blockName == AllBlockNames.pointBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onPointBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onPointBlock (GameObject.Find (hit.transform.name));
 		} else if (blockName == AllBlockNames.sizeBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onSizeBlock (GameObject.Find (hit.transform.name), car);
+			Camera.main.GetComponent<AllBlockAttributes> ().onSizeBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.superAccelerateBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superSpeedBlockActivated = true;
 			}
 		} else if (blockName == AllBlockNames.superDecelerateBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superSlowBlockActivated = true;
 			}
 		} else if (blockName == AllBlockNames.superBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superBlockActivated = true;
 			}
 		} else if (blockName == AllBlockNames.superBouncyBlock) {
-			Camera.main.GetComponent<BlockAttributes> ().onJumpBlock (car, rb);
+			Camera.main.GetComponent<AllBlockAttributes> ().onJumpBlock (car, rb);
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superBouncyBlockActivated = true;
 			}
 		} else if (blockName == AllBlockNames.superBullseyeBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superBullseyeBlockActivated = true;
 			}
 		} else if (blockName == AllBlockNames.superPointBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
-				Camera.main.GetComponent<BlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
+				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);
 				Camera.main.GetComponent<AddBlock> ().superPointBlockActivated = true;
 			}
 		} 

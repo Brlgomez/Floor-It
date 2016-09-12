@@ -122,10 +122,10 @@ public class CarMovement : MonoBehaviour {
 	}
 
 	void setToGameOver () {
-		gameOver = true;
-		gameObject.tag = TagManagement.deadCar;
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
-		if (!tag.Equals (TagManagement.evilCar) && level == LevelManagement.drive) {
+		if (tag.Equals (TagManagement.car) && level == LevelManagement.drive) {
+			gameObject.tag = TagManagement.deadCar;
+
 			Renderer rend = gameObject.GetComponent<Renderer> ();
 			Material[] mats = new Material[rend.materials.Length];
 			for (int i = 0; i < rend.materials.Length; i++) {
@@ -133,8 +133,11 @@ public class CarMovement : MonoBehaviour {
 			}
 			mats [2] = Camera.main.GetComponent<CarAttributes>().regularCarMaterial; 
 			rend.materials = mats;
+
 			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
+		gameOver = true;			
+		gameObject.tag = TagManagement.deadCar;
 	}
 		
 	void OnCollisionEnter(Collision hit) {

@@ -138,9 +138,11 @@ public class MainMenu : MonoBehaviour {
 		storeButton.GetComponent<Button> ().enabled = true;
 		storeButton.GetComponent<Image> ().color = buttonOn;
 		storeText.GetComponent<Text> ().color = textOn;
+		storeText.text = "$";
 		settingsButton.GetComponent<Button> ().enabled = true;
 		settingsButton.GetComponent<Image> ().color = buttonOn;
 		settingsText.GetComponent<Text> ().color = textOn;
+		settingsText.text = "~\n^";
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}
@@ -151,6 +153,7 @@ public class MainMenu : MonoBehaviour {
 		settingsButton.GetComponent<Button> ().enabled = true;
 		settingsButton.GetComponent<Image> ().color = buttonOn;
 		settingsText.GetComponent<Text> ().color = textOn;
+		settingsText.text = "<-";
 
 		soundButton.GetComponent<Button> ().enabled = true;
 		soundButton.GetComponent<Image> ().color = buttonOn;
@@ -172,6 +175,7 @@ public class MainMenu : MonoBehaviour {
 		storeButton.GetComponent<Button> ().enabled = true;
 		storeButton.GetComponent<Image> ().color = buttonOn;
 		storeText.GetComponent<Text> ().color = textOn;
+		storeText.text = "->";
 
 		sudanButton.GetComponent<Button> ().enabled = true;
 		sudanButton.GetComponent<Image> ().color = textOn;
