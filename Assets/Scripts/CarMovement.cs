@@ -64,7 +64,7 @@ public class CarMovement : MonoBehaviour {
 					} else {
 						evilCarWithinRange = false;
 						carFlipped = false;
-						rb.MovePosition (transform.position + transform.forward * deltaTime);
+						rb.MovePosition (transform.position + transform.forward * deltaTime/10);
 					}
 				} else {
 					evilCarWithinRange = false;

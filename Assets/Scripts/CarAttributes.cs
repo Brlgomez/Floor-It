@@ -53,7 +53,7 @@ public class CarAttributes : MonoBehaviour {
 			0,
 			car.transform.rotation.w
 		);
-		car.transform.rotation = Quaternion.Lerp(car.transform.rotation, toRotation, Time.time);
+		car.transform.rotation = Quaternion.Lerp(car.transform.rotation, toRotation, Time.deltaTime);
 		if (car.transform.position.y > 5) {
 			car.GetComponent<Rigidbody>().drag = 5;
 		}

@@ -29,10 +29,10 @@ public class CarMangment : MonoBehaviour {
 			carMass = 5;
 			carSteering = 0.75f;
 		} else if (carNum == 1) {
-			carMass = 12;
+			carMass = 10;
 			carSteering = 0.5f;
 		} else if (carNum == 2) {
-			carMass = 10;
+			carMass = 8;
 			carSteering = 0.65f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;

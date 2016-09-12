@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BombAttributes : MonoBehaviour {
 
-	static float radius = 4f;
+	static float radius = 4.5f;
 	static float power = 900f;
 	ParticleSystem smoke;
 	Renderer rend;
