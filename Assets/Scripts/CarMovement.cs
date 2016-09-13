@@ -43,7 +43,7 @@ public class CarMovement : MonoBehaviour {
 		resized = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
-		distToGround = transform.position.y;
+		distToGround = transform.position.y + 0.01f;
 		if (speed == 0) {
 			speed = 0.5f;
 		}

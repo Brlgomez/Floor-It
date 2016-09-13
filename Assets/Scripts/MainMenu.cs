@@ -201,10 +201,10 @@ public class MainMenu : MonoBehaviour {
 		sportButton.GetComponent<Image> ().color = textOn;
 		sportText.GetComponent<Text> ().enabled = true;
 		sportText.GetComponent<Text> ().color = textOn;
-		buyButton.GetComponent<Button> ().enabled = true;
-		buyButton.GetComponent<Image> ().color = textOn;
-		buyText.GetComponent<Text> ().enabled = true;
-		buyText.GetComponent<Text> ().color = textOn;
+		//buyButton.GetComponent<Button> ().enabled = true;
+		//buyButton.GetComponent<Image> ().color = textOn;
+		//buyText.GetComponent<Text> ().enabled = true;
+		//buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}
