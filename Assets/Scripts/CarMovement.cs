@@ -47,7 +47,6 @@ public class CarMovement : MonoBehaviour {
 		if (speed == 0) {
 			speed = 0.5f;
 		}
-		acceleration = 0.01f;
 	}
 
 	void FixedUpdate () {

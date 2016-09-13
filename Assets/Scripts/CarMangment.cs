@@ -12,6 +12,7 @@ public class CarMangment : MonoBehaviour {
 	public Material[] carMaterial;
 	public float carMass;
 	public float carSteering;
+	public float carAcceleration;
 
 	void Start () {
 		trueGameOver = false;
@@ -28,20 +29,26 @@ public class CarMangment : MonoBehaviour {
 		if (carNum == 0) {
 			carMass = 5;
 			carSteering = 0.75f;
+			carAcceleration = 0.01f;
 		} else if (carNum == 1) {
 			carMass = 10;
 			carSteering = 0.5f;
+			carAcceleration = 0.008f;
 		} else if (carNum == 2) {
 			carMass = 8;
 			carSteering = 0.65f;
+			carAcceleration = 0.009f;
 		} else if (carNum == 3) {
 			carMass = 4;
 			carSteering = 1.0f;
+			carAcceleration = 0.012f;
 		} else if (carNum == 4) {
 			carMass = 18;
 			carSteering = 0.35f;
+			carAcceleration = 0.007f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
+		GameObject.Find ("Car").GetComponent<CarMovement> ().acceleration = carAcceleration;
 		Renderer rend = GameObject.Find("Car").GetComponent<Renderer> ();
 		Material[] mats = new Material[rend.materials.Length];
 		for (int j = 0; j < rend.materials.Length; j++) {
