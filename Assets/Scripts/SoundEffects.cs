@@ -81,7 +81,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void unpauseMusic() {
 		if (playMusic == 0) {
-			source.Play ();
+			source.UnPause ();
 		}
 	}
 
