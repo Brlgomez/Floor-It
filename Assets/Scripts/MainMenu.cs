@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour {
 
+	public GameObject[] cars;
+	public GameObject car;
+
 	public ScrollRect scrollrect;
 	public Scrollbar scrollbar;
+	public Image view;
 	public Image handle;
 
 	public Button playButton;
@@ -25,40 +29,25 @@ public class MainMenu : MonoBehaviour {
 	public Button vibrationButton;
 
 	public Text title;
-	public Text floorItText;
-	public Text bowlingText;
-	public Text driveText;
-	public Text storeText;
-	public Text settingsText;
-	public Text sudanText;
-	public Text limoText;
-	public Text truckText;
-	public Text sportText;
-	public Text monsterTruckText;
-	public Text buyText;
-	public Text soundText;
-	public Text musicText;
-	public Text vibrationText;
 	public Text cashText;
+	public Text loadingText;
+	Text floorItText, bowlingText, driveText, storeText, settingsText;
+	Text sudanText, limoText, truckText, sportText, monsterTruckText, buyText;
+	Text soundText, musicText, vibrationText;
 
-	int highScoreInfinite;
-	int highScoreBowling;
-	int highScoreDriving;
+	int highScoreInfinite, highScoreBowling ,highScoreDriving;
 	int cash;
 	int carNumber;
 
 	bool viewSettings;
 	bool viewStore;
-	public Text loadingText;
 	bool loading;
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
 	static Vector4 buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
+	static Vector4 scrollBackgrounOn = new Vector4 (0.5f, 0.5f, 0.5f, 0.125f);
 	static Vector4 textOn = Vector4.one;
 	static Vector4 noColor = Vector4.zero;
-
-	public GameObject[] cars;
-	public GameObject car;
 
 	static int truckAmount = 500;
 	static int sportAmount = 5000;
@@ -81,15 +70,30 @@ public class MainMenu : MonoBehaviour {
 		monsterTruckButton.onClick.AddListener (delegate { monsterTruckButtonClick (); });
 		buyButton.onClick.AddListener (delegate { buyButtonClick (); });
 
+		floorItText = playButton.GetComponentInChildren<Text> ();
+		bowlingText = playBowlingButton.GetComponentInChildren<Text> ();
+		driveText = playDriveButton.GetComponentInChildren<Text> ();
+		storeText = storeButton.GetComponentInChildren<Text> ();
+		settingsText = settingsButton.GetComponentInChildren<Text> ();
+		sudanText = sudanButton.GetComponentInChildren<Text> ();
+		limoText = limoButton.GetComponentInChildren<Text> ();
+		truckText = truckButton.GetComponentInChildren<Text> ();
+		sportText = sportButton.GetComponentInChildren<Text> ();
+		monsterTruckText = monsterTruckButton.GetComponentInChildren<Text> ();
+		buyText = buyButton.GetComponentInChildren<Text> ();
+		soundText = soundButton.GetComponentInChildren<Text> ();
+		musicText = musicButton.GetComponentInChildren<Text> ();
+		vibrationText = vibrationButton.GetComponentInChildren<Text> ();
+
 		loading = false;
 		viewSettings = false;
 		viewStore = false;
 
-		highScoreInfinite = PlayerPrefs.GetInt ("High Score Infinite", 0);
-		highScoreBowling = PlayerPrefs.GetInt ("High Score Bowling", 0);
-		highScoreDriving = PlayerPrefs.GetInt ("High Score Driving", 0);
-		carNumber = PlayerPrefs.GetInt ("Car Type", 0);
-		cash = PlayerPrefs.GetInt ("Cash", 0);
+		highScoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
+		highScoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
+		highScoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
+		carNumber = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
+		cash = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
 		floorItText.text = "Floor It\n\nHigh Score\n" + highScoreInfinite;
 		bowlingText.text = "Bowl\n\nHigh Score\n" + highScoreBowling;
 		driveText.text = "Drive\n\nHigh Score\n" + highScoreDriving;
@@ -97,38 +101,202 @@ public class MainMenu : MonoBehaviour {
 		Destroy (car);
 		car = newCar;
 		cashText.text = cash + " EXP";
-		if (PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0){
 			soundText.text = "Sound Effects: On";
 		} else {
 			soundText.text = "Sound Effects: Off";
 		}
-		if (PlayerPrefs.GetInt ("Play Music", 0) == 0){
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0){
 			musicText.text = "Music: On";
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		} else {
 			musicText.text = "Music: Off";
 		}
-		if (PlayerPrefs.GetInt ("Play Vibrations", 0) == 0){
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0) == 0){
 			vibrationText.text = "Vibration: On";
 		} else {
 			vibrationText.text = "Vibration: Off";
 		}
-		if (PlayerPrefs.GetInt ("Limo Unlocked", 0) == 0) {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 0) {
 			limoText.text = limoAmount + " EXP";
 		}
-		if (PlayerPrefs.GetInt ("Truck Unlocked", 0) == 0) {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.truck, 0) == 0) {
 			truckText.text = truckAmount + " EXP";
 		}
-		if (PlayerPrefs.GetInt ("Sport Unlocked", 0) == 0) {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.sport, 0) == 0) {
 			sportText.text = sportAmount + " EXP";
 		}
-		if (PlayerPrefs.GetInt ("Monster Truck Unlocked", 0) == 0) {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.monsterTruck, 0) == 0) {
 			monsterTruckText.text = monsterTruckAmount + " EXP";
 		}
 		menuOn ();
 		//PlayerPrefs.DeleteAll();
 	}
 		
+	/*
+	 *  main menu buttons
+	 */
+
+	public void playButtonClick() {
+		loadLevel (LevelManagement.floorIt);
+	}
+
+	public void playBowlingButtonClick() {		
+		loadLevel (LevelManagement.bowl);
+	}
+
+	public void playDrivingButtonClick() {
+		loadLevel (LevelManagement.drive);
+	}
+
+	void loadLevel(string level) {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		loadingText.text = "Loading...";
+		PlayerPrefs.SetString(PlayerPrefManagement.level, level);
+		if (loading == false) {
+			StartCoroutine(loadNewScene(level));
+		}
+		loading = true;
+	}
+
+	IEnumerator loadNewScene(string level) {
+		AsyncOperation async = SceneManager.LoadSceneAsync(level);
+		// While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
+		while (!async.isDone) {
+			yield return null;
+		}
+	}
+
+	public void settingsButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		viewSettings = !viewSettings;
+		if (viewSettings) {
+			settingsOn ();
+		} else {
+			menuOn ();
+		}
+	}
+
+	public void storeButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		viewStore = !viewStore;
+		if (viewStore) {
+			storeOn ();
+		} else {
+			menuOn ();
+		}
+	}
+
+	/*
+	 *  settings buttons
+	 */
+
+	public void soundEffectsButtonClick() {
+		if(PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0){
+			PlayerPrefs.SetInt (PlayerPrefManagement.soundEffects, 1);
+			soundText.text = "Sound Effects: Off";
+			Camera.main.GetComponent<SoundEffects>().playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
+		} else {
+			PlayerPrefs.SetInt (PlayerPrefManagement.soundEffects, 0);
+			soundText.text = "Sound Effects: On";
+			Camera.main.GetComponent<SoundEffects>().playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
+			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		}
+		PlayerPrefs.Save ();
+	}
+
+	public void musicButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		if(PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0){
+			PlayerPrefs.SetInt (PlayerPrefManagement.music, 1);
+			musicText.text = "Music: Off";
+			Camera.main.GetComponent<SoundEffects> ().stopMusic ();
+		} else {
+			PlayerPrefs.SetInt (PlayerPrefManagement.music, 0);
+			musicText.text = "Music: On";
+			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
+		}
+		PlayerPrefs.Save ();
+	}
+
+	public void vibrationButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		if(PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0) == 0){
+			PlayerPrefs.SetInt (PlayerPrefManagement.vibration, 1);
+			vibrationText.text = "Vibration: Off";
+		} else {
+			PlayerPrefs.SetInt (PlayerPrefManagement.vibration, 0);
+			vibrationText.text = "Vibration: On";
+			Camera.main.GetComponent<Vibration> ().vibrate ();
+		}
+		PlayerPrefs.Save ();
+	}
+
+	/*
+	 *  store buttons
+	 */
+
+	public void sudanButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		GameObject newCar = (GameObject)Instantiate(cars[0], car.transform.position, car.transform.rotation);
+		Destroy (car);
+		car = newCar;
+		PlayerPrefs.SetInt (PlayerPrefManagement.carType, 0);
+		PlayerPrefs.Save ();
+	}
+
+	public void limoButtonClick() {
+		buyCar (PlayerPrefManagement.limo, limoAmount, 1, limoButton, limoText);
+	}
+
+	public void truckButtonClick() {
+		buyCar (PlayerPrefManagement.truck, truckAmount, 2, truckButton, truckText);
+	}
+
+	public void sportButtonClick() {
+		buyCar (PlayerPrefManagement.sport, sportAmount, 3, sportButton, sportText);
+	}
+
+	public void monsterTruckButtonClick() {
+		buyCar (PlayerPrefManagement.monsterTruck, monsterTruckAmount, 4, monsterTruckButton, monsterTruckText);
+	}
+
+	public void buyButtonClick() {
+		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+		PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + 55555);
+		PlayerPrefs.Save ();
+		cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+	}
+
+	void buyCar(string playerPref, int amount, int carIndex, Button carButton, Text priceText){
+		if (PlayerPrefs.GetInt (playerPref, 0) == 0 && PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) {
+			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
+			Destroy (car);
+			car = newCar;
+			PlayerPrefs.SetInt(playerPref, 1);
+			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - amount);
+			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
+			PlayerPrefs.Save ();
+			carButton.GetComponent<Image> ().color = textOn;
+			priceText.text = "";
+			cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+		} else if (PlayerPrefs.GetInt (playerPref, 0) == 1) {
+			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
+			Destroy (car);
+			car = newCar;
+			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
+			PlayerPrefs.Save ();
+		} else {
+			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
+		}
+	}
+
+	/*
+	 * image and text manipulation
+	 */ 
+
 	void menuOn(){
 		turnOffAll ();
 		title.text = "Floor It";
@@ -162,33 +330,23 @@ public class MainMenu : MonoBehaviour {
 		storeText.text = "->";
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
+		view.GetComponent<Image> ().color = scrollBackgrounOn;
 		scrollbar.GetComponent<Scrollbar> ().enabled = true;
 		scrollbar.GetComponent<Image> ().color = buttonOn/4;
 		handle.GetComponent<Image> ().color = buttonOn;
 
 		sudanButton.GetComponent<Button> ().enabled = true;
 		sudanButton.GetComponent<Image> ().color = textOn;
-		turnOnCarButton (limoButton, limoText, "Limo Unlocked");
-		turnOnCarButton (truckButton, truckText, "Truck Unlocked");
-		turnOnCarButton (sportButton, sportText, "Sport Unlocked");
-		turnOnCarButton (monsterTruckButton, monsterTruckText, "Monster Truck Unlocked");
+		turnOnCarButton (limoButton, limoText, PlayerPrefManagement.limo);
+		turnOnCarButton (truckButton, truckText, PlayerPrefManagement.truck);
+		turnOnCarButton (sportButton, sportText, PlayerPrefManagement.sport);
+		turnOnCarButton (monsterTruckButton, monsterTruckText, PlayerPrefManagement.monsterTruck);
 		//buyButton.GetComponent<Button> ().enabled = true;
 		//buyText.GetComponent<Text> ().enabled = true;
 		//buyButton.GetComponent<Image> ().color = carLocked;
 		//buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
-	}
-
-	void turnOnCarButton (Button button, Text text, string playerPref){
-		button.GetComponent<Button> ().enabled = true;
-		text.GetComponent<Text> ().enabled = true;
-		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
-			button.GetComponent<Image> ().color = carLocked;
-			text.GetComponent<Text> ().color = textOn;
-		} else {
-			button.GetComponent<Image> ().color = textOn;
-		}
 	}
 
 	void turnOffAll(){
@@ -205,6 +363,7 @@ public class MainMenu : MonoBehaviour {
 		turnOffButtonAndText (vibrationButton, vibrationText);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = false;
+		view.GetComponent<Image> ().color = noColor;
 		scrollbar.GetComponent<Scrollbar> ().enabled = false;
 		scrollbar.GetComponent<Image> ().color = noColor;
 		handle.GetComponent<Image> ().color = noColor;
@@ -231,159 +390,14 @@ public class MainMenu : MonoBehaviour {
 		t.GetComponent<Text> ().color = noColor;
 	}
 
-	public void playButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		loadingText.text = "Loading...";
-		PlayerPrefs.SetString("Level", LevelManagement.floorIt);
-		if (loading == false) {
-			StartCoroutine(loadNewScene(LevelManagement.floorIt));
-		}
-		loading = true;
-	}
-
-	public void playBowlingButtonClick() {		
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();	
-		loadingText.text = "Loading...";
-		PlayerPrefs.SetString("Level", LevelManagement.bowl);
-		if (loading == false) {
-			StartCoroutine(loadNewScene(LevelManagement.bowl));
-		}
-		loading = true;
-	}
-
-	public void playDrivingButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		loadingText.text = "Loading...";
-		PlayerPrefs.SetString("Level", LevelManagement.drive);
-		if (loading == false) {
-			StartCoroutine(loadNewScene(LevelManagement.drive));
-		}
-		loading = true;
-	}
-
-	public void settingsButtonClick () {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		viewSettings = !viewSettings;
-		if (viewSettings) {
-			settingsOn ();
+	void turnOnCarButton (Button button, Text text, string playerPref){
+		button.GetComponent<Button> ().enabled = true;
+		text.GetComponent<Text> ().enabled = true;
+		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
+			button.GetComponent<Image> ().color = carLocked;
+			text.GetComponent<Text> ().color = textOn;
 		} else {
-			menuOn ();
-		}
-	}
-
-	public void storeButtonClick () {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		viewStore = !viewStore;
-		if (viewStore) {
-			storeOn ();
-		} else {
-			menuOn ();
-		}
-	}
-
-	public void soundEffectsButtonClick() {
-		if(PlayerPrefs.GetInt ("Play Sound Effects", 0) == 0){
-			PlayerPrefs.SetInt ("Play Sound Effects", 1);
-			soundText.text = "Sound Effects: Off";
-			Camera.main.GetComponent<SoundEffects>().playSoundEffects = PlayerPrefs.GetInt ("Play Sound Effects", 0);
-		} else {
-			PlayerPrefs.SetInt ("Play Sound Effects", 0);
-			soundText.text = "Sound Effects: On";
-			Camera.main.GetComponent<SoundEffects>().playSoundEffects = PlayerPrefs.GetInt ("Play Sound Effects", 0);
-			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		}
-		PlayerPrefs.Save ();
-	}
-
-	public void musicButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		if(PlayerPrefs.GetInt ("Play Music", 0) == 0){
-			PlayerPrefs.SetInt ("Play Music", 1);
-			musicText.text = "Music: Off";
-			Camera.main.GetComponent<SoundEffects> ().stopMusic ();
-		} else {
-			PlayerPrefs.SetInt ("Play Music", 0);
-			musicText.text = "Music: On";
-			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
-		}
-		PlayerPrefs.Save ();
-	}
-
-	public void vibrationButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		if(PlayerPrefs.GetInt ("Play Vibrations", 0) == 0){
-			PlayerPrefs.SetInt ("Play Vibrations", 1);
-			vibrationText.text = "Vibration: Off";
-		} else {
-			PlayerPrefs.SetInt ("Play Vibrations", 0);
-			vibrationText.text = "Vibration: On";
-			Camera.main.GetComponent<Vibration> ().vibrate ();
-		}
-		PlayerPrefs.Save ();
-	}
-
-	public void sudanButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		GameObject newCar = (GameObject)Instantiate(cars[0], car.transform.position, car.transform.rotation);
-		Destroy (car);
-		car = newCar;
-		PlayerPrefs.SetInt ("Car Type", 0);
-		PlayerPrefs.Save ();
-	}
-
-	public void limoButtonClick() {
-		buyCar ("Limo Unlocked", limoAmount, 1, limoButton, limoText);
-	}
-
-	public void truckButtonClick() {
-		buyCar ("Truck Unlocked", truckAmount, 2, truckButton, truckText);
-	}
-
-	public void sportButtonClick() {
-		buyCar ("Sport Unlocked", sportAmount, 3, sportButton, sportText);
-	}
-
-	public void monsterTruckButtonClick() {
-		buyCar ("Monster Truck Unlocked", monsterTruckAmount, 4, monsterTruckButton, monsterTruckText);
-	}
-
-	void buyCar(string playerPref, int amount, int carIndex, Button carButton, Text priceText){
-		if (PlayerPrefs.GetInt (playerPref, 0) == 0 && PlayerPrefs.GetInt ("Cash", 0) >= amount) {
-			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
-			PlayerPrefs.SetInt(playerPref, 1);
-			PlayerPrefs.SetInt ("Cash", PlayerPrefs.GetInt ("Cash", 0) - amount);
-			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
-			Destroy (car);
-			car = newCar;
-			PlayerPrefs.SetInt ("Car Type", carIndex);
-			PlayerPrefs.Save ();
-			carButton.GetComponent<Image> ().color = textOn;
-			priceText.text = "";
-			cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
-		} else if (PlayerPrefs.GetInt (playerPref, 0) == 1) {
-			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
-			Destroy (car);
-			car = newCar;
-			PlayerPrefs.SetInt ("Car Type", carIndex);
-			PlayerPrefs.Save ();
-		} else {
-			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
-		}
-	}
-
-	public void buyButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
-		PlayerPrefs.SetInt ("Cash", PlayerPrefs.GetInt ("Cash", 0) + 55555);
-		PlayerPrefs.Save ();
-		cashText.text = PlayerPrefs.GetInt ("Cash", 0) + " EXP";
-	}
-
-	IEnumerator loadNewScene(string level) {
-		AsyncOperation async = SceneManager.LoadSceneAsync(level);
-		// While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
-		while (!async.isDone) {
-			yield return null;
+			button.GetComponent<Image> ().color = textOn;
 		}
 	}
 }

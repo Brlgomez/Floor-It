@@ -17,9 +17,9 @@ public class Points : MonoBehaviour {
 
 	void Start(){
 		total = 0;
-		highscoreInfinite = PlayerPrefs.GetInt ("High Score Infinite", 0);
-		highscoreBowling = PlayerPrefs.GetInt ("High Score Bowling", 0);
-		highscoreDriving = PlayerPrefs.GetInt ("High Score Driving", 0);
+		highscoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
+		highscoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
+		highscoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
 		newHighScore = false;
 		highestMulti = 1;
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -47,29 +47,29 @@ public class Points : MonoBehaviour {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
-				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total)));
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total)));
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
 					highscoreInfinite = Mathf.FloorToInt (total);
-					PlayerPrefs.SetInt ("High Score Infinite", highscoreInfinite);
+					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreFloorIt, highscoreInfinite);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
 			} else if (level == LevelManagement.bowl) {
-				GameObject[] pins = GameObject.FindGameObjectsWithTag ("Pin");
+				GameObject[] pins = GameObject.FindGameObjectsWithTag (TagManagement.pin);
 				foreach (GameObject pin in pins) {
 					if ((pin.transform.up.y < 0.5f) || (pin.transform.position.y < 0)) {
 						highestMulti++;
 					}
 				}
 				checkHighScore = true;
-				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total * highestMulti)));
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total * highestMulti)));
 				if (Mathf.FloorToInt (total * highestMulti) > highscoreBowling) {
 					newHighScore = true;
 					highscoreBowling = Mathf.FloorToInt (total * highestMulti);
-					PlayerPrefs.SetInt ("High Score Bowling", highscoreBowling);
+					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreBowl, highscoreBowling);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();				
 				} else {
@@ -77,11 +77,11 @@ public class Points : MonoBehaviour {
 				}
 			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
-				PlayerPrefs.SetInt ("Cash", (PlayerPrefs.GetInt ("Cash", 0) + Mathf.FloorToInt(total)));
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total)));
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
 					highscoreDriving = Mathf.FloorToInt (total);
-					PlayerPrefs.SetInt ("High Score Driving", highscoreDriving);
+					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreDrive, highscoreDriving);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
 				} else {

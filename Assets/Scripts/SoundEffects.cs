@@ -37,12 +37,12 @@ public class SoundEffects : MonoBehaviour {
 		source = GetComponent<AudioSource>();
 		playSoundEffects = 0;
 		playMusic = 0;
-		playSoundEffects = PlayerPrefs.GetInt ("Play Sound Effects", 0);
-		playMusic = PlayerPrefs.GetInt ("Play Music", 0);
+		playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
+		playMusic = PlayerPrefs.GetInt (PlayerPrefManagement.music, 0);
 	}
 
 	public void playMenuMusic() {
-		playMusic = PlayerPrefs.GetInt ("Play Music", 0);
+		playMusic = PlayerPrefs.GetInt (PlayerPrefManagement.music, 0);
 		if (playMusic == 0) {
 			source.clip = menuMusic;
 			source.loop = true;
@@ -51,7 +51,7 @@ public class SoundEffects : MonoBehaviour {
 	}
 
 	public void playGameplayMusic() {
-		playSoundEffects = PlayerPrefs.GetInt ("Play Sound Effects", 0);
+		playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
 		if (playMusic == 0) {
 			source.clip = gameplayMusic;
 			source.loop = true;

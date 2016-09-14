@@ -6,7 +6,7 @@ public class Vibration : MonoBehaviour {
 	int playVibration;
 
 	void Start () {
-		playVibration = PlayerPrefs.GetInt ("Play Vibrations", 0);	
+		playVibration = PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0);	
 	}
 	
 	public void vibrate(){
