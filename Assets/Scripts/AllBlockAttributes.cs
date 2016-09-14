@@ -111,7 +111,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			for (int i = 0; i < aliveCarsZPos.Count; i++) {
 				currentZ = aliveCarsZPos [i];
 				if (previousZ != 0 && previousZ - currentZ > 2) {
-					spawnZ = previousZ + Random.Range (-1.75f, -1.25f);
+					spawnZ = previousZ + Random.Range (-2f, -1.5f);
 					break;
 				}
 				previousZ = currentZ;
@@ -128,7 +128,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				nextCar.transform.position = new Vector3 (
 					lastCar.transform.position.x + Random.Range (-0.5f, 0.5f), 
 					lastCar.GetComponent<CarMovement> ().distToGround, 
-					lastCar.transform.position.z + Random.Range (-1.75f, -1.25f)
+					lastCar.transform.position.z + Random.Range (-2f, -1.5f)
 				);
 			} else {
 				nextCar.transform.position = new Vector3 (

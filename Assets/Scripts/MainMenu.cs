@@ -191,15 +191,19 @@ public class MainMenu : MonoBehaviour {
 		monsterTruckButton.GetComponent<Image> ().color = textOn;
 		monsterTruckText.GetComponent<Text> ().enabled = true;
 		monsterTruckText.GetComponent<Text> ().color = textOn;
-		buyButton.GetComponent<Button> ().enabled = true;
-		buyButton.GetComponent<Image> ().color = textOn;
-		buyText.GetComponent<Text> ().enabled = true;
-		buyText.GetComponent<Text> ().color = textOn;
+		//buyButton.GetComponent<Button> ().enabled = true;
+		//buyButton.GetComponent<Image> ().color = textOn;
+		//buyText.GetComponent<Text> ().enabled = true;
+		//buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}
 
 	void turnOffAll(){
+		turnOffButtonAndText (storeButton, storeText);
+		turnOffButtonAndText (settingsButton, settingsText);
+		cashText.GetComponent<Text> ().color = textOff;
+
 		turnOffButtonAndText (playButton, floorItText);
 		turnOffButtonAndText (playBowlingButton, bowlingText);
 		turnOffButtonAndText (playDriveButton, driveText);
@@ -207,13 +211,6 @@ public class MainMenu : MonoBehaviour {
 		highScore.GetComponent<Text> ().color = textOff;
 		bowlingHighScore.GetComponent<Text> ().color = textOff;
 		drivingHighScore.GetComponent<Text> ().color = textOff;
-
-		storeButton.GetComponent<Button> ().enabled = false;
-		storeButton.GetComponent<Image> ().color = buttonOff;
-		storeText.GetComponent<Text> ().color = textOff;
-		settingsButton.GetComponent<Button> ().enabled = false;
-		settingsButton.GetComponent<Image> ().color = buttonOff;
-		settingsText.GetComponent<Text> ().color = textOff;
 
 		turnOffButtonAndText (soundButton, soundText);
 		turnOffButtonAndText (musicButton, musicText);
@@ -224,15 +221,12 @@ public class MainMenu : MonoBehaviour {
 		scrollbar.GetComponent<Image> ().color = buttonOff;
 		handle.GetComponent<Image> ().color = buttonOff;
 
-		sudanButton.GetComponent<Button> ().enabled = false;
-		sudanButton.GetComponent<Image> ().color = buttonOff;
+		turnOffButtonAndText (sudanButton, sudanText);
 		turnOffButtonAndText (limoButton, limoText);
 		turnOffButtonAndText (truckButton, truckText);
 		turnOffButtonAndText (sportButton, sportText);
 		turnOffButtonAndText (monsterTruckButton, monsterTruckText);
 		turnOffButtonAndText (buyButton, buyText);
-
-		cashText.GetComponent<Text> ().color = textOff;
 	}
 
 	void turnOnButtonAndText(Button b, Text t){

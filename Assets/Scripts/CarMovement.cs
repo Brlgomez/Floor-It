@@ -135,8 +135,8 @@ public class CarMovement : MonoBehaviour {
 
 			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
-		gameOver = true;			
 		gameObject.tag = TagManagement.deadCar;
+		gameOver = true;			
 	}
 		
 	void OnCollisionEnter(Collision hit) {

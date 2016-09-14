@@ -20,10 +20,12 @@ public class CarAttributes : MonoBehaviour {
 					mats [j] = rend.materials [j];
 				}
 				for (int j = 0; j < mats.Length; j++){
-					if(mats[j].name == "Bumper (Instance)" && i == 0){
-						mats [j] = leadCarMaterial;
-					} else if (mats[j].name == "Bumper (Instance)" && i != 0){
-						mats[j] = regularCarMaterial;
+					if(mats[j].name.Split(' ')[0] == "Bumper" || mats[j].name.Split(' ')[0] == "LeadCar"){
+						if (i == 0) {
+							mats [j] = leadCarMaterial;
+						} else {
+							mats[j] = regularCarMaterial;
+						}
 					}
 				}
 				rend.materials = mats;
