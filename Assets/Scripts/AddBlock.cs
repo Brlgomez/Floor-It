@@ -19,37 +19,11 @@ public class AddBlock : MonoBehaviour {
 	// chance a evil car block will spawn out of a 100
 	static int evilCarPercent = comSuperPercent + 1;
 
-	// which level the player is on
-	string level;
-	// the car in the lead
-	GameObject leadCar;
-	// the speed of the lead car
-	float leadCarSpeed;
-	// max amount of cars
-	static int maxAmountOfCars = 5;
-	// player needs to be above this speed for super decelerate to spawn
-	static float speedForSuperDec = 1.75f;
-	// player needs to be below this speed for super accelerate to spawn
-	static float speedUnderForSuperAcc = 7.0f;
-
-	// length of the blocks
-	static int lengthOfBlocks = 2;
-	// number of standard blocks
-	static int numOfStandard = 25;
-	// number of hill blocks
-	static int numOfHill = 7;
-	// number of jagged blocks
-	static int numOfJagged = 7;
-	// number of all blocks
-	static int numOfAllBlocks;
-
-	/* which super block is activated */
-	public bool superBlockActivated = false;
-	public bool superSpeedBlockActivated = false;
-	public bool superSlowBlockActivated = false;
-	public bool superBouncyBlockActivated = false;
-	public bool superBullseyeBlockActivated = false;
-	public bool superPointBlockActivated = false;
+	/* How far a car must be in order for blocks to spawn */
+	float extraCarDistSpawn = 30;
+	float bombBlockDistSpawn = 60;
+	float evilCarDistSpawn = 90;
+	float superBlockDistSpawn = 120;
 
 	/* counters */
 	// a counter that will increment when the player activated a super block
@@ -73,11 +47,13 @@ public class AddBlock : MonoBehaviour {
 	// if the counter goes above the limit, an extra block can now possibly spawn
 	static float extraCarLimit = 15;
 
-	/* How far a car must be in order for blocks to spawn */
-	float extraCarDistSpawn = 40;
-	float bombBlockDistSpawn = 80;
-	float evilCarDistSpawn = 120;
-	float superBlockDistSpawn = 160;
+	/* which super block is activated */
+	public bool superBlockActivated = false;
+	public bool superSpeedBlockActivated = false;
+	public bool superSlowBlockActivated = false;
+	public bool superBouncyBlockActivated = false;
+	public bool superBullseyeBlockActivated = false;
+	public bool superPointBlockActivated = false;
 
 	/* automatically add blocks */
 	// a counter that will increment and will show when it can properly add a new block
@@ -109,6 +85,30 @@ public class AddBlock : MonoBehaviour {
 	static int blocksPerRowForEvilCar = 3;
 	// player must be at least 4 units away in order for blocks to spawn
 	static int distBlocksSpawn = 4;
+
+	// which level the player is on
+	string level;
+	// the car in the lead
+	GameObject leadCar;
+	// the speed of the lead car
+	float leadCarSpeed;
+	// max amount of cars
+	static int maxAmountOfCars = 5;
+	// player needs to be above this speed for super decelerate to spawn
+	static float speedForSuperDec = 1.75f;
+	// player needs to be below this speed for super accelerate to spawn
+	static float speedUnderForSuperAcc = 7.0f;
+
+	// length of the blocks
+	static int lengthOfBlocks = 2;
+	// number of standard blocks
+	static int numOfStandard = 25;
+	// number of hill blocks
+	static int numOfHill = 7;
+	// number of jagged blocks
+	static int numOfJagged = 7;
+	// number of all blocks
+	static int numOfAllBlocks;
 
 	public GameObject hudBlock;
 	// index that will randomly pick a block

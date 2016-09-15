@@ -353,10 +353,11 @@ public class MainMenu : MonoBehaviour {
 		turnOnCarButton (sportButton, sportText, PlayerPrefManagement.sport);
 		turnOnCarButton (monsterTruckButton, monsterTruckText, PlayerPrefManagement.monsterTruck);
 		turnOnCarButton (coneButton, coneText, PlayerPrefManagement.cone);
-		//buyButton.GetComponent<Button> ().enabled = true;
-		//buyText.GetComponent<Text> ().enabled = true;
-		//buyButton.GetComponent<Image> ().color = carLocked;
-		//buyText.GetComponent<Text> ().color = textOn;
+
+		buyButton.GetComponent<Button> ().enabled = true;
+		buyText.GetComponent<Text> ().enabled = true;
+		buyButton.GetComponent<Image> ().color = carLocked;
+		buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}

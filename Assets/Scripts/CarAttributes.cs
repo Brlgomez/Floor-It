@@ -121,15 +121,15 @@ public class CarAttributes : MonoBehaviour {
 		} else if (blockName == AllBlockNames.decelerateBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onSlowDownBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.extraCarBlock) {
-			Camera.main.GetComponent<AllBlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.flyBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onFlyingBlock (car, rb);
 		} else if (blockName == AllBlockNames.shuffleBlock) {
-			Camera.main.GetComponent<AllBlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.invisibleBlock) {
-			Camera.main.GetComponent<AllBlockAttributes> ().onInvisibleBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onInvisibleBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.pointBlock) {
-			Camera.main.GetComponent<AllBlockAttributes> ().onPointBlock (GameObject.Find (hit.transform.name));
+			Camera.main.GetComponent<AllBlockAttributes> ().onPointBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.sizeBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onSizeBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.superAccelerateBlock) {

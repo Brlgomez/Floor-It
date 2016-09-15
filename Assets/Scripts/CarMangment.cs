@@ -15,6 +15,7 @@ public class CarMangment : MonoBehaviour {
 	public float carManSteering;
 	public float carAcceleration;
 	public float pointSpeed;
+	public float newCarSpawnDist;
 
 	void Start () {
 		trueGameOver = false;
@@ -30,40 +31,46 @@ public class CarMangment : MonoBehaviour {
 		collider.convex = true;
 		if (carNum == 0) {
 			carMass = 5;
-			carAutoSteering = 80;
+			carAutoSteering = 75;
 			carManSteering = 0.75f;
 			carAcceleration = 0.01f;
 			pointSpeed = 2;
+			newCarSpawnDist = -1.5f;
 		} else if (carNum == 1) {
 			carMass = 10;
-			carAutoSteering = 60;
+			carAutoSteering = 50;
 			carManSteering = 0.5f;
 			carAcceleration = 0.008f;
 			pointSpeed = 3;
+			newCarSpawnDist = -2f;
 		} else if (carNum == 2) {
 			carMass = 8;
-			carAutoSteering = 70;
+			carAutoSteering = 65;
 			carManSteering = 0.65f;
 			carAcceleration = 0.009f;
 			pointSpeed = 2.8f;
+			newCarSpawnDist = -1.75f;
 		} else if (carNum == 3) {
 			carMass = 4;
-			carAutoSteering = 90;
+			carAutoSteering = 100;
 			carManSteering = 1.0f;
 			carAcceleration = 0.012f;
 			pointSpeed = 1.6f;
+			newCarSpawnDist = -1.5f;
 		} else if (carNum == 4) {
 			carMass = 18;
-			carAutoSteering = 40;
+			carAutoSteering = 35;
 			carManSteering = 0.35f;
 			carAcceleration = 0.007f;
 			pointSpeed = 3.8f;
+			newCarSpawnDist = -2.5f;
 		} else if (carNum == 5) {
 			carMass = 1;
-			carAutoSteering = 120;
+			carAutoSteering = 100;
 			carManSteering = 1.0f;
 			carAcceleration = 0.01f;
 			pointSpeed = 1;
+			newCarSpawnDist = -1.4f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
 		GameObject.Find ("Car").GetComponent<CarMovement> ().acceleration = carAcceleration;

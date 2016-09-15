@@ -38,8 +38,6 @@ public class MakeCarsTurn : MonoBehaviour {
 		maxTurningTime = 3.5f;
 		maxAngle = 0.25f;
 
-		turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
-
 		timeReset = Random.Range (timeResetMin, timeResetMax);
 		randomAmount = Random.Range (randomAngleMin, randomAngleMax);
 		turningTime = Random.Range (minTurningTime, maxTurningTime);
@@ -57,6 +55,9 @@ public class MakeCarsTurn : MonoBehaviour {
 	
 	void Update () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
+			if (turnSpeed == 0) {
+				turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
+			}
 			if (level == LevelManagement.floorIt) {
 				autoTurnCars ();
 			}
@@ -105,7 +106,7 @@ public class MakeCarsTurn : MonoBehaviour {
 						Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
 							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
 							newRoation, 
-							Time.deltaTime * Camera.main.GetComponent<CarMangment>().carAutoSteering
+							Time.deltaTime * turnSpeed
 						);
 					}
 				} 
@@ -125,7 +126,7 @@ public class MakeCarsTurn : MonoBehaviour {
 				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
 					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
 					newRoation, 
-					Time.deltaTime * Camera.main.GetComponent<CarMangment>().carAutoSteering/10
+					Time.deltaTime * turnSpeed/10
 				);
 			}
 		}
@@ -160,7 +161,7 @@ public class MakeCarsTurn : MonoBehaviour {
 						aiCar.transform.rotation = Quaternion.Slerp (
 							aiCar.transform.rotation, 
 							targetRotation, 
-							Time.deltaTime * 7
+							Time.deltaTime * turnSpeed/10
 						);
 					}
 				}
