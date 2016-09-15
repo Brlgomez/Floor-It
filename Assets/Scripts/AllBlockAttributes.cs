@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class AllBlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3.0f;
-	static int speedUpForce = 650;
+	static int speedUpForce = 130;
 	static float onSlowDownBlockAcc = -5.0f;
-	static int speedDownForce = -400;
+	static int speedDownForce = -125;
 	static float onJumpBlockHeight = 3.5f;
 	static float sizeBig = 1.5f;
 	static float sizeSmall = 0.5f;
@@ -20,8 +20,6 @@ public class AllBlockAttributes : MonoBehaviour {
 	static int shuffleBlockPoints = 3;
 	static int invisibleBlockPoints = 3;
 	static int sizeBlockPoints = 3;
-	//static int spherePoints = 1;
-	//static int evilCarPoints = 3;
 
 	float numberOfCars;
 
@@ -29,9 +27,9 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onSpeedBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playAccelerationSound (block.transform.position);
-			float multiplier = car.transform.localScale.x;
+			float multiplier = car.transform.localScale.x * car.GetComponent<Rigidbody> ().mass;
 			float force = speedUpForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
 			Camera.main.GetComponent<Points> ().incrementPoints (accelerateBlockPoints, block);
@@ -47,9 +45,9 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onSlowDownBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playDecelerationSound (block.transform.position);
-			float multiplier = car.transform.localScale.x;
+			float multiplier = car.transform.localScale.x * car.GetComponent<Rigidbody> ().mass;
 			float force = speedDownForce * multiplier;
 			Camera.main.GetComponent<CarAttributes>().addForce ((int)force, car);
 			Camera.main.GetComponent<Points> ().incrementPoints (decelerateBlockPoints, block);
@@ -95,7 +93,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onExtraLifeBlock (GameObject block) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playExtraCarSound (block.transform.position);
 			List<float> aliveCarsZPos = new List<float> ();
 			for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
@@ -150,7 +148,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onShuffleBlock (GameObject block) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playShuffleSound (block.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints, block);
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
@@ -165,7 +163,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onInvisibleBlock (GameObject block) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playInvisibleSound (block.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints, block);
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
@@ -187,7 +185,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onPointBlock (GameObject block) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
 			Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 		}
@@ -195,7 +193,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void onSizeBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<Points> ().incrementPoints (sizeBlockPoints, block);
 			if (block.GetComponent<SizeBlockAttributes> ().big) {
 				car.transform.localScale = new Vector3 (sizeBig, sizeBig, sizeBig);
@@ -240,12 +238,11 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 				Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
 			} 
-			block.GetComponent<BlockActivated> ().activated ();
+			block.GetComponent<BlockActivated> ().activated (false);
 		}
 	}
 
 	public void spawnBall (GameObject block) {
-		//Camera.main.GetComponent<Points> ().incrementPoints (spherePoints);
 		int randomYSpawnPosition = Random.Range (10, 30);
 		GameObject sphereTemp = GameObject.Find ("Sphere");
 		GameObject sphere = Instantiate (sphereTemp);
@@ -259,7 +256,6 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	public void spawnEvilCar (GameObject block, float leadCarSpeed) {
-		//Camera.main.GetComponent<Points> ().incrementPoints (evilCarPoints);
 		int randomYSpawnPosition = Random.Range (1, 3);
 		float evilCarSpeed = leadCarSpeed * 1.1f;
 		GameObject evilCarTemp = GameObject.Find (TagManagement.evilCar);
@@ -280,13 +276,22 @@ public class AllBlockAttributes : MonoBehaviour {
 		string obj;
 		if (rand > 50) {
 			obj = "BrickWall";
+			GameObject temp = GameObject.Find (obj);
+			GameObject wall = Instantiate (temp);
+			wall.name = temp.name + "_Clone";
+			wall.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
+			wall.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
 		} else {
 			obj = "Cone";
+			GameObject temp = GameObject.Find (obj);
+			GameObject cone = Instantiate (temp);
+			cone.name = temp.name + "_Clone";
+			cone.transform.position = new Vector3 (
+				block.transform.position.x + Random.Range(-0.75f, 0.75f), 
+				0.25f, 
+				block.transform.position.z + Random.Range(-0.75f, 0.75f)
+			);
+			cone.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
 		}
-		GameObject temp = GameObject.Find (obj);
-		GameObject wall = Instantiate (temp);
-		wall.name = temp.name + "_Clone";
-		wall.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
-		wall.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
 	}
 }

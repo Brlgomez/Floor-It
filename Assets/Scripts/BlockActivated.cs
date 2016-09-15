@@ -11,8 +11,8 @@ public class BlockActivated : MonoBehaviour {
 		newMaterialRef = GameObject.Find (AllBlockNames.standardBlock).GetComponent<Renderer> ().material;
 	}
 
-	public void activated(){
-		if (!hasActivated && GetComponent<Renderer> ().material != newMaterialRef && !isTransparent) {
+	public void activated(bool changeMaterial){
+		if (!hasActivated && !isTransparent && GetComponent<Renderer> ().material != newMaterialRef && changeMaterial) {
 			GetComponent<Renderer> ().material = newMaterialRef;
 		}
 		hasActivated = true;

@@ -19,13 +19,21 @@ public class CarAttributes : MonoBehaviour {
 				for (int j = 0; j < rend.materials.Length; j++) {
 					mats [j] = rend.materials [j];
 				}
-				for (int j = 0; j < mats.Length; j++){
-					if(mats[j].name.Split(' ')[0] == "Bumper" || mats[j].name.Split(' ')[0] == "LeadCar"){
-						if (i == 0) {
-							mats [j] = leadCarMaterial;
-						} else {
-							mats[j] = regularCarMaterial;
+				if (mats.Length > 1) {
+					for (int j = 0; j < mats.Length; j++) {
+						if (mats [j].name.Split (' ') [0] == "Bumper" || mats [j].name.Split (' ') [0] == "LeadCar") {
+							if (i == 0) {
+								mats [j] = leadCarMaterial;
+							} else {
+								mats [j] = regularCarMaterial;
+							}
 						}
+					}
+				} else {
+					if (i == 0) {
+						mats [0] = GameObject.Find("AccelerateBlock").GetComponent<Renderer>().material;
+					} else {
+						mats [0] = GameObject.Find("Cone").GetComponent<Renderer>().material;
 					}
 				}
 				rend.materials = mats;

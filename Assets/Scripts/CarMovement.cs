@@ -39,14 +39,25 @@ public class CarMovement : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		level = Camera.main.GetComponent<LevelManagement> ().level;
 		gameOver = false;
-		flying = false;
-		resized = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
 		distToGround = transform.position.y + 0.01f;
 		if (speed == 0) {
 			speed = 0.5f;
 		}
+
+		flying = false;
+		flyingTimer = 0;
+		GetComponent<Rigidbody>().useGravity = true;
+		GetComponent<Rigidbody>().angularDrag = 1;
+		GetComponent<Rigidbody>().drag = 0.5f;
+		Behaviour halo = (Behaviour)transform.GetChild(0).GetComponent("Halo");
+		halo.enabled = false;
+
+		resized = false;
+		resizeCounter = 0;
+		transform.localScale = new Vector3 (1, 1, 1);
+		GetComponent<Rigidbody>().mass = Camera.main.GetComponent<CarMangment>().carMass;
 	}
 
 	void FixedUpdate () {
@@ -130,7 +141,15 @@ public class CarMovement : MonoBehaviour {
 			for (int i = 0; i < rend.materials.Length; i++) {
 				mats [i] = rend.materials [i];
 			}
-			mats [2] = Camera.main.GetComponent<CarAttributes>().regularCarMaterial; 
+			if (mats.Length > 1) {
+				for (int j = 0; j < mats.Length; j++) {
+					if (mats [j].name.Split (' ') [0] == "Bumper" || mats [j].name.Split (' ') [0] == "LeadCar") {
+						mats [j] = Camera.main.GetComponent<CarAttributes> ().regularCarMaterial;
+					}
+				}
+			} else {
+				mats[0] = GameObject.Find("Cone").GetComponent<Renderer>().material;
+			}
 			rend.materials = mats;
 
 			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();

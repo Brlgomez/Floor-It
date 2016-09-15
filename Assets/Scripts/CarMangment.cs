@@ -11,8 +11,10 @@ public class CarMangment : MonoBehaviour {
 	public GameObject[] carColliders;
 	public Material[] carMaterial;
 	public float carMass;
-	public float carSteering;
+	public float carAutoSteering;
+	public float carManSteering;
 	public float carAcceleration;
+	public float pointSpeed;
 
 	void Start () {
 		trueGameOver = false;
@@ -28,37 +30,61 @@ public class CarMangment : MonoBehaviour {
 		collider.convex = true;
 		if (carNum == 0) {
 			carMass = 5;
-			carSteering = 0.75f;
+			carAutoSteering = 80;
+			carManSteering = 0.75f;
 			carAcceleration = 0.01f;
+			pointSpeed = 2;
 		} else if (carNum == 1) {
 			carMass = 10;
-			carSteering = 0.5f;
+			carAutoSteering = 60;
+			carManSteering = 0.5f;
 			carAcceleration = 0.008f;
+			pointSpeed = 3;
 		} else if (carNum == 2) {
 			carMass = 8;
-			carSteering = 0.65f;
+			carAutoSteering = 70;
+			carManSteering = 0.65f;
 			carAcceleration = 0.009f;
+			pointSpeed = 2.8f;
 		} else if (carNum == 3) {
 			carMass = 4;
-			carSteering = 1.0f;
+			carAutoSteering = 90;
+			carManSteering = 1.0f;
 			carAcceleration = 0.012f;
+			pointSpeed = 1.6f;
 		} else if (carNum == 4) {
 			carMass = 18;
-			carSteering = 0.35f;
+			carAutoSteering = 40;
+			carManSteering = 0.35f;
 			carAcceleration = 0.007f;
+			pointSpeed = 3.8f;
+		} else if (carNum == 5) {
+			carMass = 1;
+			carAutoSteering = 120;
+			carManSteering = 1.0f;
+			carAcceleration = 0.01f;
+			pointSpeed = 1;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
 		GameObject.Find ("Car").GetComponent<CarMovement> ().acceleration = carAcceleration;
-		Renderer rend = GameObject.Find("Car").GetComponent<Renderer> ();
-		Material[] mats = new Material[rend.materials.Length];
-		for (int j = 0; j < rend.materials.Length; j++) {
-			if (j == 1) {
-				mats [j] = carMaterial [carNum]; 
-			} else {
-				mats [j] = rend.materials [j];
+		if (carNum != 5) {
+			Renderer rend = GameObject.Find ("Car").GetComponent<Renderer> ();
+			Material[] mats = new Material[rend.materials.Length];
+			for (int j = 0; j < rend.materials.Length; j++) {
+				if (j == 1) {
+					mats [j] = carMaterial [carNum]; 
+				} else {
+					mats [j] = rend.materials [j];
+				}
 			}
-		}
-		rend.materials = mats;
+			rend.materials = mats;
+		} else {
+			Renderer rend = GameObject.Find ("Car").GetComponent<Renderer> ();
+			rend.materials = new Material[1];
+			Material[] mats = new Material[rend.materials.Length];
+			mats [0] = carMaterial [carNum]; 
+			rend.materials = mats;
+		} 
 	}
 
 	void Update(){

@@ -38,7 +38,7 @@ public class MakeCarsTurn : MonoBehaviour {
 		maxTurningTime = 3.5f;
 		maxAngle = 0.25f;
 
-		turnSpeed = 80;
+		turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
 
 		timeReset = Random.Range (timeResetMin, timeResetMax);
 		randomAmount = Random.Range (randomAngleMin, randomAngleMax);
@@ -105,7 +105,7 @@ public class MakeCarsTurn : MonoBehaviour {
 						Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
 							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
 							newRoation, 
-							Time.deltaTime * turnSpeed
+							Time.deltaTime * Camera.main.GetComponent<CarMangment>().carAutoSteering
 						);
 					}
 				} 
@@ -125,7 +125,7 @@ public class MakeCarsTurn : MonoBehaviour {
 				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
 					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
 					newRoation, 
-					Time.deltaTime * turnSpeed/10
+					Time.deltaTime * Camera.main.GetComponent<CarMangment>().carAutoSteering/10
 				);
 			}
 		}
@@ -171,7 +171,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	public void turnLeft(){
 		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
-			float turnPos = -Camera.main.GetComponent<CarMangment>().carSteering * Time.deltaTime;
+			float turnPos = -Camera.main.GetComponent<CarMangment>().carManSteering * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {
 				turnPos *= -1;
 			}
@@ -190,7 +190,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	public void turnRight(){
 		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
 		if (!leadCar.GetComponent<CarMovement>().carFlipped) {
-			float turnPos = Camera.main.GetComponent<CarMangment>().carSteering * Time.deltaTime;
+			float turnPos = Camera.main.GetComponent<CarMangment>().carManSteering * Time.deltaTime;
 			if (leadCar.transform.rotation.w < 0) {
 				turnPos *= -1;
 			}
