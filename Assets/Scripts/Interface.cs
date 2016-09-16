@@ -23,13 +23,14 @@ public class Interface : MonoBehaviour {
 	public Text carPointText;
 	public Text speed;
 	public Text instructions;
+	public Text multiplier;
 
 	public Button leftButton;
 	public Text leftText;
 	public Button rightButton;
 	public Text rightText;
 
-	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig;
+	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
 	public Image nextBlockSprite;
 	public Image nextBlockBackground;
@@ -111,7 +112,7 @@ public class Interface : MonoBehaviour {
 			if (carSpeed != 0) {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
 				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total * Camera.main.GetComponent<Points>().highestMulti).ToString ();
-				speed.text = string.Format("{0:F1} m/s", normalizedSpeed);
+				speed.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
 			}
 		}
 		if (gotPoints) {
@@ -131,7 +132,15 @@ public class Interface : MonoBehaviour {
 		if (instructionsAlpha > 0) {
 			instructionsAlpha -= Time.deltaTime * 0.25f;
 			instructions.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
-		}
+		} 
+	}
+
+	public void multiplierOn(){
+		multiplier.GetComponent<Text> ().color = textOn;
+	}
+
+	public void multiplierOff(){
+		multiplier.GetComponent<Text> ().color = textOff;
 	}
 
 	public void trueGameOver(){
@@ -142,6 +151,7 @@ public class Interface : MonoBehaviour {
 			pauseText.GetComponent<Text> ().color = textOff;
 			highScoreText.GetComponent<Text> ().color = textOn;
 			pointText.GetComponent<Text> ().color = textOff;
+			multiplier.GetComponent<Text> ().color = textOff;
 		}
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
@@ -192,7 +202,7 @@ public class Interface : MonoBehaviour {
 			if (level == LevelManagement.drive) {
 				turnOnLeftandRightButtons ();
 			} else {
-				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.9f);;
+				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.9f);
 				nextBlockBackground.GetComponent<Image> ().color = new Vector4 (0.5f, 0.5f, 0.5f, 0.5f);
 			}
 		}
@@ -312,6 +322,12 @@ public class Interface : MonoBehaviour {
 				nextBlockSprite.sprite = resizeBig;
 			} else {
 				nextBlockSprite.sprite = resizeSmall;
+			}
+		} else if (blockName == AllBlockNames.multiplierBlock) {
+			if (GameObject.Find (fullBlockName).GetComponent<MultiplierBlockAttributes> ().timesTwo) {
+				nextBlockSprite.sprite = multiTwo;
+			} else {
+				nextBlockSprite.sprite = multiThree;
 			}
 		} else {
 			nextBlockSprite.sprite = standard;

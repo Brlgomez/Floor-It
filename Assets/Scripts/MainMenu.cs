@@ -52,11 +52,11 @@ public class MainMenu : MonoBehaviour {
 	static Vector4 noColor = Vector4.zero;
 
 	static int truckAmount = 500;
-	static int sportAmount = 5000;
-	static int limoAmount = 12195;
-	static int busAmount = 15000;
-	static int monsterTruckAmount = 25500;
-	static int coneAmount = 52015;
+	static int sportAmount = 4000;
+	static int limoAmount = 12000;
+	static int busAmount = 20000;
+	static int monsterTruckAmount = 52015;
+	static int coneAmount = 52427;
 
 	void Start () {
 		playButton.onClick.AddListener(delegate { playButtonClick(); });
@@ -366,10 +366,10 @@ public class MainMenu : MonoBehaviour {
 		turnOnCarButton (coneButton, coneText, PlayerPrefManagement.cone);
 		turnOnCarButton (busButton, busText, PlayerPrefManagement.bus);
 
-		//buyButton.GetComponent<Button> ().enabled = true;
-		//buyText.GetComponent<Text> ().enabled = true;
-		//buyButton.GetComponent<Image> ().color = carLocked;
-		//buyText.GetComponent<Text> ().color = textOn;
+		buyButton.GetComponent<Button> ().enabled = true;
+		buyText.GetComponent<Text> ().enabled = true;
+		buyButton.GetComponent<Image> ().color = carLocked;
+		buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}

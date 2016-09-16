@@ -57,7 +57,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 					float slowestSpeed = CarMovement.slowestSpeed;
 					if (currentSpeed > slowestSpeed) {
-						changeSpeedOfAllCars (-currentSpeed * 5);
+						changeSpeedOfAllCars (-currentSpeed * 7.5f);
 					}
 				}
 			}
@@ -255,13 +255,17 @@ public class AllBlockAttributes : MonoBehaviour {
 				for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 					Camera.main.GetComponent<CarMangment> ().cars [i].GetComponent<CarMovement> ().acceleration *= 1.25f;
 				}
+				block.GetComponent<BlockActivated> ().activated (true);
 			} else if (blockName == AllBlockNames.superAccelerateBlock) {
 				onSpeedBlock (block, car);
+				block.GetComponent<BlockActivated> ().activated (true);
 			} else if (blockName == AllBlockNames.superPointBlock) {
 				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 				Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
-			} 
-			block.GetComponent<BlockActivated> ().activated (false);
+				block.GetComponent<BlockActivated> ().activated (true);
+			} else {
+				block.GetComponent<BlockActivated> ().activated (false);
+			}
 		}
 	}
 
@@ -315,6 +319,17 @@ public class AllBlockAttributes : MonoBehaviour {
 				block.transform.position.z + Random.Range(-0.75f, 0.75f)
 			);
 			cone.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
+		}
+	}
+
+	public void onMultiplayerBlock (GameObject block){
+		if (!block.GetComponent<BlockActivated> ().hasActivated) {
+			block.GetComponent<BlockActivated> ().activated (true);
+			Camera.main.GetComponent<Points> ().multiplier = block.GetComponent<MultiplierBlockAttributes>().multiplier;
+			Camera.main.GetComponent<Points> ().multiplierCount = 0;
+			Camera.main.GetComponent<Interface> ().multiplier.text = "x" + block.GetComponent<MultiplierBlockAttributes>().multiplier;
+			Camera.main.GetComponent<Interface> ().multiplierOn ();
+			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
 		}
 	}
 }

@@ -9,11 +9,14 @@ public class Points : MonoBehaviour {
 	public int highscoreDriving;
 	public bool newHighScore;
 	public float highestMulti;
+	public float multiplier;
 	string level;
 	bool checkHighScore;
 	float timerCount;
 	float timerLimit;
 	float aliveCars;
+	static float multiplierLimit = 10;
+	public float multiplierCount;
 
 	void Start(){
 		total = 0;
@@ -26,6 +29,7 @@ public class Points : MonoBehaviour {
 		checkHighScore = false;
 		aliveCars = 1;
 		timerLimit = Camera.main.GetComponent<CarMangment> ().pointSpeed;
+		multiplier = 1;
 	}
 
 	void Update () {
@@ -43,6 +47,15 @@ public class Points : MonoBehaviour {
 					}
 				}
 				incrementPointsCars (aliveCars);
+			}
+			if (multiplier > 1) {
+				multiplierCount += Time.deltaTime;
+				if (multiplierCount > multiplierLimit) {
+					multiplier = 1;
+					multiplierCount = 0;
+					Camera.main.GetComponent<SoundEffects> ().playMultiplierRevertSound (Camera.main.GetComponent<FollowCar>().leadCar.transform.position);
+					Camera.main.GetComponent<Interface> ().multiplierOff ();
+				}
 			}
 		}
 	}
@@ -95,13 +108,13 @@ public class Points : MonoBehaviour {
 		}
 	}
 
-	public void incrementPoints(float multiplier, GameObject obj){
-		total += multiplier;
-		Camera.main.GetComponent<Interface> ().changePointsText (multiplier, obj);
+	public void incrementPoints(float point, GameObject obj){
+		total += point * multiplier;
+		Camera.main.GetComponent<Interface> ().changePointsText (point * multiplier, obj);
 	}
 
-	public void incrementPointsCars(float multiplier){
-		total += multiplier;
-		Camera.main.GetComponent<Interface> ().changeCarPointsText (multiplier);
+	public void incrementPointsCars(float point){
+		total += point * multiplier;
+		Camera.main.GetComponent<Interface> ().changeCarPointsText (point * multiplier);
 	}
 }

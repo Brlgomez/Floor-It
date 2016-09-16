@@ -27,6 +27,9 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip resizeSmallSound;
 	public AudioClip accelerationSound;
 	public AudioClip decelerationSound;
+	public AudioClip multiplierSound;
+	public AudioClip multiplierRevertSound;
+
 
 	private AudioSource source;
 
@@ -190,6 +193,18 @@ public class SoundEffects : MonoBehaviour {
 	public void playDecelerationSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (decelerationSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playMultiplierSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (multiplierSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.8f));
+		}
+	}
+
+	public void playMultiplierRevertSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (multiplierRevertSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.99f));
 		}
 	}
 
