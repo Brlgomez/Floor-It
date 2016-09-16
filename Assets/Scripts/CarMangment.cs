@@ -71,6 +71,13 @@ public class CarMangment : MonoBehaviour {
 			carAcceleration = 0.01f;
 			pointSpeed = 1;
 			newCarSpawnDist = -1.4f;
+		} else if (carNum == 6) {
+			carMass = 40;
+			carAutoSteering = 20;
+			carManSteering = 0.2f;
+			carAcceleration = 0.002f;
+			pointSpeed = 5;
+			newCarSpawnDist = -2.5f;
 		}
 		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
 		GameObject.Find ("Car").GetComponent<CarMovement> ().acceleration = carAcceleration;

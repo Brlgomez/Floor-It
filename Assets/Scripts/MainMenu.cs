@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour {
 	public Button sportButton;
 	public Button monsterTruckButton;
 	public Button coneButton; 
+	public Button busButton; 
 	public Button buyButton;
 	public Button soundButton;
 	public Button musicButton;
@@ -33,7 +34,7 @@ public class MainMenu : MonoBehaviour {
 	public Text cashText;
 	public Text loadingText;
 	Text floorItText, bowlingText, driveText, storeText, settingsText;
-	Text sudanText, limoText, truckText, sportText, monsterTruckText, coneText, buyText;
+	Text sudanText, limoText, truckText, sportText, monsterTruckText, coneText, busText, buyText;
 	Text soundText, musicText, vibrationText;
 
 	int highScoreInfinite, highScoreBowling ,highScoreDriving;
@@ -53,6 +54,7 @@ public class MainMenu : MonoBehaviour {
 	static int truckAmount = 500;
 	static int sportAmount = 5000;
 	static int limoAmount = 12195;
+	static int busAmount = 15000;
 	static int monsterTruckAmount = 25500;
 	static int coneAmount = 52015;
 
@@ -71,6 +73,7 @@ public class MainMenu : MonoBehaviour {
 		sportButton.onClick.AddListener (delegate { sportButtonClick (); });
 		monsterTruckButton.onClick.AddListener (delegate { monsterTruckButtonClick (); });
 		coneButton.onClick.AddListener (delegate { coneButtonClick (); });
+		busButton.onClick.AddListener (delegate { busButtonClick (); });
 		buyButton.onClick.AddListener (delegate { buyButtonClick (); });
 
 		floorItText = playButton.GetComponentInChildren<Text> ();
@@ -84,6 +87,7 @@ public class MainMenu : MonoBehaviour {
 		sportText = sportButton.GetComponentInChildren<Text> ();
 		monsterTruckText = monsterTruckButton.GetComponentInChildren<Text> ();
 		coneText = coneButton.GetComponentInChildren<Text> ();
+		busText = busButton.GetComponentInChildren<Text> ();
 		buyText = buyButton.GetComponentInChildren<Text> ();
 		soundText = soundButton.GetComponentInChildren<Text> ();
 		musicText = musicButton.GetComponentInChildren<Text> ();
@@ -135,6 +139,9 @@ public class MainMenu : MonoBehaviour {
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 0) {
 			coneText.text = coneAmount + " EXP";
+		}
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.bus, 0) == 0) {
+			busText.text = busAmount + " EXP";
 		}
 		menuOn ();
 		//PlayerPrefs.DeleteAll();
@@ -272,6 +279,10 @@ public class MainMenu : MonoBehaviour {
 		buyCar (PlayerPrefManagement.cone, coneAmount, 5, coneButton, coneText);
 	}
 
+	public void busButtonClick() {
+		buyCar (PlayerPrefManagement.bus, busAmount, 6, busButton, busText);
+	}
+
 	public void buyButtonClick() {
 		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 		PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + 55555);
@@ -353,11 +364,12 @@ public class MainMenu : MonoBehaviour {
 		turnOnCarButton (sportButton, sportText, PlayerPrefManagement.sport);
 		turnOnCarButton (monsterTruckButton, monsterTruckText, PlayerPrefManagement.monsterTruck);
 		turnOnCarButton (coneButton, coneText, PlayerPrefManagement.cone);
+		turnOnCarButton (busButton, busText, PlayerPrefManagement.bus);
 
-		buyButton.GetComponent<Button> ().enabled = true;
-		buyText.GetComponent<Text> ().enabled = true;
-		buyButton.GetComponent<Image> ().color = carLocked;
-		buyText.GetComponent<Text> ().color = textOn;
+		//buyButton.GetComponent<Button> ().enabled = true;
+		//buyText.GetComponent<Text> ().enabled = true;
+		//buyButton.GetComponent<Image> ().color = carLocked;
+		//buyText.GetComponent<Text> ().color = textOn;
 
 		cashText.GetComponent<Text> ().color = textOn;
 	}
@@ -387,6 +399,7 @@ public class MainMenu : MonoBehaviour {
 		turnOffButtonAndText (sportButton, sportText);
 		turnOffButtonAndText (monsterTruckButton, monsterTruckText);
 		turnOffButtonAndText (coneButton, coneText);
+		turnOffButtonAndText (busButton, busText);
 		turnOffButtonAndText (buyButton, buyText);
 	}
 

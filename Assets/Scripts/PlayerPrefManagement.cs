@@ -16,5 +16,6 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string sport = "Sport Unlocked";
 	static public string monsterTruck = "Monster Truck Unlocked";
 	static public string cone = "Cone Unlocked";
+	static public string bus = "Bus Unlocked";
 	static public string level = "Level";
 }
