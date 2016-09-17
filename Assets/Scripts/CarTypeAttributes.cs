@@ -15,7 +15,7 @@ public class CarTypeAttributes : MonoBehaviour {
 
 	void Awake(){
 		carTypeMaterial [0] = GameObject.Find ("Car").GetComponent<Renderer> ().materials[1];
-		carTypeMaterial [1] = GameObject.Find (AllBlockNames.standardBlock).GetComponent<Renderer> ().material;
+		carTypeMaterial [1] = GameObject.Find (AllBlockNames.hillBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [2] = GameObject.Find (AllBlockNames.pointBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [3] = GameObject.Find (AllBlockNames.invisibleBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [4] = GameObject.Find (AllBlockNames.multiplierBlock).GetComponent<Renderer> ().material;

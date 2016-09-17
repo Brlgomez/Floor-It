@@ -57,7 +57,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
 					float slowestSpeed = CarMovement.slowestSpeed;
 					if (currentSpeed > slowestSpeed) {
-						changeSpeedOfAllCars (-currentSpeed * 7.5f);
+						changeSpeedOfAllCars (-currentSpeed * 5f);
 					}
 				}
 			}

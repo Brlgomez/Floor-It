@@ -53,9 +53,9 @@ public class MainMenu : MonoBehaviour {
 
 	static int truckAmount = 500;
 	static int sportAmount = 4000;
-	static int limoAmount = 12000;
-	static int busAmount = 20000;
-	static int monsterTruckAmount = 52015;
+	static int limoAmount = 8000;
+	static int busAmount = 12000;
+	static int monsterTruckAmount = 20000;
 	static int coneAmount = 52427;
 
 	void Start () {
