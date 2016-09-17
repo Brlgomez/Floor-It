@@ -9,7 +9,6 @@ public class CarMangment : MonoBehaviour {
 	public bool allPinsStopped;
 	public Mesh[] carMeshes;
 	public GameObject[] carColliders;
-	public Material[] carMaterial;
 	public float carMass;
 	public float carAutoSteering;
 	public float carManSteering;
@@ -20,83 +19,44 @@ public class CarMangment : MonoBehaviour {
 	void Start () {
 		trueGameOver = false;
 		cars = GameObject.FindGameObjectsWithTag ("Car");
+		GameObject initialCar = cars [0];
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		Camera.main.GetComponent<SoundEffects> ().playGameplayMusic ();
 		allPinsStopped = true;
-		int carNum = PlayerPrefs.GetInt ("Car Type", 0);
-		GameObject.Find ("Car").GetComponent<MeshFilter> ().mesh = carMeshes [carNum];
-		DestroyImmediate(GameObject.Find ("Car").GetComponent<MeshCollider>());
-		MeshCollider collider = GameObject.Find ("Car").AddComponent<MeshCollider>();
+		int carNum = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
+
+		initialCar.GetComponent<MeshFilter> ().mesh = carMeshes [carNum];
+		DestroyImmediate(initialCar.GetComponent<MeshCollider>());
+		MeshCollider collider = initialCar.AddComponent<MeshCollider>();
 		collider.sharedMesh = carColliders[carNum].GetComponent<MeshFilter> ().mesh;
 		collider.convex = true;
-		if (carNum == 0) {
-			carMass = 5;
-			carAutoSteering = 75;
-			carManSteering = 0.75f;
-			carAcceleration = 0.01f;
-			pointSpeed = 2;
-			newCarSpawnDist = -1.5f;
-		} else if (carNum == 1) {
-			carMass = 10;
-			carAutoSteering = 50;
-			carManSteering = 0.5f;
-			carAcceleration = 0.008f;
-			pointSpeed = 3;
-			newCarSpawnDist = -2f;
-		} else if (carNum == 2) {
-			carMass = 8;
-			carAutoSteering = 65;
-			carManSteering = 0.65f;
-			carAcceleration = 0.009f;
-			pointSpeed = 2.8f;
-			newCarSpawnDist = -1.75f;
-		} else if (carNum == 3) {
-			carMass = 4;
-			carAutoSteering = 100;
-			carManSteering = 1.0f;
-			carAcceleration = 0.012f;
-			pointSpeed = 1.6f;
-			newCarSpawnDist = -1.5f;
-		} else if (carNum == 4) {
-			carMass = 18;
-			carAutoSteering = 35;
-			carManSteering = 0.35f;
-			carAcceleration = 0.007f;
-			pointSpeed = 3.8f;
-			newCarSpawnDist = -2.5f;
-		} else if (carNum == 5) {
-			carMass = 1;
-			carAutoSteering = 100;
-			carManSteering = 1.0f;
-			carAcceleration = 0.01f;
-			pointSpeed = 1;
-			newCarSpawnDist = -1.4f;
-		} else if (carNum == 6) {
-			carMass = 40;
-			carAutoSteering = 20;
-			carManSteering = 0.2f;
-			carAcceleration = 0.002f;
-			pointSpeed = 5;
-			newCarSpawnDist = -2.5f;
-		}
-		GameObject.Find ("Car").GetComponent<Rigidbody> ().mass = carMass;
-		GameObject.Find ("Car").GetComponent<CarMovement> ().acceleration = carAcceleration;
+
+		carMass = Camera.main.GetComponent<CarTypeAttributes> ().massOfCars [carNum];
+		carAutoSteering = Camera.main.GetComponent<CarTypeAttributes> ().carAutoSteering [carNum];
+		carManSteering = Camera.main.GetComponent<CarTypeAttributes> ().carManSteering [carNum];
+		carAcceleration = Camera.main.GetComponent<CarTypeAttributes> ().carAcceleration [carNum];
+		pointSpeed = Camera.main.GetComponent<CarTypeAttributes> ().pointSpeed [carNum];
+		newCarSpawnDist = Camera.main.GetComponent<CarTypeAttributes> ().newCarSpawnDist [carNum];
+
+		initialCar.GetComponent<Rigidbody> ().mass = carMass;
+		initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
+
 		if (carNum != 5) {
-			Renderer rend = GameObject.Find ("Car").GetComponent<Renderer> ();
+			Renderer rend = initialCar.GetComponent<Renderer> ();
 			Material[] mats = new Material[rend.materials.Length];
 			for (int j = 0; j < rend.materials.Length; j++) {
 				if (j == 1) {
-					mats [j] = carMaterial [carNum]; 
+					mats [j] = Camera.main.GetComponent<CarTypeAttributes>().carTypeMaterial[carNum]; 
 				} else {
 					mats [j] = rend.materials [j];
 				}
 			}
 			rend.materials = mats;
 		} else {
-			Renderer rend = GameObject.Find ("Car").GetComponent<Renderer> ();
+			Renderer rend = initialCar.GetComponent<Renderer> ();
 			rend.materials = new Material[1];
 			Material[] mats = new Material[rend.materials.Length];
-			mats [0] = carMaterial [carNum]; 
+			mats [0] = Camera.main.GetComponent<CarTypeAttributes>().carTypeMaterial[carNum];  
 			rend.materials = mats;
 		} 
 	}
