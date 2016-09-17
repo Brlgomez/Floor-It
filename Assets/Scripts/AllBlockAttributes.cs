@@ -299,27 +299,34 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	public void spawnObject (GameObject block) {
-		float rand = Random.Range (0, 100);
+		float rand = Random.Range (0, 10);
 		string obj;
-		if (rand > 75) {
+		GameObject temp;
+		GameObject nextObject;
+		if (rand < 3) {
 			obj = "BrickWall";
-			GameObject temp = GameObject.Find (obj);
-			GameObject wall = Instantiate (temp);
-			wall.name = temp.name + "_Clone";
-			wall.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
-			wall.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
-		} else {
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
+			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
+		} else if (rand < 7) {
 			obj = "Cone";
-			GameObject temp = GameObject.Find (obj);
-			GameObject cone = Instantiate (temp);
-			cone.name = temp.name + "_Clone";
-			cone.transform.position = new Vector3 (
-				block.transform.position.x + Random.Range(-0.75f, 0.75f), 
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (
+				block.transform.position.x + Random.Range (-0.75f, 0.75f), 
 				0.25f, 
-				block.transform.position.z + Random.Range(-0.75f, 0.75f)
+				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
-			cone.transform.Rotate(transform.rotation.x, Random.Range(0.0f, 360.0f), transform.rotation.z);
-		}
+			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
+		} else {
+			obj = "Ramp";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
+			nextObject.transform.Rotate (transform.rotation.x, Random.Range (-30f, 30f), transform.rotation.z);
+		} 
+		nextObject.name = temp.name + "_Clone";
 	}
 
 	public void onMultiplayerBlock (GameObject block){
