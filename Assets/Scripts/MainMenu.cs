@@ -387,6 +387,7 @@ public class MainMenu : MonoBehaviour {
 		turnOnCarButton (monsterTruckButton, monsterTruckText, PlayerPrefManagement.monsterTruck);
 		turnOnCarButton (coneButton, coneText, PlayerPrefManagement.cone);
 		turnOnCarButton (busButton, busText, PlayerPrefManagement.bus);
+		GameObject.Find ("Highlight").GetComponent<Image> ().color = new Color (0.5f, 0.5f, 0.5f, 0.5f);
 
 		//buyButton.GetComponent<Button> ().enabled = true;
 		//buyText.GetComponent<Text> ().enabled = true;
@@ -423,6 +424,9 @@ public class MainMenu : MonoBehaviour {
 		turnOffButtonAndText (coneButton, coneText);
 		turnOffButtonAndText (busButton, busText);
 		turnOffButtonAndText (buyButton, buyText);
+		GameObject.Find ("Highlight").GetComponent<Image> ().color = noColor;
+
+
 	}
 
 	void turnOnButtonAndText(Button b, Text t){
