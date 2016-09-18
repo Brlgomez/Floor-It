@@ -50,7 +50,7 @@ public class Interface : MonoBehaviour {
 
 	public float carSpeed;
 	float updateCount;
-	float updateLimit;
+	static float updateLimit = 0.25f;
 
 	bool gotPoints;
 	bool carPoints;
@@ -82,8 +82,6 @@ public class Interface : MonoBehaviour {
 
 		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
 
-		updateLimit = 0.25f;
-
 		gotPoints = false;
 		carPoints = false;
 		pointAlpha = 0;
@@ -111,7 +109,7 @@ public class Interface : MonoBehaviour {
 			}
 			if (carSpeed != 0) {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
-				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total * Camera.main.GetComponent<Points>().highestMulti).ToString ();
+				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total).ToString ();
 				speed.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
 			}
 		}
@@ -144,8 +142,18 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void trueGameOver(){
-		if (!restartButton.GetComponent<Button> ().enabled) {
+		score.transform.position = Vector3.Lerp(score.transform.position, GameObject.Find("Instructions").transform.position, Time.deltaTime * 2);
+		if (level == LevelManagement.bowl) {
+			float total = Camera.main.GetComponent<Points> ().total;
+			float multi = Camera.main.GetComponent<Points> ().highestMulti;
+			score.text = "Score\n" + total + " x " + multi + " = " + total * multi;
+		} else {
+			score.text = "Score\n" + Camera.main.GetComponent<Points> ().total;
+		}
+		if (Vector2.Distance (score.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
 			turnOnMainButtons ();
+		}
+		if (!restartButton.GetComponent<Button> ().enabled) {
 			pauseButton.GetComponent<Button> ().enabled = false;
 			pauseButton.GetComponent<Image> ().color = buttonOff;
 			pauseText.GetComponent<Text> ().color = textOff;
@@ -209,39 +217,47 @@ public class Interface : MonoBehaviour {
 	}
 
 	void turnOnMainButtons() {
-		restartButton.GetComponent<Button> ().enabled = true;
-		restartButton.GetComponent<Image> ().color = buttonOn;
-		restartText.GetComponent<Text> ().color = textOn;
-		mainMenuButton.GetComponent<Button> ().enabled = true;
-		mainMenuButton.GetComponent<Image> ().color = buttonOn;
-		mainMenuText.GetComponent<Text> ().color = textOn;
+		if (!restartButton.GetComponent<Button> ().enabled) {
+			restartButton.GetComponent<Button> ().enabled = true;
+			restartButton.GetComponent<Image> ().color = buttonOn;
+			restartText.GetComponent<Text> ().color = textOn;
+			mainMenuButton.GetComponent<Button> ().enabled = true;
+			mainMenuButton.GetComponent<Image> ().color = buttonOn;
+			mainMenuText.GetComponent<Text> ().color = textOn;
+		}
 	}
 
 	void turnOffMainButtons() {
-		restartButton.GetComponent<Button>().enabled = false;
-		restartButton.GetComponent<Image> ().color = buttonOff;
-		restartText.GetComponent<Text> ().color = textOff;
-		mainMenuButton.GetComponent<Button>().enabled = false;
-		mainMenuButton.GetComponent<Image> ().color = buttonOff;
-		mainMenuText.GetComponent<Text> ().color = textOff;
+		if (restartButton.GetComponent<Button> ().enabled) {
+			restartButton.GetComponent<Button>().enabled = false;
+			restartButton.GetComponent<Image> ().color = buttonOff;
+			restartText.GetComponent<Text> ().color = textOff;
+			mainMenuButton.GetComponent<Button>().enabled = false;
+			mainMenuButton.GetComponent<Image> ().color = buttonOff;
+			mainMenuText.GetComponent<Text> ().color = textOff;
+		}
 	}
 
 	void turnOnLeftandRightButtons() {
-		leftButton.GetComponent<Button> ().enabled = true;
-		leftButton.GetComponent<Image> ().color = buttonOn;
-		leftText.GetComponent<Text> ().color = textOn;
-		rightButton.GetComponent<Button> ().enabled = true;
-		rightButton.GetComponent<Image> ().color = buttonOn;
-		rightText.GetComponent<Text> ().color = textOn;
+		if (!leftButton.GetComponent<Button> ().enabled) {
+			leftButton.GetComponent<Button> ().enabled = true;
+			leftButton.GetComponent<Image> ().color = buttonOn;
+			leftText.GetComponent<Text> ().color = textOn;
+			rightButton.GetComponent<Button> ().enabled = true;
+			rightButton.GetComponent<Image> ().color = buttonOn;
+			rightText.GetComponent<Text> ().color = textOn;
+		}
 	}
 
 	void turnOffLeftandRightButtons() {
-		leftButton.GetComponent<Button> ().enabled = false;
-		leftButton.GetComponent<Image> ().color = buttonOff;
-		leftText.GetComponent<Text> ().color = textOff;
-		rightButton.GetComponent<Button> ().enabled = false;
-		rightButton.GetComponent<Image> ().color = buttonOff;
-		rightText.GetComponent<Text> ().color = textOff;
+		if (leftButton.GetComponent<Button> ().enabled) {
+			leftButton.GetComponent<Button> ().enabled = false;
+			leftButton.GetComponent<Image> ().color = buttonOff;
+			leftText.GetComponent<Text> ().color = textOff;
+			rightButton.GetComponent<Button> ().enabled = false;
+			rightButton.GetComponent<Image> ().color = buttonOff;
+			rightText.GetComponent<Text> ().color = textOff;
+		}
 	}
 
 	public void restartButtonClick() {

@@ -41,9 +41,9 @@ public class MainMenu : MonoBehaviour {
 	int cash;
 	int carNumber;
 
-	bool viewSettings;
-	bool viewStore;
-	bool loading;
+	bool viewSettings = false;
+	bool viewStore = false;
+	bool loading = false;
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
 	static Vector4 buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -93,10 +93,6 @@ public class MainMenu : MonoBehaviour {
 		musicText = musicButton.GetComponentInChildren<Text> ();
 		vibrationText = vibrationButton.GetComponentInChildren<Text> ();
 
-		loading = false;
-		viewSettings = false;
-		viewStore = false;
-
 		highScoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
 		highScoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
 		highScoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
@@ -108,6 +104,27 @@ public class MainMenu : MonoBehaviour {
 		GameObject newCar = (GameObject)Instantiate(cars[carNumber], car.transform.position, car.transform.rotation);
 		Destroy (car);
 		car = newCar;
+		if (carNumber == 0) {
+			GameObject.Find ("Highlight").transform.position = sudanButton.transform.position;
+		}
+		if (carNumber == 1) {
+			GameObject.Find ("Highlight").transform.position = limoButton.transform.position;
+		}
+		if (carNumber == 2) {
+			GameObject.Find ("Highlight").transform.position = truckButton.transform.position;
+		}
+		if (carNumber == 3) {
+			GameObject.Find ("Highlight").transform.position = sportButton.transform.position;
+		}
+		if (carNumber == 4) {
+			GameObject.Find ("Highlight").transform.position = monsterTruckButton.transform.position;
+		}
+		if (carNumber == 5) {
+			GameObject.Find ("Highlight").transform.position = coneButton.transform.position;
+		}
+		if (carNumber == 6) {
+			GameObject.Find ("Highlight").transform.position = busButton.transform.position;
+		}
 		cashText.text = cash + " EXP";
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0){
 			soundText.text = "Sound Effects: On";
@@ -257,6 +274,7 @@ public class MainMenu : MonoBehaviour {
 		car = newCar;
 		PlayerPrefs.SetInt (PlayerPrefManagement.carType, 0);
 		PlayerPrefs.Save ();
+		GameObject.Find ("Highlight").transform.position = sudanButton.transform.position;
 	}
 
 	public void limoButtonClick() {
@@ -290,26 +308,30 @@ public class MainMenu : MonoBehaviour {
 		cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 	}
 
-	void buyCar(string playerPref, int amount, int carIndex, Button carButton, Text priceText){
-		if (PlayerPrefs.GetInt (playerPref, 0) == 0 && PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) {
+	void buyCar(string carPlayerPref, int amount, int carIndex, Button carButton, Text priceText){
+		if (PlayerPrefs.GetInt (carPlayerPref, 0) == 0 && PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) {
 			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
 			Destroy (car);
 			car = newCar;
-			PlayerPrefs.SetInt(playerPref, 1);
+			PlayerPrefs.SetInt(carPlayerPref, 1);
 			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - amount);
 			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
 			PlayerPrefs.Save ();
 			carButton.GetComponent<Image> ().color = textOn;
 			priceText.text = "";
 			cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
-		} else if (PlayerPrefs.GetInt (playerPref, 0) == 1) {
+			GameObject.Find ("Highlight").transform.position = carButton.transform.position;
+		} else if (PlayerPrefs.GetInt (carPlayerPref, 0) == 1) {
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-			GameObject newCar = (GameObject)Instantiate(cars[carIndex], car.transform.position, car.transform.rotation);
-			Destroy (car);
-			car = newCar;
-			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
-			PlayerPrefs.Save ();
+			if (PlayerPrefs.GetInt (PlayerPrefManagement.carType, carIndex) != carIndex) {
+				GameObject newCar = (GameObject)Instantiate (cars [carIndex], car.transform.position, car.transform.rotation);
+				Destroy (car);
+				car = newCar;
+				PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
+				PlayerPrefs.Save ();
+				GameObject.Find ("Highlight").transform.position = carButton.transform.position;
+			}
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
 		}
