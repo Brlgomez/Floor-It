@@ -38,7 +38,7 @@ public class Interface : MonoBehaviour {
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
 
-	public bool paused;
+	public bool paused = false;
 	string level;
 
 	Vector4 buttonOn;
@@ -46,7 +46,7 @@ public class Interface : MonoBehaviour {
 	Vector4 textOn;
 	Vector4 textOff;
 
-	bool loading;
+	bool loading = false;
 
 	public float carSpeed;
 	float updateCount;
@@ -57,6 +57,9 @@ public class Interface : MonoBehaviour {
 	float pointAlpha;
 	float carPointAlpha;
 	float instructionsAlpha;
+	bool multiplierBig = false;
+
+	float deltaTime;
 
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -75,10 +78,8 @@ public class Interface : MonoBehaviour {
 		highScoreText.GetComponent<Text> ().color = textOff;
 
 		level = Camera.main.GetComponent<LevelManagement>().level;
-		paused = false;
 		Time.timeScale = 1;
 		loadingText.text = "";
-		loading = false;
 
 		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
 
@@ -90,6 +91,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	void Update(){
+		deltaTime = Time.deltaTime;
 		if (!Camera.main.GetComponent<Interface> ().paused) {
 			updateGUI ();
 		}
@@ -99,7 +101,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void updateGUI(){
-		updateCount += Time.deltaTime;
+		updateCount += deltaTime;
 		if (updateCount > updateLimit) {
 			updateCount = 0;
 			if (Camera.main.GetComponent<CarMangment> ().cars.Length != 0) {
@@ -114,41 +116,51 @@ public class Interface : MonoBehaviour {
 			}
 		}
 		if (gotPoints) {
-			pointAlpha -= Time.deltaTime * 0.75f;
+			pointAlpha -= deltaTime * 0.75f;
 			pointText.GetComponent<Text> ().color = new Color (1, 1, 1, pointAlpha);
 			if (pointAlpha < 0) {
 				gotPoints = false;
 			}
 		}
 		if (carPoints) {
-			carPointAlpha -= Time.deltaTime * 0.75f;
+			carPointAlpha -= deltaTime * 0.75f;
 			carPointText.GetComponent<Text> ().color = new Color (1, 1, 1, carPointAlpha);
 			if (carPointAlpha < 0) {
 				carPoints = false;
 			}
 		}
 		if (instructionsAlpha > 0) {
-			instructionsAlpha -= Time.deltaTime * 0.25f;
+			instructionsAlpha -= deltaTime * 0.25f;
 			instructions.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
 		} 
+		if (multiplierBig) {
+			if (multiplier.transform.localScale.x <= 1) {
+				float multiScale = multiplier.transform.localScale.x + deltaTime * 3;
+				multiplier.transform.localScale = new Vector3 (multiScale, multiScale, multiScale);
+			} else {
+				multiplierBig = false;
+			}
+		}
 	}
 
 	public void multiplierOn(){
 		multiplier.GetComponent<Text> ().color = textOn;
+		multiplierBig = true;
 	}
 
 	public void multiplierOff(){
 		multiplier.GetComponent<Text> ().color = textOff;
+		multiplier.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	}
 
 	public void trueGameOver(){
-		score.transform.position = Vector3.Lerp(score.transform.position, GameObject.Find("Instructions").transform.position, Time.deltaTime * 2);
-		if (level == LevelManagement.bowl) {
-			float total = Camera.main.GetComponent<Points> ().total;
-			float multi = Camera.main.GetComponent<Points> ().highestMulti;
+		float total = Camera.main.GetComponent<Points> ().total;
+		float multi = Camera.main.GetComponent<Points> ().highestMulti;
+		score.transform.position = Vector3.Lerp(score.transform.position, GameObject.Find("Instructions").transform.position, deltaTime * 3);
+		if (multi > 1) {
 			score.text = "Score\n" + total + " x " + multi + " = " + total * multi;
 		} else {
-			score.text = "Score\n" + Camera.main.GetComponent<Points> ().total;
+			score.text = "Score\n" + total;
 		}
 		if (Vector2.Distance (score.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
 			turnOnMainButtons ();
@@ -160,6 +172,7 @@ public class Interface : MonoBehaviour {
 			highScoreText.GetComponent<Text> ().color = textOn;
 			pointText.GetComponent<Text> ().color = textOff;
 			multiplier.GetComponent<Text> ().color = textOff;
+			speed.GetComponent<Text> ().color = textOff;
 		}
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
