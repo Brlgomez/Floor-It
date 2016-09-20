@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: fbdaebd1a530e4593936eb7de4bf6e39
-timeCreated: 1473556486
+timeCreated: 1474413245
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Sudan
-    4300002: CarLimo
+    4300000: CarLimo
     7400000: Default Take
     9500000: //RootNode
   materials:

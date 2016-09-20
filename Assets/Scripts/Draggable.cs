@@ -60,7 +60,7 @@ public class Draggable : MonoBehaviour {
 				target.tag = TagManagement.blockOnRoad;
 			}
 			target.transform.position = roundVector (target.transform.position);
-			Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (target.transform.position);
+			//Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (target.transform.position);
 			highlight.transform.position = new Vector3 (0, yPosition, -10);
 		}
 	}

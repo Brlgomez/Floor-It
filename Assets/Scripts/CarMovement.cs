@@ -35,6 +35,8 @@ public class CarMovement : MonoBehaviour {
 
 	string level;
 
+	float deltaTime;
+
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		level = Camera.main.GetComponent<LevelManagement> ().level;
@@ -45,7 +47,6 @@ public class CarMovement : MonoBehaviour {
 		if (speed == 0) {
 			speed = 0.5f;
 		}
-
 		flying = false;
 		flyingTimer = 0;
 		GetComponent<Rigidbody>().useGravity = true;
@@ -62,41 +63,12 @@ public class CarMovement : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && !gameOver) {
-			float deltaTime = Time.deltaTime;
+			deltaTime = Time.deltaTime;
 			forceTimer += deltaTime;
 			if (tag.Equals (TagManagement.evilCar)) {
-				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-					Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
-					if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
-						evilCarWithinRange = true;
-						carFlipped = false;
-						rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
-					} else {
-						evilCarWithinRange = false;
-						carFlipped = false;
-						rb.MovePosition (transform.position + transform.forward * deltaTime/10);
-					}
-				} else {
-					evilCarWithinRange = false;
-					carFlipped = true;
-				}
+				evilCarMovement ();
 			} else {
-				if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
-					rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
-					carFlipped = false;
-				} else {
-					carFlipped = true;
-				}
-				if (gameObject == Camera.main.GetComponent<CarMangment> ().cars [0]) {
-					speedometer = (transform.position - lastPos).magnitude / Time.smoothDeltaTime;
-					lastPos = transform.position;
-				}
-				if (speed < fastestSpeed) {
-					speed += deltaTime * acceleration;
-				}
-				if (speed < slowestSpeed) {
-					speed = slowestSpeed;
-				}
+				carMovement ();
 			}
 			checkGameOverConditions ();
 			if (resized) {
@@ -105,6 +77,43 @@ public class CarMovement : MonoBehaviour {
 			if (flying) {
 				Camera.main.GetComponent<CarAttributes> ().flyingTimer (gameObject);
 			}
+		}
+	}
+
+	void evilCarMovement(){
+		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+			Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
+			if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
+				evilCarWithinRange = true;
+				carFlipped = false;
+				rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+			} else {
+				evilCarWithinRange = false;
+				carFlipped = false;
+				rb.MovePosition (transform.position + transform.forward * deltaTime/25);
+			}
+		} else {
+			evilCarWithinRange = false;
+			carFlipped = true;
+		}
+	}
+
+	void carMovement(){
+		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+			rb.MovePosition (transform.position + transform.forward * deltaTime * speed);
+			carFlipped = false;
+		} else {
+			carFlipped = true;
+		}
+		if (gameObject == Camera.main.GetComponent<CarMangment> ().cars [0]) {
+			speedometer = (transform.position - lastPos).magnitude / Time.smoothDeltaTime;
+			lastPos = transform.position;
+		}
+		if (speed < fastestSpeed) {
+			speed += deltaTime * acceleration;
+		}
+		if (speed < slowestSpeed) {
+			speed = slowestSpeed;
 		}
 	}
 

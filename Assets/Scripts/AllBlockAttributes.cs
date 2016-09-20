@@ -291,6 +291,8 @@ public class AllBlockAttributes : MonoBehaviour {
 		evilCar.GetComponent<CarMovement> ().speed = evilCarSpeed;
 		evilCar.AddComponent<EvilCarAttributes> ();
 		evilCar.name = evilCarTemp.name + "_Clone";
+		evilCar.GetComponent<Rigidbody> ().useGravity = true;
+		evilCar.GetComponent<Rigidbody> ().isKinematic = false;
 		evilCar.transform.position = new Vector3 (
 			block.transform.position.x, 
 			randomYSpawnPosition,
@@ -309,6 +311,11 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
 			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
+			Rigidbody[] bricks = nextObject.GetComponentsInChildren<Rigidbody> ();
+			foreach (Rigidbody brick in bricks) {
+				brick.GetComponent<Rigidbody> ().useGravity = true;
+				brick.GetComponent<Rigidbody> ().isKinematic = false;
+			}
 		} else if (rand < 7) {
 			obj = "Cone";
 			temp = GameObject.Find (obj);
@@ -319,12 +326,16 @@ public class AllBlockAttributes : MonoBehaviour {
 				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
 			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
+			nextObject.GetComponent<Rigidbody> ().useGravity = true;
+			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
 			obj = "Ramp";
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
 			nextObject.transform.Rotate (transform.rotation.x, Random.Range (-30f, 30f), transform.rotation.z);
+			nextObject.GetComponent<Rigidbody> ().useGravity = true;
+			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} 
 		nextObject.name = temp.name + "_Clone";
 	}

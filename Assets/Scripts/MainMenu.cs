@@ -376,7 +376,6 @@ public class MainMenu : MonoBehaviour {
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
 		view.GetComponent<Image> ().color = scrollBackgrounOn;
 		scrollbar.GetComponent<Scrollbar> ().enabled = true;
-		scrollbar.GetComponent<Image> ().color = buttonOn/4;
 		handle.GetComponent<Image> ().color = buttonOn;
 
 		sudanButton.GetComponent<Button> ().enabled = true;
@@ -413,7 +412,6 @@ public class MainMenu : MonoBehaviour {
 		scrollrect.GetComponent<ScrollRect> ().enabled = false;
 		view.GetComponent<Image> ().color = noColor;
 		scrollbar.GetComponent<Scrollbar> ().enabled = false;
-		scrollbar.GetComponent<Image> ().color = noColor;
 		handle.GetComponent<Image> ().color = noColor;
 
 		turnOffButtonAndText (sudanButton, sudanText);
