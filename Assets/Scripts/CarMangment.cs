@@ -31,12 +31,12 @@ public class CarMangment : MonoBehaviour {
 		collider.sharedMesh = carColliders[carNum].GetComponent<MeshFilter> ().mesh;
 		collider.convex = true;
 
-		carMass = Camera.main.GetComponent<CarTypeAttributes> ().massOfCars [carNum];
-		carAutoSteering = Camera.main.GetComponent<CarTypeAttributes> ().carAutoSteering [carNum];
-		carManSteering = Camera.main.GetComponent<CarTypeAttributes> ().carManSteering [carNum];
-		carAcceleration = Camera.main.GetComponent<CarTypeAttributes> ().carAcceleration [carNum];
-		pointSpeed = Camera.main.GetComponent<CarTypeAttributes> ().pointSpeed [carNum];
-		newCarSpawnDist = Camera.main.GetComponent<CarTypeAttributes> ().newCarSpawnDist [carNum];
+		carMass = Camera.main.GetComponent<CarTypeAttributes> ().getMassOfCar(carNum);
+		carAutoSteering = Camera.main.GetComponent<CarTypeAttributes> ().getCarAutoSteering (carNum);
+		carManSteering = Camera.main.GetComponent<CarTypeAttributes> ().getCarManSteering (carNum);
+		carAcceleration = Camera.main.GetComponent<CarTypeAttributes> ().getCarAcceleration (carNum);
+		pointSpeed = Camera.main.GetComponent<CarTypeAttributes> ().getPointSpeed (carNum);
+		newCarSpawnDist = Camera.main.GetComponent<CarTypeAttributes> ().getNewCarSpawnDist (carNum);
 
 		initialCar.GetComponent<Rigidbody> ().mass = carMass;
 		initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
@@ -46,7 +46,7 @@ public class CarMangment : MonoBehaviour {
 			Material[] mats = new Material[rend.materials.Length];
 			for (int j = 0; j < rend.materials.Length; j++) {
 				if (j == 1) {
-					mats [j] = Camera.main.GetComponent<CarTypeAttributes>().carTypeMaterial[carNum]; 
+					mats [j] = Camera.main.GetComponent<CarTypeAttributes>().getCarTypeMaterial(carNum); 
 				} else {
 					mats [j] = rend.materials [j];
 				}
@@ -56,7 +56,7 @@ public class CarMangment : MonoBehaviour {
 			Renderer rend = initialCar.GetComponent<Renderer> ();
 			rend.materials = new Material[1];
 			Material[] mats = new Material[rend.materials.Length];
-			mats [0] = Camera.main.GetComponent<CarTypeAttributes>().carTypeMaterial[carNum];  
+			mats [0] = Camera.main.GetComponent<CarTypeAttributes>().getCarTypeMaterial(carNum); 
 			rend.materials = mats;
 		} 
 	}

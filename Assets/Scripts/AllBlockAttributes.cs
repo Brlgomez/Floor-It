@@ -340,13 +340,15 @@ public class AllBlockAttributes : MonoBehaviour {
 		nextObject.name = temp.name + "_Clone";
 	}
 
-	public void onMultiplayerBlock (GameObject block){
+	public void onMultiplayerBlock (GameObject block, GameObject car){
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated (true);
-			Camera.main.GetComponent<Points> ().multiplier = block.GetComponent<MultiplierBlockAttributes>().multiplier;
-			Camera.main.GetComponent<Points> ().multiplierCount = 0;
-			Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes>().multiplier;
-			Camera.main.GetComponent<Interface> ().multiplierOn ();
+			if (car.tag == TagManagement.car) {
+				Camera.main.GetComponent<Points> ().multiplier = block.GetComponent<MultiplierBlockAttributes> ().multiplier;
+				Camera.main.GetComponent<Points> ().multiplierCount = 0;
+				Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes> ().multiplier;
+				Camera.main.GetComponent<Interface> ().multiplierOn ();
+			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
 		}
 	}
