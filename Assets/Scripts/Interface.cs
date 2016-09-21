@@ -10,25 +10,19 @@ using UnityStandardAssets.ImageEffects;
 public class Interface : MonoBehaviour {
 
 	public Button restartButton;
-	public Text restartText;
 	public Button mainMenuButton;
-	public Text mainMenuText;
-	public Text highScoreText;
 	public Button pauseButton;
-	public Text pauseText;
+	public Button leftButton;
+	public Button rightButton;
 
+	public Text highScoreText;
 	public Text loadingText;
-	public Text score;
+	public Text scoreText;
 	public Text pointText;
 	public Text carPointText;
-	public Text speed;
-	public Text instructions;
-	public Text multiplier;
-
-	public Button leftButton;
-	public Text leftText;
-	public Button rightButton;
-	public Text rightText;
+	public Text speedText;
+	public Text instructionsText;
+	public Text multiplierText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
@@ -38,17 +32,17 @@ public class Interface : MonoBehaviour {
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
 
-	public bool paused = false;
-	string level;
-
 	Vector4 buttonOn;
 	Vector4 buttonOff;
 	Vector4 textOn;
 	Vector4 textOff;
 
+	string level;
+
+	public bool paused = false;
 	bool loading = false;
 
-	public float carSpeed;
+	float carSpeed;
 	float updateCount;
 	static float updateLimit = 0.25f;
 
@@ -67,14 +61,12 @@ public class Interface : MonoBehaviour {
 		textOn = new Vector4 (1, 1, 1, 1);
 		textOff = new Vector4 (1, 1, 1, 0);
 
-		restartButton.GetComponent<Button>().enabled = false;
-		restartButton.GetComponent<Image> ().color = buttonOff;
-		restartText.GetComponent<Text> ().color = textOff;
 		restartButton.onClick.AddListener(delegate { restartButtonClick(); });
-		mainMenuButton.GetComponent<Button>().enabled = false;
-		mainMenuButton.GetComponent<Image> ().color = buttonOff;
-		mainMenuText.GetComponent<Text> ().color = textOff;
 		mainMenuButton.onClick.AddListener(delegate { menuButtonClick(); });
+
+		turnOnOrOffButton (restartButton, false);
+		turnOnOrOffButton (mainMenuButton, false);
+
 		highScoreText.GetComponent<Text> ().color = textOff;
 
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -111,8 +103,8 @@ public class Interface : MonoBehaviour {
 			}
 			if (carSpeed != 0) {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
-				score.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total).ToString ();
-				speed.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
+				scoreText.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total).ToString ();
+				speedText.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
 			}
 		}
 		if (gotPoints) {
@@ -131,12 +123,12 @@ public class Interface : MonoBehaviour {
 		}
 		if (instructionsAlpha > 0) {
 			instructionsAlpha -= deltaTime * 0.25f;
-			instructions.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
+			instructionsText.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
 		} 
 		if (multiplierBig) {
-			if (multiplier.transform.localScale.x <= 1) {
-				float multiScale = multiplier.transform.localScale.x + deltaTime * 3;
-				multiplier.transform.localScale = new Vector3 (multiScale, multiScale, multiScale);
+			if (multiplierText.transform.localScale.x <= 1) {
+				float multiScale = multiplierText.transform.localScale.x + deltaTime * 3;
+				multiplierText.transform.localScale = new Vector3 (multiScale, multiScale, multiScale);
 			} else {
 				multiplierBig = false;
 			}
@@ -144,35 +136,33 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void multiplierOn(){
-		multiplier.GetComponent<Text> ().color = textOn;
+		multiplierText.GetComponent<Text> ().color = textOn;
 		multiplierBig = true;
 	}
 
 	public void multiplierOff(){
-		multiplier.GetComponent<Text> ().color = textOff;
-		multiplier.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
+		multiplierText.GetComponent<Text> ().color = textOff;
+		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	}
 
 	public void trueGameOver(){
 		float total = Camera.main.GetComponent<Points> ().total;
 		float multi = Camera.main.GetComponent<Points> ().highestMulti;
-		score.transform.position = Vector3.Lerp(score.transform.position, GameObject.Find("Instructions").transform.position, deltaTime * 3);
+		scoreText.transform.position = Vector3.Lerp(scoreText.transform.position, GameObject.Find("Instructions").transform.position, deltaTime * 3);
 		if (multi > 1) {
-			score.text = "Score\n" + total + " x " + multi + " = " + total * multi;
+			scoreText.text = "Score\n" + total + " x " + multi + " = " + total * multi;
 		} else {
-			score.text = "Score\n" + total;
+			scoreText.text = "Score\n" + total;
 		}
-		if (Vector2.Distance (score.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
+		if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
 			turnOnMainButtons ();
 		}
 		if (!restartButton.GetComponent<Button> ().enabled) {
-			pauseButton.GetComponent<Button> ().enabled = false;
-			pauseButton.GetComponent<Image> ().color = buttonOff;
-			pauseText.GetComponent<Text> ().color = textOff;
+			turnOnOrOffButton (pauseButton, false);
 			highScoreText.GetComponent<Text> ().color = textOn;
 			pointText.GetComponent<Text> ().color = textOff;
-			multiplier.GetComponent<Text> ().color = textOff;
-			speed.GetComponent<Text> ().color = textOff;
+			multiplierText.GetComponent<Text> ().color = textOff;
+			speedText.GetComponent<Text> ().color = textOff;
 		}
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
@@ -205,7 +195,7 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 0;
-			pauseText.text = "I>";
+			pauseButton.GetComponentInChildren<Text>().text = "I>";
 			turnOnMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
@@ -217,7 +207,7 @@ public class Interface : MonoBehaviour {
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 1;
-			pauseText.text = "II";
+			pauseButton.GetComponentInChildren<Text>().text = "II";
 			turnOffMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();
 			if (level == LevelManagement.drive) {
@@ -231,45 +221,40 @@ public class Interface : MonoBehaviour {
 
 	void turnOnMainButtons() {
 		if (!restartButton.GetComponent<Button> ().enabled) {
-			restartButton.GetComponent<Button> ().enabled = true;
-			restartButton.GetComponent<Image> ().color = buttonOn;
-			restartText.GetComponent<Text> ().color = textOn;
-			mainMenuButton.GetComponent<Button> ().enabled = true;
-			mainMenuButton.GetComponent<Image> ().color = buttonOn;
-			mainMenuText.GetComponent<Text> ().color = textOn;
+			turnOnOrOffButton (restartButton, true);
+			turnOnOrOffButton (mainMenuButton, true);
 		}
 	}
 
 	void turnOffMainButtons() {
 		if (restartButton.GetComponent<Button> ().enabled) {
-			restartButton.GetComponent<Button>().enabled = false;
-			restartButton.GetComponent<Image> ().color = buttonOff;
-			restartText.GetComponent<Text> ().color = textOff;
-			mainMenuButton.GetComponent<Button>().enabled = false;
-			mainMenuButton.GetComponent<Image> ().color = buttonOff;
-			mainMenuText.GetComponent<Text> ().color = textOff;
+			turnOnOrOffButton (restartButton, false);
+			turnOnOrOffButton (mainMenuButton, false);
 		}
 	}
 
 	void turnOnLeftandRightButtons() {
 		if (!leftButton.GetComponent<Button> ().enabled) {
-			leftButton.GetComponent<Button> ().enabled = true;
-			leftButton.GetComponent<Image> ().color = buttonOn;
-			leftText.GetComponent<Text> ().color = textOn;
-			rightButton.GetComponent<Button> ().enabled = true;
-			rightButton.GetComponent<Image> ().color = buttonOn;
-			rightText.GetComponent<Text> ().color = textOn;
+			turnOnOrOffButton (leftButton, true);
+			turnOnOrOffButton (rightButton, true);
 		}
 	}
 
 	void turnOffLeftandRightButtons() {
 		if (leftButton.GetComponent<Button> ().enabled) {
-			leftButton.GetComponent<Button> ().enabled = false;
-			leftButton.GetComponent<Image> ().color = buttonOff;
-			leftText.GetComponent<Text> ().color = textOff;
-			rightButton.GetComponent<Button> ().enabled = false;
-			rightButton.GetComponent<Image> ().color = buttonOff;
-			rightText.GetComponent<Text> ().color = textOff;
+			turnOnOrOffButton (leftButton, false);
+			turnOnOrOffButton (rightButton, false);
+		}
+	}
+
+	void turnOnOrOffButton(Button button, bool setting){
+		button.GetComponent<Button> ().enabled = setting;
+		if (setting) {
+			button.GetComponent<Image> ().color = buttonOn;
+			button.GetComponentInChildren<Text> ().color = textOn;
+		} else {
+			button.GetComponent<Image> ().color = buttonOff;
+			button.GetComponentInChildren<Text> ().color = textOff;
 		}
 	}
 

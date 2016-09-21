@@ -325,7 +325,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				0.25f, 
 				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
-			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
+			nextObject.transform.Rotate (Random.Range (-45f, 45f), Random.Range (0.0f, 360.0f), Random.Range (-45f, 45f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
@@ -345,7 +345,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<Points> ().multiplier = block.GetComponent<MultiplierBlockAttributes>().multiplier;
 			Camera.main.GetComponent<Points> ().multiplierCount = 0;
-			Camera.main.GetComponent<Interface> ().multiplier.text = "x" + block.GetComponent<MultiplierBlockAttributes>().multiplier;
+			Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes>().multiplier;
 			Camera.main.GetComponent<Interface> ().multiplierOn ();
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
 		}
