@@ -68,7 +68,7 @@ public class CarTypeAttributes : MonoBehaviour {
 		newCarSpawnDist [3] = -1.5f;
 		newCarSpawnDist [4] = -2.5f;
 		newCarSpawnDist [5] = -1.4f;
-		newCarSpawnDist [6] = -2.5f;
+		newCarSpawnDist [6] = -2.0f;
 		newCarSpawnDist [7] = -1.75f;
 	}
 

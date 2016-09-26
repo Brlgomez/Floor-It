@@ -12,5 +12,4 @@ public class TagManagement : MonoBehaviour {
 	public static string pickedUp = "Picked Up";
 	public static string deadCar = "Dead Car";
 	public static string evilCar = "Evil Car";
-
 }

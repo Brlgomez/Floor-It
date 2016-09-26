@@ -32,6 +32,7 @@ public class CarMovement : MonoBehaviour {
 	public float speed;
 	public float acceleration;
 	public float distToGround;
+	float driveSpeedIncrease = 0.25f;
 
 	string level;
 
@@ -40,12 +41,15 @@ public class CarMovement : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		level = Camera.main.GetComponent<LevelManagement> ().level;
+		if (level != LevelManagement.drive) {
+			driveSpeedIncrease = 0;
+		}
 		gameOver = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
 		distToGround = transform.position.y + 0.01f;
 		if (speed == 0) {
-			speed = 0.5f;
+			speed = 0.5f + driveSpeedIncrease;
 		}
 		flying = false;
 		flyingTimer = 0;
@@ -112,8 +116,8 @@ public class CarMovement : MonoBehaviour {
 		if (speed < fastestSpeed) {
 			speed += deltaTime * acceleration;
 		}
-		if (speed < slowestSpeed) {
-			speed = slowestSpeed;
+		if (speed < slowestSpeed + driveSpeedIncrease) {
+			speed = slowestSpeed + driveSpeedIncrease;
 		}
 	}
 

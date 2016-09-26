@@ -30,7 +30,6 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip multiplierSound;
 	public AudioClip multiplierRevertSound;
 
-
 	private AudioSource source;
 
 	public int playSoundEffects;
@@ -88,6 +87,32 @@ public class SoundEffects : MonoBehaviour {
 		}
 	}
 
+	public void playButtonClick() {
+		if (playSoundEffects == 0) {
+			source.PlayOneShot (buttonClickSound);
+		}
+	}
+
+	public void playBoughtItemSound() {
+		if (playSoundEffects == 0) {
+			source.PlayOneShot (boughtItemSound);
+		}
+	}
+
+	public void playBadChoiceSound() {
+		if (playSoundEffects == 0) {
+			source.PlayOneShot (badChoiceSound);
+		}
+	}
+
+	public void playHighScoreSound() {
+		if (playSoundEffects == 0) {
+			source.clip = highScoreSound;
+			source.loop = false;
+			source.Play ();
+		}
+	}
+
 	public void playeDropBlockSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (dropBlockSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.8f));
@@ -133,24 +158,6 @@ public class SoundEffects : MonoBehaviour {
 	public void playCarDeathSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (carDeathSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
-		}
-	}
-
-	public void playButtonClick() {
-		if (playSoundEffects == 0) {
-			source.PlayOneShot (buttonClickSound);
-		}
-	}
-
-	public void playBoughtItemSound() {
-		if (playSoundEffects == 0) {
-			source.PlayOneShot (boughtItemSound);
-		}
-	}
-
-	public void playBadChoiceSound() {
-		if (playSoundEffects == 0) {
-			source.PlayOneShot (badChoiceSound);
 		}
 	}
 
@@ -205,14 +212,6 @@ public class SoundEffects : MonoBehaviour {
 	public void playMultiplierRevertSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (multiplierRevertSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.99f));
-		}
-	}
-
-	public void playHighScoreSound() {
-		if (playSoundEffects == 0) {
-			source.clip = highScoreSound;
-			source.loop = false;
-			source.Play ();
 		}
 	}
 }

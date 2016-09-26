@@ -10,6 +10,8 @@ public class FollowCar : MonoBehaviour {
 	float pinZPosition;
 	public bool inPinArea;
 	string level;
+	float timeLapsed;
+	static float timeLimit = 0.1f;
 
 	void Start (){
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -21,14 +23,23 @@ public class FollowCar : MonoBehaviour {
 
 	void Update () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
-			GameObject[] aliveCars = Camera.main.GetComponent<CarMangment> ().cars;
-			float tempX = getXPositionOfCam (aliveCars);
-			if (tempX != 0) {
-				xPositionOfCam = tempX;
-			}
-			for (int i = 0; i < aliveCars.Length; i++) {
-				leadCar = getLeadCar (leadCar, aliveCars [i]);
-				lastCar = getLastCar (lastCar, aliveCars [i]);
+			timeLapsed += Time.deltaTime;
+			if (timeLapsed > timeLimit) {
+				timeLapsed = 0;
+				GameObject[] aliveCars = Camera.main.GetComponent<CarMangment> ().cars;
+				float tempX = getXPositionOfCam (aliveCars);
+				if (tempX != 0) {
+					xPositionOfCam = tempX;
+				}
+				if (aliveCars.Length == 1) {
+					leadCar = aliveCars [0];
+					lastCar = aliveCars [0];;
+				} else {
+					for (int i = 0; i < aliveCars.Length; i++) {
+						leadCar = getLeadCar (leadCar, aliveCars [i]);
+						lastCar = getLastCar (lastCar, aliveCars [i]);
+					}
+				}
 			}
 			if (leadCar != null) {
 				yPositionOfCam = getYPositionOfCam (leadCar, lastCar);

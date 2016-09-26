@@ -8,11 +8,11 @@ public class Vibration : MonoBehaviour {
 	void Start () {
 		playVibration = PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0);	
 	}
-	
-	public void vibrate(){
+
+	public void vibrate () {
 		if (playVibration == 0) {
 			// comment this out before porting to PC
-			Handheld.Vibrate();
+			Handheld.Vibrate ();
 		}
 	}
 }
