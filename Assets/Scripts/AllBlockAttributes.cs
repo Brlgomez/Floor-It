@@ -6,7 +6,7 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3.0f;
 	static int speedUpForce = 130;
-	static int speedDownForce = -125;
+	static int speedDownForce = -120;
 	static float onJumpBlockHeight = 3.5f;
 	static float sizeBig = 1.5f;
 	static float sizeSmall = 0.5f;
@@ -305,7 +305,7 @@ public class AllBlockAttributes : MonoBehaviour {
 		string obj;
 		GameObject temp;
 		GameObject nextObject;
-		if (rand < 3) {
+		if (rand < 2) {
 			obj = "BrickWall";
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
@@ -325,7 +325,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				0.25f, 
 				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
-			nextObject.transform.Rotate (Random.Range (-45f, 45f), Random.Range (0.0f, 360.0f), Random.Range (-45f, 45f));
+			nextObject.transform.Rotate (Random.Range (-30f, 30f), Random.Range (0.0f, 360.0f), Random.Range (-30f, 30f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
@@ -333,7 +333,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
-			nextObject.transform.Rotate (transform.rotation.x, Random.Range (-30f, 30f), transform.rotation.z);
+			nextObject.transform.Rotate (Random.Range (-30f, 30f), Random.Range (-30f, 30f), Random.Range (-30f, 30f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} 

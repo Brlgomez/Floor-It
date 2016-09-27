@@ -131,6 +131,7 @@ public class Interface : MonoBehaviour {
 
 	public void trueGameOver(){
 		if (!mainMenuButton.enabled) {
+			carPointText.color = textOff;
 			scoreText.transform.position = Vector3.Lerp (
 				scoreText.transform.position, 
 				GameObject.Find ("Instructions").transform.position, 
@@ -350,7 +351,6 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void setTextureOverlay(string blockName){
-		Camera.main.GetComponent<ScreenOverlay> ().enabled = true;
 		Texture2D overlay = superOverlay;
 		if (blockName == AllBlockNames.superDecelerateBlock) {
 			overlay = superDecelerateOverlay;
@@ -365,13 +365,12 @@ public class Interface : MonoBehaviour {
 		} else if (blockName == AllBlockNames.superBlock) {
 			overlay = superOverlay;
 		} 			
-		Camera.main.GetComponent<ScreenOverlay> ().intensity = 1;
 		Camera.main.GetComponent<ScreenOverlay> ().texture = overlay;
+		Camera.main.GetComponent<ScreenOverlay> ().enabled = true;
 	}
 
 	public void disableTextureOverlay(){ 	
 		Camera.main.GetComponent<ScreenOverlay> ().enabled = false;
-		Camera.main.GetComponent<ScreenOverlay> ().intensity = 0;
 	}
 
 	public void changePointsText(float pointAmount, GameObject obj){

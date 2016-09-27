@@ -66,18 +66,20 @@ public class EvilCarAttributes : MonoBehaviour {
 
 
 	void lookAtLeadCar(){
-		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-			if (!GetComponent<CarMovement> ().carFlipped && GetComponent<CarMovement>().evilCarWithinRange) {
-				leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-				if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
-					Vector3 targetPosition = leadCar.transform.position;
-					targetPosition.y = transform.position.y;
-					Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
-					transform.rotation = Quaternion.Slerp (
-						transform.rotation, 
-						targetRotation, 
-						Time.deltaTime * 7
-					);
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
+				if (!GetComponent<CarMovement> ().carFlipped && GetComponent<CarMovement> ().evilCarWithinRange) {
+					leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
+					if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
+						Vector3 targetPosition = leadCar.transform.position;
+						targetPosition.y = transform.position.y;
+						Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
+						transform.rotation = Quaternion.Slerp (
+							transform.rotation, 
+							targetRotation, 
+							Time.deltaTime * 7
+						);
+					}
 				}
 			}
 		}

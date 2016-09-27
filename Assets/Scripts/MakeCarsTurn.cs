@@ -161,7 +161,7 @@ public class MakeCarsTurn : MonoBehaviour {
 						aiCar.transform.rotation = Quaternion.Slerp (
 							aiCar.transform.rotation, 
 							targetRotation, 
-							Time.deltaTime * turnSpeed/10
+							Time.deltaTime * turnSpeed/5
 						);
 					}
 				}
