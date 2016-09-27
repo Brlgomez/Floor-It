@@ -46,11 +46,11 @@ public class Interface : MonoBehaviour {
 	float updateCount;
 	static float updateLimit = 0.25f;
 
-	bool gotPoints;
-	bool carPoints;
-	float pointAlpha;
-	float carPointAlpha;
-	float instructionsAlpha;
+	bool gotPoints = false;
+	bool carPoints = false;
+	float pointAlpha = 0;
+	float carPointAlpha = 0;
+	float instructionsAlpha = 1;
 	bool multiplierBig = false;
 
 	float deltaTime;
@@ -74,12 +74,6 @@ public class Interface : MonoBehaviour {
 		loadingText.text = "";
 
 		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
-
-		gotPoints = false;
-		carPoints = false;
-		pointAlpha = 0;
-		carPointAlpha = 0;
-		instructionsAlpha = 1;
 	}
 
 	void Update(){
@@ -146,24 +140,31 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void trueGameOver(){
+		if (!mainMenuButton.enabled) {
+			scoreText.transform.position = Vector3.Lerp (
+				scoreText.transform.position, 
+				GameObject.Find ("Instructions").transform.position, 
+				deltaTime * 3
+			);
+			if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
+				turnOnMainButtons ();
+			}
+		}
+	}
+
+	public void gameOverInterface(){
 		float total = Camera.main.GetComponent<Points> ().total;
 		float multi = Camera.main.GetComponent<Points> ().highestMulti;
-		scoreText.transform.position = Vector3.Lerp(scoreText.transform.position, GameObject.Find("Instructions").transform.position, deltaTime * 3);
 		if (multi > 1) {
 			scoreText.text = "Score\n" + total + " x " + multi + " = " + total * multi;
 		} else {
 			scoreText.text = "Score\n" + total;
 		}
-		if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
-			turnOnMainButtons ();
-		}
-		if (!restartButton.GetComponent<Button> ().enabled) {
-			turnOnOrOffButton (pauseButton, false);
-			highScoreText.GetComponent<Text> ().color = textOn;
-			pointText.GetComponent<Text> ().color = textOff;
-			multiplierText.GetComponent<Text> ().color = textOff;
-			speedText.GetComponent<Text> ().color = textOff;
-		}
+		turnOnOrOffButton (pauseButton, false);
+		highScoreText.GetComponent<Text> ().color = textOn;
+		pointText.GetComponent<Text> ().color = textOff;
+		multiplierText.GetComponent<Text> ().color = textOff;
+		speedText.GetComponent<Text> ().color = textOff;
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
@@ -349,6 +350,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void setTextureOverlay(string blockName){
+		Camera.main.GetComponent<ScreenOverlay> ().enabled = true;
 		Texture2D overlay = superOverlay;
 		if (blockName == AllBlockNames.superDecelerateBlock) {
 			overlay = superDecelerateOverlay;
@@ -367,7 +369,8 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<ScreenOverlay> ().texture = overlay;
 	}
 
-	public void disableTextureOverlay(){ 			
+	public void disableTextureOverlay(){ 	
+		Camera.main.GetComponent<ScreenOverlay> ().enabled = false;
 		Camera.main.GetComponent<ScreenOverlay> ().intensity = 0;
 	}
 

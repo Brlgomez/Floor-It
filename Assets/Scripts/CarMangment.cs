@@ -62,23 +62,28 @@ public class CarMangment : MonoBehaviour {
 	}
 
 	void Update(){
-		cars = GameObject.FindGameObjectsWithTag (TagManagement.car);
-		if (cars.Length == 0 && level != LevelManagement.bowl && !trueGameOver) {
-			trueGameOver = true;
-			Camera.main.GetComponent<Points> ().checkScore ();
-		}
-		if (cars.Length == 0 && level == LevelManagement.bowl && !trueGameOver) {
-			GameObject[] pins = GameObject.FindGameObjectsWithTag (TagManagement.pin);
-			foreach (GameObject pin in pins) {
-				allPinsStopped = true;
-				if (!pin.GetComponent<Rigidbody> ().IsSleeping () && pin.transform.position.y > 0) {
-					allPinsStopped = false;
-					break;
+		if (!trueGameOver) {
+			cars = GameObject.FindGameObjectsWithTag (TagManagement.car);
+			if (cars.Length == 0) {
+				if (level == LevelManagement.drive || level == LevelManagement.floorIt) {
+					trueGameOver = true;
+					Camera.main.GetComponent<Points> ().checkScore ();
+					Camera.main.GetComponent<Interface> ().gameOverInterface ();
+				} else if (level == LevelManagement.bowl) {
+					GameObject[] pins = GameObject.FindGameObjectsWithTag (TagManagement.pin);
+					foreach (GameObject pin in pins) {
+						allPinsStopped = true;
+						if (!pin.GetComponent<Rigidbody> ().IsSleeping () && pin.transform.position.y > 0) {
+							allPinsStopped = false;
+							break;
+						}
+					}
+					if (allPinsStopped == true) {
+						trueGameOver = true;
+						Camera.main.GetComponent<Points> ().checkScore ();
+						Camera.main.GetComponent<Interface> ().gameOverInterface ();
+					}
 				}
-			}
-			if (allPinsStopped == true) {
-				trueGameOver = true;
-				Camera.main.GetComponent<Points> ().checkScore ();
 			}
 		}
 	}
