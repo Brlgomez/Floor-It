@@ -78,7 +78,7 @@ public class Interface : MonoBehaviour {
 
 	void Update(){
 		deltaTime = Time.deltaTime;
-		if (!Camera.main.GetComponent<Interface> ().paused) {
+		if (!Camera.main.GetComponent<Interface> ().paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			updateGUI ();
 		}
 		if (Camera.main.GetComponent<CarMangment>().trueGameOver) {
@@ -127,16 +127,6 @@ public class Interface : MonoBehaviour {
 				multiplierBig = false;
 			}
 		}
-	}
-
-	public void multiplierOn(){
-		multiplierText.GetComponent<Text> ().color = textOn;
-		multiplierBig = true;
-	}
-
-	public void multiplierOff(){
-		multiplierText.GetComponent<Text> ().color = textOff;
-		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	}
 
 	public void trueGameOver(){
@@ -218,6 +208,16 @@ public class Interface : MonoBehaviour {
 				nextBlockBackground.GetComponent<Image> ().color = new Vector4 (0.5f, 0.5f, 0.5f, 0.5f);
 			}
 		}
+	}
+		
+	public void multiplierOn(){
+		multiplierText.GetComponent<Text> ().color = textOn;
+		multiplierBig = true;
+	}
+
+	public void multiplierOff(){
+		multiplierText.GetComponent<Text> ().color = textOff;
+		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	}
 
 	void turnOnMainButtons() {

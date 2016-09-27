@@ -3,15 +3,10 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour {
+public class InterfaceMainMenu : MonoBehaviour {
 
 	public GameObject[] cars;
 	public GameObject car;
-
-	public ScrollRect scrollrect;
-	public Scrollbar scrollbar;
-	public Image view;
-	public Image handle;
 
 	public Button playButton;
 	public Button playBowlingButton;
@@ -31,13 +26,17 @@ public class MainMenu : MonoBehaviour {
 	public Button musicButton;
 	public Button vibrationButton;
 
-	public Text title;
-	public Text cashText;
+	public Text titleText;
+	public Text expText;
 	public Text loadingText;
 
+	public ScrollRect scrollrect;
+	public Scrollbar scrollbarVert;
+	public Image viewport;
+	public Image handle;
+
 	int highScoreInfinite, highScoreBowling, highScoreDriving;
-	int cash;
-	int carNumber;
+	int exp;
 
 	bool viewSettings = false;
 	bool viewStore = false;
@@ -45,7 +44,7 @@ public class MainMenu : MonoBehaviour {
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
 	static Vector4 buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
-	static Vector4 scrollBackgrounOn = new Vector4 (0.5f, 0.5f, 0.5f, 0.125f);
+	static Vector4 scrollBackgrounOn = new Vector4 (0.125f, 0.125f, 0.125f, 0.125f);
 	static Vector4 textOn = Vector4.one;
 	static Vector4 noColor = Vector4.zero;
 
@@ -76,18 +75,22 @@ public class MainMenu : MonoBehaviour {
 		abstractButton.onClick.AddListener (delegate { abstractButtonClick (); });
 		buyButton.onClick.AddListener (delegate { buyButtonClick (); });
 
+		int carNumber;
+		PlayerPrefs.SetInt (PlayerPrefManagement.sudan, 1);
 		highScoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
 		highScoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
 		highScoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
 		carNumber = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
-		cash = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
+		exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
 		playButton.GetComponentInChildren<Text>().text = "Floor It\n\nHigh Score\n" + highScoreInfinite;
 		playBowlingButton.GetComponentInChildren<Text>().text = "Bowl\n\nHigh Score\n" + highScoreBowling;
 		playDriveButton.GetComponentInChildren<Text>().text = "Drive\n\nHigh Score\n" + highScoreDriving;
-		cashText.text = cash + " EXP";
+		expText.text = exp + " EXP";
+
 		GameObject newCar = (GameObject)Instantiate(cars[carNumber], car.transform.position, car.transform.rotation);
 		Destroy (car);
 		car = newCar;
+		carPosition (carNumber);
 
 		if (carNumber == 0) {
 			GameObject.Find ("Highlight").transform.position = sudanButton.transform.position;
@@ -260,13 +263,7 @@ public class MainMenu : MonoBehaviour {
 	 */
 
 	public void sudanButtonClick() {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		GameObject newCar = (GameObject)Instantiate(cars[0], car.transform.position, car.transform.rotation);
-		Destroy (car);
-		car = newCar;
-		PlayerPrefs.SetInt (PlayerPrefManagement.carType, 0);
-		PlayerPrefs.Save ();
-		GameObject.Find ("Highlight").transform.position = sudanButton.transform.position;
+		buyCar (PlayerPrefManagement.sudan, 0, 0, sudanButton);
 	}
 
 	public void limoButtonClick() {
@@ -301,7 +298,7 @@ public class MainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 		PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + 55555);
 		PlayerPrefs.Save ();
-		cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+		expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 	}
 
 	void buyCar(string carPlayerPref, int amount, int carIndex, Button carButton){
@@ -316,8 +313,9 @@ public class MainMenu : MonoBehaviour {
 			PlayerPrefs.Save ();
 			carButton.GetComponent<Image> ().color = textOn;
 			carButton.GetComponentInChildren<Text>().text = "";
-			cashText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+			expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 			GameObject.Find ("Highlight").transform.position = carButton.transform.position;
+			carPosition (carIndex);
 		} else if (PlayerPrefs.GetInt (carPlayerPref, 0) == 1) {
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.carType, carIndex) != carIndex) {
@@ -327,6 +325,7 @@ public class MainMenu : MonoBehaviour {
 				PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
 				PlayerPrefs.Save ();
 				GameObject.Find ("Highlight").transform.position = carButton.transform.position;
+				carPosition (carIndex);
 			}
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
@@ -339,8 +338,8 @@ public class MainMenu : MonoBehaviour {
 
 	void menuOn(){
 		turnOffAll ();
-		title.text = "Floor It";
-		cashText.GetComponent<Text> ().color = textOn;
+		titleText.text = "Floor It";
+		expText.GetComponent<Text> ().color = textOn;
 		turnOnButtonAndText (playButton);
 		turnOnButtonAndText (playBowlingButton);
 		turnOnButtonAndText (playDriveButton);
@@ -353,7 +352,7 @@ public class MainMenu : MonoBehaviour {
 
 	void settingsOn(){
 		turnOffAll();
-		title.text = "Settings";
+		titleText.text = "Settings";
 		turnOnButtonAndText (settingsButton);
 		settingsButton.GetComponentInChildren<Text>().text = "<-";
 
@@ -364,14 +363,14 @@ public class MainMenu : MonoBehaviour {
 
 	void storeOn(){
 		turnOffAll ();
-		title.text = "Store";
-		cashText.GetComponent<Text> ().color = textOn;
+		titleText.text = "Store";
+		expText.GetComponent<Text> ().color = textOn;
 		storeButton.GetComponentInChildren<Text>().text = "->";
 		turnOnButtonAndText (storeButton);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
-		view.GetComponent<Image> ().color = scrollBackgrounOn;
-		scrollbar.GetComponent<Scrollbar> ().enabled = true;
+		viewport.GetComponent<Image> ().color = scrollBackgrounOn;
+		scrollbarVert.GetComponent<Scrollbar> ().enabled = true;
 		handle.GetComponent<Image> ().color = buttonOn;
 
 		sudanButton.GetComponent<Button> ().enabled = true;
@@ -394,7 +393,7 @@ public class MainMenu : MonoBehaviour {
 	void turnOffAll(){
 		turnOffButtonAndText (storeButton);
 		turnOffButtonAndText (settingsButton);
-		cashText.GetComponent<Text> ().color = noColor;
+		expText.GetComponent<Text> ().color = noColor;
 
 		turnOffButtonAndText (playButton);
 		turnOffButtonAndText (playBowlingButton);
@@ -405,8 +404,8 @@ public class MainMenu : MonoBehaviour {
 		turnOffButtonAndText (vibrationButton);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = false;
-		view.GetComponent<Image> ().color = noColor;
-		scrollbar.GetComponent<Scrollbar> ().enabled = false;
+		viewport.GetComponent<Image> ().color = noColor;
+		scrollbarVert.GetComponent<Scrollbar> ().enabled = false;
 		handle.GetComponent<Image> ().color = noColor;
 
 		turnOffButtonAndText (sudanButton);
@@ -443,6 +442,22 @@ public class MainMenu : MonoBehaviour {
 			button.GetComponentInChildren<Text>().color = textOn;
 		} else {
 			button.GetComponent<Image> ().color = textOn;
+		}
+	}
+
+	/*
+	 * Other
+	 */
+
+	void carPosition (int carNumber) {
+		if (carNumber == 5) {
+			car.transform.position = Vector3.zero;
+		} else if (carNumber == 6){
+			car.transform.position = new Vector3 (0, 0, 0.4f);
+		} else if (carNumber == 7) {
+			car.transform.position = new Vector3 (0, 0, 0.3f);
+		} else {
+			car.transform.position = new Vector3 (0, 0, 0.2f);
 		}
 	}
 }

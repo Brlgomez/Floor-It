@@ -11,6 +11,7 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string soundEffects = "Play Sound Effects";
 	static public string music = "Play Music";
 	static public string vibration = "Play Vibrations";
+	static public string sudan = "Sudan Unlocked";
 	static public string limo = "Limo Unlocked";
 	static public string truck = "Truck Unlocked";
 	static public string sport = "Sport Unlocked";
