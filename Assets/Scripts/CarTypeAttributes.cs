@@ -17,7 +17,7 @@ public class CarTypeAttributes : MonoBehaviour {
 		carTypeMaterial [0] = GameObject.Find ("Car").GetComponent<Renderer> ().materials[1];
 		carTypeMaterial [1] = GameObject.Find (AllBlockNames.hillBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [2] = GameObject.Find (AllBlockNames.pointBlock).GetComponent<Renderer> ().material;
-		carTypeMaterial [3] = GameObject.Find (AllBlockNames.invisibleBlock).GetComponent<Renderer> ().material;
+		carTypeMaterial [3] = GameObject.Find (AllBlockNames.shuffleBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [4] = GameObject.Find (AllBlockNames.multiplierBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [5] = GameObject.Find (AllBlockNames.invisibleBlock).GetComponent<Renderer> ().material;
 		carTypeMaterial [6] = GameObject.Find (AllBlockNames.decelerateBlock).GetComponent<Renderer> ().material;

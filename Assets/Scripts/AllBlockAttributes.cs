@@ -309,7 +309,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			obj = "BrickWall";
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
-			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.5f, block.transform.position.z);
 			nextObject.transform.Rotate (transform.rotation.x, Random.Range (0.0f, 360.0f), transform.rotation.z);
 			Rigidbody[] bricks = nextObject.GetComponentsInChildren<Rigidbody> ();
 			foreach (Rigidbody brick in bricks) {
@@ -322,18 +322,18 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (
 				block.transform.position.x + Random.Range (-0.75f, 0.75f), 
-				0.25f, 
+				0.5f, 
 				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
-			nextObject.transform.Rotate (Random.Range (-30f, 30f), Random.Range (0.0f, 360.0f), Random.Range (-30f, 30f));
+			nextObject.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
 			obj = "Ramp";
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
-			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.25f, block.transform.position.z);
-			nextObject.transform.Rotate (Random.Range (-30f, 30f), Random.Range (-30f, 30f), Random.Range (-30f, 30f));
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.5f, block.transform.position.z);
+			nextObject.transform.Rotate (Random.Range (-15f, 15f), Random.Range (-30f, 30f), Random.Range (-15f, 15f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} 
