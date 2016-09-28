@@ -29,7 +29,7 @@ public class CarTypeAttributes : MonoBehaviour {
 		massOfCars [4] = 18;
 		massOfCars [5] = 1;
 		massOfCars [6] = 40;
-		massOfCars [7] = 2f;
+		massOfCars [7] = 2;
 		carAutoSteering [0] = 75;
 		carAutoSteering [1] = 50;
 		carAutoSteering [2] = 65;
@@ -58,10 +58,10 @@ public class CarTypeAttributes : MonoBehaviour {
 		pointSpeed [1] = 3.0f;
 		pointSpeed [2] = 2.8f;
 		pointSpeed [3] = 1.6f;
-		pointSpeed [4] = 3.8f;
+		pointSpeed [4] = 3.5f;
 		pointSpeed [5] = 1.0f;
-		pointSpeed [6] = 3.2f;
-		pointSpeed [7] = 1.5f;
+		pointSpeed [6] = 3.25f;
+		pointSpeed [7] = 1.25f;
 		newCarSpawnDist [0] = -1.5f;
 		newCarSpawnDist [1] = -2.0f;
 		newCarSpawnDist [2] = -1.75f;

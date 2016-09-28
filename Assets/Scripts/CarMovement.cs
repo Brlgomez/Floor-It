@@ -47,7 +47,7 @@ public class CarMovement : MonoBehaviour {
 		gameOver = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
-		distToGround = transform.position.y + 0.01f;
+		distToGround = transform.position.y + 0.02f;
 		if (speed == 0) {
 			speed = 0.5f + driveSpeedIncrease;
 		}
@@ -168,10 +168,10 @@ public class CarMovement : MonoBehaviour {
 			Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 		}
 		gameObject.tag = TagManagement.deadCar;
-		gameOver = true;			
+		gameOver = true;
 	}
 		
-	void OnCollisionEnter(Collision hit) {
+	void OnCollisionStay(Collision hit) {
 		if (!gameOver) {
 			Camera.main.GetComponent<CarAttributes> ().onBlock (hit, gameObject, rb);
 		}
