@@ -29,6 +29,7 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip decelerationSound;
 	public AudioClip multiplierSound;
 	public AudioClip multiplierRevertSound;
+	public AudioClip expSound;
 
 	private AudioSource source;
 
@@ -108,6 +109,14 @@ public class SoundEffects : MonoBehaviour {
 	public void playHighScoreSound() {
 		if (playSoundEffects == 0) {
 			source.clip = highScoreSound;
+			source.loop = false;
+			source.Play ();
+		}
+	}  
+
+	public void playExpSound() {
+		if (playSoundEffects == 0) {
+			source.clip = expSound;
 			source.loop = false;
 			source.Play ();
 		}

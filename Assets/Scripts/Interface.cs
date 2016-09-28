@@ -23,6 +23,7 @@ public class Interface : MonoBehaviour {
 	public Text speedText;
 	public Text instructionsText;
 	public Text multiplierText;
+	public Text expText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
@@ -54,6 +55,9 @@ public class Interface : MonoBehaviour {
 	bool multiplierBig = false;
 
 	float deltaTime;
+	float exp;
+	float score;
+	float timePassed;
 
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -74,6 +78,8 @@ public class Interface : MonoBehaviour {
 		loadingText.text = "";
 
 		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
+
+		exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
 	}
 
 	void Update(){
@@ -97,7 +103,8 @@ public class Interface : MonoBehaviour {
 			}
 			if (carSpeed != 0) {
 				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
-				scoreText.text = Mathf.FloorToInt (Camera.main.GetComponent<Points>().total).ToString ();
+				score = Mathf.FloorToInt (Camera.main.GetComponent<Points> ().total);
+				scoreText.text = score.ToString () + "\n";
 				speedText.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
 			}
 		}
@@ -130,7 +137,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void trueGameOver(){
-		if (!mainMenuButton.enabled) {
+		if (score >= 0) {
 			carPointText.color = textOff;
 			scoreText.transform.position = Vector3.Lerp (
 				scoreText.transform.position, 
@@ -138,7 +145,19 @@ public class Interface : MonoBehaviour {
 				deltaTime * 3
 			);
 			if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
-				turnOnMainButtons ();
+				expText.text = exp + " EXP";
+				timePassed += deltaTime;
+				if (timePassed > (0.01f / score) || score == 0) {
+					if (score % 10 == 0) {
+						Camera.main.GetComponent<SoundEffects> ().playExpSound ();
+					}
+					timePassed = 0;
+					score--;
+					exp++;
+				}
+				if (!mainMenuButton.enabled) {
+					turnOnMainButtons ();
+				}
 			}
 		}
 	}
@@ -146,6 +165,7 @@ public class Interface : MonoBehaviour {
 	public void gameOverInterface(){
 		float total = Camera.main.GetComponent<Points> ().total;
 		float multi = Camera.main.GetComponent<Points> ().highestMulti;
+		score = total * multi;
 		if (multi > 1) {
 			scoreText.text = "Score\n" + total + " x " + multi + " = " + total * multi;
 		} else {

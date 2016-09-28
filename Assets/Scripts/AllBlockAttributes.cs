@@ -346,7 +346,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().multiplier = block.GetComponent<MultiplierBlockAttributes> ().multiplier;
 				Camera.main.GetComponent<Points> ().multiplierCount = 0;
-				Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes> ().multiplier;
+				Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes> ().multiplier + "\n";
 				Camera.main.GetComponent<Interface> ().multiplierOn ();
 			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
