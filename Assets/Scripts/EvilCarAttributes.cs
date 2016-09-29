@@ -77,7 +77,7 @@ public class EvilCarAttributes : MonoBehaviour {
 						transform.rotation = Quaternion.Slerp (
 							transform.rotation, 
 							targetRotation, 
-							Time.deltaTime * 7
+							Time.deltaTime * 10f
 						);
 					}
 				}

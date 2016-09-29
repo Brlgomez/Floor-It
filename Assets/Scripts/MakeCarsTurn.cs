@@ -126,7 +126,7 @@ public class MakeCarsTurn : MonoBehaviour {
 				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
 					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
 					newRoation, 
-					Time.deltaTime * turnSpeed/10
+					Time.deltaTime * turnSpeed / 25
 				);
 			}
 		}
@@ -161,7 +161,7 @@ public class MakeCarsTurn : MonoBehaviour {
 						aiCar.transform.rotation = Quaternion.Slerp (
 							aiCar.transform.rotation, 
 							targetRotation, 
-							Time.deltaTime * turnSpeed/5
+							Time.deltaTime * turnSpeed / 7.5f
 						);
 					}
 				}

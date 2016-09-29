@@ -148,12 +148,18 @@ public class Interface : MonoBehaviour {
 				expText.text = exp + " EXP";
 				timePassed += deltaTime;
 				if (timePassed > (0.01f / score) || score == 0) {
-					if (score % 10 == 0) {
+					if (score % 3 == 0) {
 						Camera.main.GetComponent<SoundEffects> ().playExpSound ();
 					}
 					timePassed = 0;
-					score--;
-					exp++;
+					int decrementAmount = 1;
+					if (score > 1000) {
+						decrementAmount = 15;
+					} else if (score > 100 && score < 1000) {
+						decrementAmount = 5;
+					} 
+					score -= decrementAmount;
+					exp += decrementAmount;
 				}
 				if (!mainMenuButton.enabled) {
 					turnOnMainButtons ();

@@ -271,19 +271,33 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void spawnBall (GameObject block) {
 		int randomYSpawnPosition = Random.Range (10, 30);
-		GameObject sphereTemp = GameObject.Find ("Sphere");
-		GameObject sphere = Instantiate (sphereTemp);
-		sphere.AddComponent<SphereActions> ();
-		sphere.name = sphereTemp.name + "_Clone";
-		sphere.transform.position = new Vector3 (
-			block.transform.position.x, 
-			randomYSpawnPosition, 
-			block.transform.position.z
-		);
+		if (Random.Range (0, 100) > 10) {
+			GameObject sphereTemp = GameObject.Find ("Sphere");
+			GameObject sphere = Instantiate (sphereTemp);
+			sphere.AddComponent<SphereActions> ();
+			sphere.name = sphereTemp.name + "_Clone";
+			sphere.transform.position = new Vector3 (
+				block.transform.position.x, 
+				randomYSpawnPosition, 
+				block.transform.position.z
+			);
+		} else {
+			GameObject temp = GameObject.Find ("Anvil");
+			GameObject anvil = Instantiate (temp);
+			anvil.name = temp.name + "_Clone";
+			anvil.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
+			anvil.transform.position = new Vector3 (
+				block.transform.position.x + Random.Range (-0.5f, 0.5f), 
+				randomYSpawnPosition, 
+				block.transform.position.z + Random.Range (-0.5f, 0.5f)
+			);
+			anvil.GetComponent<Rigidbody> ().useGravity = true;
+			anvil.GetComponent<Rigidbody> ().isKinematic = false;
+		}
 	}
 
 	public void spawnEvilCar (GameObject block, float leadCarSpeed) {
-		int randomYSpawnPosition = Random.Range (1, 3);
+		float ySpawnPosition = 0.5f;
 		float evilCarSpeed = leadCarSpeed * 1.1f;
 		GameObject evilCarTemp = GameObject.Find (TagManagement.evilCar);
 		GameObject evilCar = Instantiate (evilCarTemp);
@@ -295,7 +309,7 @@ public class AllBlockAttributes : MonoBehaviour {
 		evilCar.GetComponent<Rigidbody> ().isKinematic = false;
 		evilCar.transform.position = new Vector3 (
 			block.transform.position.x, 
-			randomYSpawnPosition,
+			ySpawnPosition,
 			block.transform.position.z
 		);
 	}
