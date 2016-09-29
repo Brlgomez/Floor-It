@@ -31,7 +31,7 @@ public class CarTypeAttributes : MonoBehaviour {
 		massOfCars [6] = 40;
 		massOfCars [7] = 2;
 		carAutoSteering [0] = 75;
-		carAutoSteering [1] = 50;
+		carAutoSteering [1] = 25;
 		carAutoSteering [2] = 65;
 		carAutoSteering [3] = 100;
 		carAutoSteering [4] = 35;
@@ -39,7 +39,7 @@ public class CarTypeAttributes : MonoBehaviour {
 		carAutoSteering [6] = 20;
 		carAutoSteering [7] = 50;
 		carManSteering [0] = 0.75f;
-		carManSteering [1] = 0.5f;
+		carManSteering [1] = 0.25f;
 		carManSteering [2] = 0.65f;
 		carManSteering [3] = 1.0f;
 		carManSteering [4] = 0.35f;

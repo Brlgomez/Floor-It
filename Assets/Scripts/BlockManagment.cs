@@ -14,32 +14,31 @@ public class BlockManagment : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
-			timerCount += Time.deltaTime;
-			if (timerCount > timerLimit) {
-				timerCount = 0;
-				GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
-				if (Camera.main.GetComponent<FollowCar> ().lastCar != null) {
-					lastCarPosition = Camera.main.GetComponent<FollowCar> ().lastCar.transform.position;
+		timerCount += Time.deltaTime;
+		if (timerCount > timerLimit) {
+			timerCount = 0;
+			GameObject[] roadBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
+			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
+			// destroy objects that have fallen
+			foreach (GameObject go in allObjects) {
+				if (go.transform.position.y < -250 && go.tag != TagManagement.pin && go.layer == 2) {
+					Destroy (go);
 				}
-				for (int i = 0; i < roadBlocks.Length; i++) {
-					float distanceToLastCar = 0;
-					distanceToLastCar = roadBlocks[i].transform.position.z - lastCarPosition.z;
-					if (distanceToLastCar < maxDistAway) {
-						if (roadBlocks [i] != null) {
-							Destroy (roadBlocks [i]);
-						}
-					}
-					if (carStill) { 
-						if (i % 3 == 0) {
-							Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
-						}
+			}
+			if (Camera.main.GetComponent<FollowCar> ().lastCar != null) {
+				lastCarPosition = Camera.main.GetComponent<FollowCar> ().lastCar.transform.position;
+			}
+			for (int i = 0; i < roadBlocks.Length; i++) {
+				float distanceToLastCar = 0;
+				distanceToLastCar = roadBlocks [i].transform.position.z - lastCarPosition.z;
+				if (distanceToLastCar < maxDistAway && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
+					if (roadBlocks [i] != null && !Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+						Destroy (roadBlocks [i]);
 					}
 				}
-				GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>() ;
-				foreach (GameObject go in allObjects) {
-					if (go.transform.position.y < -250 && go.tag != TagManagement.pin) {
-						Destroy (go);
+				if (carStill) { 
+					if (i % 3 == 0) {
+						Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
 					}
 				}
 			}
