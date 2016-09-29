@@ -120,6 +120,9 @@ public class AddBlock : MonoBehaviour {
 	// Time.deltaTime
 	float deltaTime;
 
+	float timeSinceLastBlock = 0;
+	float timeSinceLastBlockLimit = 10;
+
 	void Start () {
 		level = Camera.main.GetComponent<LevelManagement> ().level;
 
@@ -175,6 +178,10 @@ public class AddBlock : MonoBehaviour {
 			extraCarCounter += deltaTime;
 			checkForSuperBlocks ();
 			if (level == LevelManagement.drive) {
+				timeSinceLastBlock += Time.deltaTime;
+				if (timeSinceLastBlock > timeSinceLastBlockLimit) {
+					Camera.main.GetComponent<BlockManagment> ().carStill = true;
+				}
 				if (hudBlock != null && hudBlock.tag == TagManagement.blockOnHud) {
 					hudBlock.tag = TagManagement.moveableObject;
 				}
@@ -234,6 +241,8 @@ public class AddBlock : MonoBehaviour {
 		Vector3 positionOfNewBlock = new Vector3 (nextX, -1, nextBlockZ);
 		hudBlock.transform.position = positionOfNewBlock;
 		hudBlock.tag = TagManagement.blockOnRoad;	
+		timeSinceLastBlock = 0;
+		Camera.main.GetComponent<BlockManagment> ().carStill = false;
 	}
 
 	void spawnNextBlock () {

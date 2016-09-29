@@ -160,7 +160,6 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 			} else {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
-				//TODO: Spawn bomb car
 			}
 		}
 	}

@@ -7,6 +7,7 @@ public class BlockManagment : MonoBehaviour {
 	static float timerLimit = 5;
 	static float maxDistAway = -10f;
 	Vector3 lastCarPosition;
+	public bool carStill = false;
 
 	void Start () {
 		lastCarPosition = new Vector2 (Camera.main.transform.position.x, Camera.main.transform.position.z);
@@ -23,17 +24,15 @@ public class BlockManagment : MonoBehaviour {
 				}
 				for (int i = 0; i < roadBlocks.Length; i++) {
 					float distanceToLastCar = 0;
-					if (roadBlocks[i].transform.position.y != -1) {
-						roadBlocks[i].transform.position = new Vector3 (
-							roadBlocks[i].transform.position.x, 
-							-1, 
-							roadBlocks[i].transform.position.z
-						);
-					}
 					distanceToLastCar = roadBlocks[i].transform.position.z - lastCarPosition.z;
 					if (distanceToLastCar < maxDistAway) {
 						if (roadBlocks [i] != null) {
 							Destroy (roadBlocks [i]);
+						}
+					}
+					if (carStill) { 
+						if (i % 3 == 0) {
+							Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
 						}
 					}
 				}
