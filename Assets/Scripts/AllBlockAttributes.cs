@@ -333,6 +333,8 @@ public class AllBlockAttributes : MonoBehaviour {
 				brick.GetComponent<Rigidbody> ().useGravity = true;
 				brick.GetComponent<Rigidbody> ().isKinematic = false;
 			}
+			nextObject.transform.DetachChildren ();
+			Destroy (nextObject);
 		} else if (rand < 7) {
 			obj = "Cone";
 			temp = GameObject.Find (obj);

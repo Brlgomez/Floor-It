@@ -36,6 +36,12 @@ public class BlockManagment : MonoBehaviour {
 						}
 					}
 				}
+				GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>() ;
+				foreach (GameObject go in allObjects) {
+					if (go.transform.position.y < -250 && go.tag != TagManagement.pin) {
+						Destroy (go);
+					}
+				}
 			}
 		}
 	}
