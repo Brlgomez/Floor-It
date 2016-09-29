@@ -58,6 +58,8 @@ public class Interface : MonoBehaviour {
 	float exp;
 	float score;
 	float timePassed;
+	static float playSoundsLimit = 0.075f;
+	float playSoundTime;
 
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -147,19 +149,19 @@ public class Interface : MonoBehaviour {
 			if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
 				expText.text = exp + " EXP";
 				timePassed += deltaTime;
-				if (timePassed > (0.01f / score) || score == 0) {
-					if (score % 3 == 0) {
-						Camera.main.GetComponent<SoundEffects> ().playExpSound ();
+				playSoundTime += deltaTime;
+				if (playSoundTime > playSoundsLimit) {
+					playSoundTime = 0;
+					Camera.main.GetComponent<SoundEffects> ().playExpSound ();
+				}
+				if (timePassed > (0.1f / score) || score == 0) {
+					int decrementAmount = Mathf.CeilToInt(score / 100);
+					if (decrementAmount == 0) {
+						decrementAmount = 1;
 					}
-					timePassed = 0;
-					int decrementAmount = 1;
-					if (score > 1000) {
-						decrementAmount = 15;
-					} else if (score > 100 && score < 1000) {
-						decrementAmount = 5;
-					} 
 					score -= decrementAmount;
 					exp += decrementAmount;
+					timePassed = 0;
 				}
 				if (!mainMenuButton.enabled) {
 					turnOnMainButtons ();
@@ -170,12 +172,18 @@ public class Interface : MonoBehaviour {
 
 	public void gameOverInterface(){
 		float total = Camera.main.GetComponent<Points> ().total;
-		float multi = Camera.main.GetComponent<Points> ().highestMulti;
+		float tempMulti = Camera.main.GetComponent<Points> ().highestMulti;
+		float multi = tempMulti;
+		if (multi == 0) {
+			multi = 1;
+		}
 		score = total * multi;
-		if (multi > 1) {
-			scoreText.text = "Score\n" + total + " x " + multi + " = " + total * multi;
-		} else {
+		if (tempMulti == 0) {
 			scoreText.text = "Score\n" + total;
+		} else if (tempMulti == 1) {
+			scoreText.text = "Score\n" + total + " x " + multi + " pin = " + total * multi;
+		} else {
+			scoreText.text = "Score\n" + total + " x " + multi + " pins = " + total * multi;
 		}
 		turnOnOrOffButton (pauseButton, false);
 		highScoreText.GetComponent<Text> ().color = textOn;

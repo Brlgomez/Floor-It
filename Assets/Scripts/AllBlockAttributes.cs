@@ -151,7 +151,11 @@ public class AllBlockAttributes : MonoBehaviour {
 						spawnZ
 					);
 				}
-				nextCar.transform.rotation = new Quaternion (0, temp.transform.rotation.y, 0, temp.transform.rotation.w);
+				if (Camera.main.GetComponent<LevelManagement> ().level == LevelManagement.bowl) {
+					nextCar.transform.rotation = new Quaternion (0, 0, 0, temp.transform.rotation.w);
+				} else {
+					nextCar.transform.rotation = new Quaternion (0, temp.transform.rotation.y, 0, temp.transform.rotation.w);
+				}
 				nextCar.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment> ().carMass;
 				Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 			} else {

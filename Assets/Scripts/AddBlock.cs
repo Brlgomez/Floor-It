@@ -37,7 +37,7 @@ public class AddBlock : MonoBehaviour {
 	// a counter that will increment for super blocks
 	float superCounter = 0;
 	// if the counter goes above the limit, a super block can now possibly spawn
-	static float superLimit = 20;
+	static float superLimit = 25;
 	// a counter that will increment for evil cars
 	float evilCarCounter = 0;
 	// if the counter goes above the limit, an evil car can now possibly spawn

@@ -26,13 +26,14 @@ public class CarMovement : MonoBehaviour {
 	public bool carFlipped;
 	public bool evilCarWithinRange;
 	static float evilCarRange = 5;
+	bool evilCarFirstLooked = false;
 	public float speedometer;
 	Vector3 lastPos;
 
 	public float speed;
 	public float acceleration;
 	public float distToGround;
-	float driveSpeedIncrease = 0.25f;
+	public float driveSpeedIncrease = 0.25f;
 
 	string level;
 
@@ -88,6 +89,10 @@ public class CarMovement : MonoBehaviour {
 		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
 			Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
 			if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
+				if (!evilCarFirstLooked) {
+					evilCarFirstLooked = true;
+					speed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed * 1.1f;
+				}
 				evilCarWithinRange = true;
 				carFlipped = false;
 				rb.MovePosition (transform.position + transform.forward * deltaTime * speed);

@@ -24,7 +24,7 @@ public class Points : MonoBehaviour {
 		highscoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
 		highscoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
 		newHighScore = false;
-		highestMulti = 1;
+		highestMulti = 0;
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		checkHighScore = false;
 		aliveCars = 1;
@@ -82,10 +82,14 @@ public class Points : MonoBehaviour {
 					}
 				}
 				checkHighScore = true;
-				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total * highestMulti)));
-				if (Mathf.FloorToInt (total * highestMulti) > highscoreBowling) {
+				float tempHighestMulti = highestMulti;
+				if (tempHighestMulti == 0) {
+					tempHighestMulti = 1;
+				}
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total * tempHighestMulti)));
+				if (Mathf.FloorToInt (total * tempHighestMulti) > highscoreBowling) {
 					newHighScore = true;
-					highscoreBowling = Mathf.FloorToInt (total * highestMulti);
+					highscoreBowling = Mathf.FloorToInt (total * tempHighestMulti);
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreBowl, highscoreBowling);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();				
