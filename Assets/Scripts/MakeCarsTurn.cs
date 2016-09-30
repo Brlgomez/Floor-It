@@ -5,77 +5,54 @@ public class MakeCarsTurn : MonoBehaviour {
 
 	float time;
 	float timeReset;
-	float randomAmount;
+	float randomAngle;
 	float turningTime;
+	float aiTurnCount;
+	static float aiTurnLimit = 0.1f;
 
-	int timeResetMin, timeResetMax;
-	float randomAngleMin, randomAngleMax;
-	float minTurningTime, maxTurningTime;
-	float maxAngle;
+	static int timeResetMin = 5;
+	static int timeResetMax = 10;
+	static float randomAngleMin = -0.002f;
+	static float randomAngleMax = 0.002f;
+	static float minTurningTime = 1.0f;
+	static float maxTurningTime = 4.0f;
+	static float maxAngle = 0.5f;
+	static float maxDiffAngle = 0.1f;
 
 	float turnSpeed;
-
 	float rotationCurr;
 	float rotationPrev;
-	float maxDiffAngle;
-	bool needsToBeRecalibrated;
+	bool needsToBeRecalibrated = false;
 
+	public bool leftButtonPressed = false;
+	public bool rightButtonPressed = false;
 	string level;
 
-	public bool leftButtonPressed;
-	public bool rightButtonPressed;
-
-	float aiTurnCount;
-	float aiTurnLimit = 0.1f;
-
 	void Start () {
-		time = 0;
-		timeResetMin = 5;
-		timeResetMax = 10;
-		randomAngleMin = -0.001f;
-		randomAngleMax = 0.001f;
-		minTurningTime = 1.0f;
-		maxTurningTime = 3.5f;
-		maxAngle = 0.25f;
-
-		timeReset = Random.Range (timeResetMin, timeResetMax);
-		randomAmount = Random.Range (randomAngleMin, randomAngleMax);
-		turningTime = Random.Range (minTurningTime, maxTurningTime);
-
-		rotationPrev = 0;
-		rotationCurr = 0;
-		maxDiffAngle = 0.1f;
-		needsToBeRecalibrated = false;
-
+		resestValues ();
 		level = Camera.main.GetComponent<LevelManagement>().level;
-
-		leftButtonPressed = false;
-		rightButtonPressed = false;
+		turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
 	}
 	
 	void Update () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused) {
-			if (turnSpeed == 0) {
-				turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
-			}
 			if (level == LevelManagement.floorIt) {
-				autoTurnCars ();
-			}
-			if (level == LevelManagement.drive) {
+				if (turnSpeed == 0) {
+					turnSpeed = Camera.main.GetComponent<CarMangment>().carAutoSteering;
+				}
+				autoRotate ();
+			} else if (level == LevelManagement.drive) {
 				manualRotate ();
 			}
 		}
 	}
 
-	void autoTurnCars() {
+	void autoRotate() {
 		time += Time.deltaTime;
 		rotationCurr = 0;
 		rotationPrev = 0;
 		if (time > timeReset + turningTime) {
-			time = 0;
-			timeReset = Random.Range (timeResetMin, timeResetMax);
-			randomAmount = Random.Range (randomAngleMin, randomAngleMax);
-			turningTime = Random.Range (minTurningTime, maxTurningTime);
+			resestValues ();
 		}
 		if ((time > timeReset) && (time < (timeReset + turningTime))) {
 			for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
@@ -83,52 +60,71 @@ public class MakeCarsTurn : MonoBehaviour {
 					rotationCurr = Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y;
 					if (Mathf.Abs (rotationCurr) > maxAngle) {
 						needsToBeRecalibrated = true;	
-						recalibrateRotation ();
 					} else {
 						needsToBeRecalibrated = false;
 					}
 					if (rotationPrev != 0) {
 						if (Mathf.Abs (rotationCurr - rotationPrev) > maxDiffAngle) {
 							needsToBeRecalibrated = true;	
-							recalibrateRotation ();
 						} else {
 							needsToBeRecalibrated = false;
 						}
 					}
 					rotationPrev = Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y;
-					if (!needsToBeRecalibrated) {
-						Quaternion newRoation = new Quaternion (
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y + randomAmount, 
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
-						);
-						Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
-							Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
-							newRoation, 
-							Time.deltaTime * turnSpeed
-						);
+					if (needsToBeRecalibrated) {
+						recalibrateRotation ();
+					} else {
+						regularRotation (i);
 					}
 				} 
 			}
 		}
 	}
 
-	void recalibrateRotation(){
+	void resestValues () {
+		time = 0;
+		timeReset = Random.Range (timeResetMin, timeResetMax);
+		randomAngle = Random.Range (randomAngleMin, randomAngleMax);
+		turningTime = Random.Range (minTurningTime, maxTurningTime);
+	}
+
+	void regularRotation (int i) {
+		Quaternion newRoation;
+		if (i == 0) {
+			newRoation = new Quaternion (
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y + randomAngle, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
+			);
+		} else {
+			newRoation = new Quaternion (
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
+				Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.y, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
+			);
+		}
+		Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
+			Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
+			newRoation, 
+			Time.deltaTime * turnSpeed
+		);
+	}
+
+	void recalibrateRotation () {
 		for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
-			if (Camera.main.GetComponent<CarMangment> ().cars [i] != null) {
-				Quaternion newRoation = new Quaternion (
-					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
-					0, 
-					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
-					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
-				);
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
-					Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
-					newRoation, 
-					Time.deltaTime * turnSpeed / 25
-				);
-			}
+			Quaternion newRoation = new Quaternion (
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
+				0, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
+			);
+			Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
+				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
+				newRoation, 
+				Time.deltaTime
+			);
 		}
 	}
 
