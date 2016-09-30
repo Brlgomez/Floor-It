@@ -7,7 +7,8 @@ public class BlockManagment : MonoBehaviour {
 	static float timerLimit = 5;
 	static float maxDistAway = -10f;
 	Vector3 lastCarPosition;
-	public bool carStill = false;
+	bool carStill = false;
+	Vector3 prevLastCarPosition;
 
 	void Start () {
 		lastCarPosition = new Vector2 (Camera.main.transform.position.x, Camera.main.transform.position.z);
@@ -25,20 +26,28 @@ public class BlockManagment : MonoBehaviour {
 					Destroy (go);
 				}
 			}
+			prevLastCarPosition = lastCarPosition;
 			if (Camera.main.GetComponent<FollowCar> ().lastCar != null) {
 				lastCarPosition = Camera.main.GetComponent<FollowCar> ().lastCar.transform.position;
-			}
-			for (int i = 0; i < roadBlocks.Length; i++) {
-				float distanceToLastCar = 0;
-				distanceToLastCar = roadBlocks [i].transform.position.z - lastCarPosition.z;
-				if (distanceToLastCar < maxDistAway && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
-					if (roadBlocks [i] != null && !Camera.main.GetComponent<CarMangment> ().trueGameOver) {
-						Destroy (roadBlocks [i]);
-					}
+				if (Vector3.Distance (prevLastCarPosition, lastCarPosition) < 1) {
+					carStill = true;
+				} else {
+					carStill = false;
 				}
-				if (carStill) { 
-					if (i % 3 == 0) {
-						Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
+			}
+			if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+				for (int i = 0; i < roadBlocks.Length; i++) {
+					float distanceToLastCar = 0;
+					distanceToLastCar = roadBlocks [i].transform.position.z - lastCarPosition.z;
+					if (distanceToLastCar < maxDistAway && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
+						if (roadBlocks [i] != null) {
+							Destroy (roadBlocks [i]);
+						}
+					}
+					if (carStill) { 
+						if (i % 3 == 0) {
+							Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
+						}
 					}
 				}
 			}

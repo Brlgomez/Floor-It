@@ -86,7 +86,7 @@ public class CarMovement : MonoBehaviour {
 	}
 
 	void evilCarMovement(){
-		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying || Mathf.Abs(rb.velocity.y) > 0.15f) {
 			Vector3 leadCarPos = Camera.main.GetComponent<FollowCar> ().leadCar.transform.position;
 			Vector3 forward = new Vector3 (transform.forward.x, 0.05f, transform.forward.z);
 			if (Vector3.Distance (leadCarPos, transform.position) < evilCarRange) {
@@ -100,7 +100,7 @@ public class CarMovement : MonoBehaviour {
 			} else {
 				evilCarWithinRange = false;
 				carFlipped = false;
-				rb.MovePosition (transform.position + forward * deltaTime/25);
+				rb.MovePosition (transform.position + forward * deltaTime / 25);
 			}
 		} else {
 			evilCarWithinRange = false;
@@ -109,7 +109,7 @@ public class CarMovement : MonoBehaviour {
 	}
 
 	void carMovement(){
-		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying) {
+		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying || Mathf.Abs(rb.velocity.y) > 0.15f) {
 			Vector3 forward = new Vector3 (transform.forward.x, 0.05f, transform.forward.z);
 			rb.MovePosition (transform.position + forward * deltaTime * speed);
 			carFlipped = false;
