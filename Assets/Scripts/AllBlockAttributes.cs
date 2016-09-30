@@ -55,7 +55,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<Points> ().incrementPoints (decelerateBlockPoints, block);
 				if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 					float currentSpeed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed;
-					float slowestSpeed = CarMovement.slowestSpeed;
+					float slowestSpeed = car.GetComponent<CarMovement> ().slowestSpeed;
 					if (currentSpeed > slowestSpeed) {
 						changeSpeedOfAllCars (-currentSpeed * 2.5f);
 					}
@@ -251,8 +251,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<AddBlock> ().superSpeedBlockActivated = false;
 			Camera.main.GetComponent<AddBlock> ().superBlockActivated = false;
 			Camera.main.GetComponent<AddBlock> ().superPointBlockActivated = false;
-			Behaviour halo = (Behaviour)block.GetComponent ("Halo");
-			halo.enabled = false;
+			block.GetComponent<LensFlare> ().enabled = false;
 			if (blockName == AllBlockNames.superDecelerateBlock) {
 				onSlowDownBlock (block, car);
 				for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {

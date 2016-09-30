@@ -15,6 +15,7 @@ public class CarMangment : MonoBehaviour {
 	public float carAcceleration;
 	public float pointSpeed;
 	public float newCarSpawnDist;
+	public float initialSpeed;
 
 	void Start () {
 		trueGameOver = false;
@@ -37,9 +38,16 @@ public class CarMangment : MonoBehaviour {
 		carAcceleration = Camera.main.GetComponent<CarTypeAttributes> ().getCarAcceleration (carNum);
 		pointSpeed = Camera.main.GetComponent<CarTypeAttributes> ().getPointSpeed (carNum);
 		newCarSpawnDist = Camera.main.GetComponent<CarTypeAttributes> ().getNewCarSpawnDist (carNum);
+		initialSpeed = Camera.main.GetComponent<CarTypeAttributes> ().getInitialSpeed (carNum);
 
 		initialCar.GetComponent<Rigidbody> ().mass = carMass;
 		initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
+		initialCar.GetComponent<CarMovement> ().slowestSpeed = initialSpeed;
+		if (level == LevelManagement.drive) {
+			initialCar.GetComponent<CarMovement> ().driveSpeedIncrease = initialSpeed * 0.5f;
+		} else {
+			initialCar.GetComponent<CarMovement> ().driveSpeedIncrease = 0;
+		}
 
 		if (carNum != 5) {
 			Renderer rend = initialCar.GetComponent<Renderer> ();

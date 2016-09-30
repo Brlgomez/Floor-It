@@ -5,7 +5,7 @@ public class CarMovement : MonoBehaviour {
 
 	private Rigidbody rb;
 
-	public static float slowestSpeed = 0.5f;
+	public float slowestSpeed = 0;
 	public static float fastestSpeed = 10.0f;
 	public static float jumpHeight = 5.0f;
 
@@ -33,7 +33,7 @@ public class CarMovement : MonoBehaviour {
 	public float speed;
 	public float acceleration;
 	public float distToGround;
-	public float driveSpeedIncrease = 0.25f;
+	public float driveSpeedIncrease;
 
 	string level;
 
@@ -42,16 +42,11 @@ public class CarMovement : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		level = Camera.main.GetComponent<LevelManagement> ().level;
-		if (level != LevelManagement.drive) {
-			driveSpeedIncrease = 0;
-		}
+
 		gameOver = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
 		distToGround = transform.position.y + 0.02f;
-		if (speed == 0) {
-			speed = 0.5f + driveSpeedIncrease;
-		}
 		flying = false;
 		flyingTimer = 0;
 		GetComponent<Rigidbody>().useGravity = true;
