@@ -173,7 +173,7 @@ public class CarMovement : MonoBehaviour {
 		gameOver = true;
 	}
 		
-	void OnCollisionStay(Collision hit) {
+	void OnCollisionEnter(Collision hit) {
 		if (!gameOver) {
 			Camera.main.GetComponent<CarAttributes> ().onBlock (hit, gameObject, rb);
 		}

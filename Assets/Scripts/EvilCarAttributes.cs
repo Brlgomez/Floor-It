@@ -10,7 +10,7 @@ public class EvilCarAttributes : MonoBehaviour {
 	static float aiTurnLimit = 0.1f;
 	static float explodedDist = 1.25f;
 
-	static float radius = 1.75f;
+	static int radius = 2;
 	static int power = 750;
 	static int upwardForce = 50;
 	bool exploded;
@@ -93,7 +93,7 @@ public class EvilCarAttributes : MonoBehaviour {
 			if (rb != null) {
 				rb.AddExplosionForce (
 					power * transform.localScale.x,
-					explosionPos * transform.localScale.x, 
+					explosionPos,
 					radius * transform.localScale.x, 
 					upwardForce * transform.localScale.x
 				);

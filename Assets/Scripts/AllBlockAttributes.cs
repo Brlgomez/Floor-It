@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 public class AllBlockAttributes : MonoBehaviour {
 
-	static float onSpeedBlockAcc = 3.0f;
+	static float onSpeedBlockAcc = 3;
 	static int speedUpForce = 130;
 	static int speedDownForce = -120;
-	static float onJumpBlockHeight = 3.5f;
+	static float onJumpBlockHeight = 4;
 	static float sizeBig = 1.5f;
 	static float sizeSmall = 0.5f;
 
@@ -21,8 +21,6 @@ public class AllBlockAttributes : MonoBehaviour {
 	static int sizeBlockPoints = 3;
 
 	float numberOfCars;
-
-	public Material transparentMaterial;
 
 	public void onSpeedBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
@@ -182,6 +180,7 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	public void onInvisibleBlock (GameObject block, GameObject car) {
+		Material clearMaterial = GameObject.Find ("ClearBlock").GetComponent<Renderer> ().material; 
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated (true);
 			Camera.main.GetComponent<SoundEffects> ().playInvisibleSound (block.transform.position);
@@ -200,7 +199,7 @@ public class AllBlockAttributes : MonoBehaviour {
 						break;
 					}
 				}
-				allBlocks [i].GetComponent<Renderer> ().material = transparentMaterial;
+				allBlocks [i].GetComponent<Renderer> ().material = clearMaterial;
 			}
 		}
 	}

@@ -4,7 +4,8 @@ using System.Collections;
 public class BombAttributes : MonoBehaviour {
 
 	static float radius = 4.5f;
-	static float power = 1000f;
+	static float power = 1000;
+	static float upwardForce = 50;
 	ParticleSystem smoke;
 	Renderer rend;
 	Color colorStart;
@@ -17,7 +18,8 @@ public class BombAttributes : MonoBehaviour {
 	public bool isBombX;
 	public bool isTransparent;
 	Material XBombMaterial;
-	Material transparentMaterial;
+	Material invisibleMaterial;
+	Material clearMaterial;
 
 	void Awake () {
 		smoke = gameObject.GetComponent<ParticleSystem> ();
@@ -27,7 +29,8 @@ public class BombAttributes : MonoBehaviour {
 		} else {
 			isBombX = false;
 		}
-		transparentMaterial = GameObject.Find ("InvisibleFloor").GetComponent<Renderer> ().material;
+		invisibleMaterial = GameObject.Find ("InvisibleFloor").GetComponent<Renderer> ().material;
+		clearMaterial = GameObject.Find ("ClearBlock").GetComponent<Renderer> ().material; 
 		colorStart = GetComponent<Renderer> ().material.color;
 		colorEnd = new Color (
 			GetComponent<Renderer> ().material.color.r, 
@@ -48,7 +51,7 @@ public class BombAttributes : MonoBehaviour {
 				if (!isTransparent) {
 					rend.material.color = Color.Lerp (colorStart, colorEnd, (timer * 1.1f) / timeLimit);
 				} else {
-					rend.material = transparentMaterial;
+					rend.material = clearMaterial;
 				}
 			}
 			if (timer > timeLimit - 0.2f && !particlePlayed) {
@@ -61,7 +64,7 @@ public class BombAttributes : MonoBehaviour {
 				explosionForce ();
 			}
 			if(timer > timeLimit && !exploded){
-				rend.material = transparentMaterial;
+				rend.material = invisibleMaterial;
 				GetComponent<Collider> ().enabled = false;
 				exploded = true;
 				Camera.main.GetComponent<Vibration> ().vibrate();
@@ -129,7 +132,7 @@ public class BombAttributes : MonoBehaviour {
 		foreach (Collider hit in colliders) {
 			Rigidbody rb = hit.GetComponent<Rigidbody>();
 			if (rb != null) {
-				rb.AddExplosionForce (power, explosionPos, radius, 50.0f);
+				rb.AddExplosionForce (power, explosionPos, radius, upwardForce);
 			}
 		}
 	}

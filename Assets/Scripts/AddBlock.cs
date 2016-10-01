@@ -180,7 +180,7 @@ public class AddBlock : MonoBehaviour {
 				}
 				if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 					leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-					if (leadCar.transform.position.z > nextBlockZ - nextBlockZLimit) {
+					if (leadCar.transform.position.z + leadCarSpeed > nextBlockZ - nextBlockZLimit) {
 						countForNextBlock += deltaTime; 
 						float leadCarZ = leadCar.transform.position.z;
 						if (countForNextBlock > (nextBlockZ - leadCarZ - distBlocksSpawn) / (blockPerRow)) {
