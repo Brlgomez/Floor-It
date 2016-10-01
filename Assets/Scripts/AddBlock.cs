@@ -63,7 +63,7 @@ public class AddBlock : MonoBehaviour {
 	// where the next z position of the block will spawn
 	int nextBlockZ = 14;
 	// how far away from the from the car will blocks spawn
-	static int nextBlockZLimit = 7;
+	static int nextBlockZLimit = 6;
 	// how much the blocks in a row will be shifted
 	int shiftAmount = 0;
 	// how many blocks per row
