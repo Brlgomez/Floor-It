@@ -14,6 +14,7 @@ public class Interface : MonoBehaviour {
 	public Button pauseButton;
 	public Button leftButton;
 	public Button rightButton;
+	public Button jumpButton;
 
 	public Text highScoreText;
 	public Text loadingText;
@@ -135,6 +136,9 @@ public class Interface : MonoBehaviour {
 			} else {
 				multiplierBig = false;
 			}
+		}
+		if (Input.GetButtonDown ("Jump") && level == LevelManagement.drive) {
+			Camera.main.GetComponent<CarAttributes>().jump();
 		}
 	}
 
@@ -273,6 +277,7 @@ public class Interface : MonoBehaviour {
 		if (!leftButton.GetComponent<Button> ().enabled) {
 			turnOnOrOffButton (leftButton, true);
 			turnOnOrOffButton (rightButton, true);
+			turnOnOrOffButton (jumpButton, true);
 		}
 	}
 
@@ -280,6 +285,7 @@ public class Interface : MonoBehaviour {
 		if (leftButton.GetComponent<Button> ().enabled) {
 			turnOnOrOffButton (leftButton, false);
 			turnOnOrOffButton (rightButton, false);
+			turnOnOrOffButton (jumpButton, false);
 		}
 	}
 
@@ -335,7 +341,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void onPointerDownJumpButton() {
-		Camera.main.GetComponent<CarAttributes>().jump(Camera.main.GetComponent<FollowCar> ().leadCar);
+		Camera.main.GetComponent<CarAttributes>().jump();
 	}
 
 	public void changeHUDSprite (string blockName, string fullBlockName) {

@@ -51,7 +51,6 @@ public class CarAttributes : MonoBehaviour {
 			}
 			car.GetComponent<CarMovement>().resizeCounter = 0;
 			car.GetComponent<CarMovement>().resized = false;
-			car.GetComponent<CarMovement> ().distToGround = car.transform.position.y;
 			car.transform.localScale = new Vector3 (1, 1, 1);
 			car.GetComponent<Rigidbody>().mass = Camera.main.GetComponent<CarMangment>().carMass;
 		}
@@ -82,12 +81,16 @@ public class CarAttributes : MonoBehaviour {
 	}
 
 	public bool isGrounded (GameObject car) {
-		return Physics.Raycast (car.transform.position, -car.transform.up, car.transform.position.y + 0.1f);
+		return Physics.Raycast (car.transform.position, -car.transform.up, car.GetComponent<CarMovement>().distToGround);
 	}
 
-	public void jump (GameObject car) {
-		if (isGrounded (car) && !car.GetComponent<CarMovement>().gameOver) {		
-			car.GetComponent<Rigidbody> ().velocity += Vector3.up * CarMovement.jumpHeight;
+	public void jump () {
+		GameObject [] aliveCars = GameObject.FindGameObjectsWithTag (TagManagement.car);
+		foreach (GameObject car in aliveCars) {
+			if (isGrounded (car) && !car.GetComponent<CarMovement> ().gameOver) {
+				Vector3 upward = new Vector3 (car.transform.forward.x, car.transform.up.y, car.transform.forward.z);	
+				car.GetComponent<Rigidbody> ().velocity += upward * car.transform.localScale.x * 4;
+			}
 		}
 	}
 

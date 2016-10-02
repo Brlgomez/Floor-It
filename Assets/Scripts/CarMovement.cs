@@ -46,7 +46,7 @@ public class CarMovement : MonoBehaviour {
 		gameOver = false;
 		carFlipped = false;
 		evilCarWithinRange = true;
-		distToGround = transform.position.y + 0.02f;
+		distToGround = 0.05f;
 		flying = false;
 		flyingTimer = 0;
 		GetComponent<Rigidbody>().useGravity = true;
