@@ -82,23 +82,12 @@ public class CarAttributes : MonoBehaviour {
 	}
 
 	public bool isGrounded (GameObject car) {
-		return Physics.Raycast (transform.position, -Vector3.up, car.GetComponent<CarMovement>().distToGround);
+		return Physics.Raycast (car.transform.position, -car.transform.up, car.transform.position.y + 0.1f);
 	}
 
 	public void jump (GameObject car) {
-		if (isGrounded (car) && !car.GetComponent<CarMovement>().gameOver) {
-			Quaternion newRoation = new Quaternion (
-				transform.rotation.x + (Random.Range (-0.02f, 0.02f)), 
-				transform.rotation.y, 
-				transform.rotation.z + (Random.Range (-0.02f, 0.02f)), 
-				transform.rotation.w
-			);
-			transform.rotation = Quaternion.Slerp (
-				transform.rotation, 
-				newRoation, 
-				Time.deltaTime * 100
-			);
-			car.GetComponent<Rigidbody>().velocity += Vector3.up * CarMovement.jumpHeight;
+		if (isGrounded (car) && !car.GetComponent<CarMovement>().gameOver) {		
+			car.GetComponent<Rigidbody> ().velocity += Vector3.up * CarMovement.jumpHeight;
 		}
 	}
 

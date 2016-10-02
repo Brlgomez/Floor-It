@@ -334,6 +334,10 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<MakeCarsTurn>().rightButtonPressed = false;
 	}
 
+	public void onPointerDownJumpButton() {
+		Camera.main.GetComponent<CarAttributes>().jump(Camera.main.GetComponent<FollowCar> ().leadCar);
+	}
+
 	public void changeHUDSprite (string blockName, string fullBlockName) {
 		if (blockName == AllBlockNames.hillBlock) {
 			nextBlockSprite.sprite = hill;
