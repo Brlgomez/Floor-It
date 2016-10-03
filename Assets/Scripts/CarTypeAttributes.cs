@@ -13,6 +13,7 @@ public class CarTypeAttributes : MonoBehaviour {
 	float[] pointSpeed = new float[numOfCars];
 	float[] newCarSpawnDist = new float[numOfCars];
 	float[] initialSpeed = new float[numOfCars];
+	float[] carJumpDist = new float[numOfCars];
 
 	void Awake(){
 		carTypeMaterial [0] = GameObject.Find ("Car").GetComponent<Renderer> ().materials[1];
@@ -79,6 +80,14 @@ public class CarTypeAttributes : MonoBehaviour {
 		initialSpeed [5] = 0.6f;
 		initialSpeed [6] = 0.4f;
 		initialSpeed [7] = 0.6f;
+		carJumpDist [0] = 4.0f;
+		carJumpDist [1] = 3.0f;
+		carJumpDist [2] = 3.75f;
+		carJumpDist [3] = 4.25f;
+		carJumpDist [4] = 2.5f;
+		carJumpDist [5] = 4.5f;
+		carJumpDist [6] = 2.0f;
+		carJumpDist [7] = 3.25f;
 	}
 
 	public Material getCarTypeMaterial(int index){
@@ -111,5 +120,9 @@ public class CarTypeAttributes : MonoBehaviour {
 
 	public float getInitialSpeed (int index) {
 		return initialSpeed [index];
+	}
+
+	public float getJumpDistance (int index) {
+		return carJumpDist [index];
 	}
 }

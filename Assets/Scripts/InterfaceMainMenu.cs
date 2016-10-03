@@ -376,7 +376,11 @@ public class InterfaceMainMenu : MonoBehaviour {
 	 */
 
 	void setCarPosition (int carNumber) {
-		if (carNumber == 5) {
+		if (carNumber == 1) {
+			car.transform.position = new Vector3 (0, 0, 0.4f);
+		} else if (carNumber == 4) {
+			car.transform.position = new Vector3 (0, 0, 0.4f);
+		} else if (carNumber == 5) {
 			car.transform.position = Vector3.zero;
 		} else if (carNumber == 6) {
 			car.transform.position = new Vector3 (0, 0, 0.4f);

@@ -183,7 +183,7 @@ public class AddBlock : MonoBehaviour {
 					if (leadCar.transform.position.z + leadCarSpeed > nextBlockZ - nextBlockZLimit) {
 						countForNextBlock += deltaTime; 
 						float leadCarZ = leadCar.transform.position.z;
-						if (countForNextBlock > (nextBlockZ - leadCarZ - distBlocksSpawn) / (blockPerRow)) {
+						if (countForNextBlock > (nextBlockZ - leadCarZ - (distBlocksSpawn + leadCarSpeed/5)) / (blockPerRow)) {
 							automaticallyAddBlocks ();
 							countForNextBlock = 0;
 						}

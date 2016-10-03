@@ -30,12 +30,14 @@ public class Interface : MonoBehaviour {
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
 	public Image nextBlockSprite;
 	public Image nextBlockBackground;
+	public Image jumpProgressBar;
 
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
 
 	Vector4 buttonOn;
 	Vector4 buttonOff;
+	Vector4 jumpButtonOff;
 	Vector4 textOn;
 	Vector4 textOff;
 
@@ -62,9 +64,13 @@ public class Interface : MonoBehaviour {
 	static float playSoundsLimit = 0.075f;
 	float playSoundTime;
 
+	public float lastJumpTime = 5;
+	static int jumpTimeLimit = 5;
+
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
+		jumpButtonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0.1f);
 		textOn = new Vector4 (1, 1, 1, 1);
 		textOff = new Vector4 (1, 1, 1, 0);
 
@@ -137,8 +143,28 @@ public class Interface : MonoBehaviour {
 				multiplierBig = false;
 			}
 		}
-		if (Input.GetButtonDown ("Jump") && level == LevelManagement.drive) {
-			Camera.main.GetComponent<CarAttributes>().jump();
+		if (level == LevelManagement.drive) {
+			if (lastJumpTime < jumpTimeLimit) {
+				lastJumpTime += deltaTime;
+				float progressBarScale = jumpProgressBar.transform.localScale.x + deltaTime/jumpTimeLimit;
+				jumpProgressBar.transform.localScale = new Vector3 (progressBarScale, 1, 1);
+				if (jumpButton.enabled) {
+					jumpProgressBar.color = textOn;
+					jumpButton.GetComponent<Button> ().enabled = false;
+					jumpButton.GetComponent<Image> ().color = jumpButtonOff;
+					jumpButton.GetComponentInChildren<Text> ().color = jumpButtonOff;
+				}
+			} else {
+				if (!jumpButton.enabled) {
+					jumpProgressBar.color = buttonOff;
+					jumpButton.GetComponent<Button> ().enabled = true;
+					jumpButton.GetComponent<Image> ().color = buttonOn;
+					jumpButton.GetComponentInChildren<Text> ().color = textOn;
+				}
+			}
+			if (Input.GetButtonDown ("Jump") && lastJumpTime >= jumpTimeLimit) {
+				Camera.main.GetComponent<CarAttributes>().jump();
+			}
 		}
 	}
 
@@ -212,6 +238,7 @@ public class Interface : MonoBehaviour {
 			}
 		} else if (level == LevelManagement.drive) {			
 			turnOffLeftandRightButtons ();
+			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreDriving;
 			} else {
@@ -230,6 +257,7 @@ public class Interface : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
 				turnOffLeftandRightButtons ();
+				jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			} else {
 				nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 				nextBlockBackground.GetComponent<Image> ().color = buttonOff;
@@ -341,7 +369,9 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void onPointerDownJumpButton() {
-		Camera.main.GetComponent<CarAttributes>().jump();
+		if (lastJumpTime > jumpTimeLimit) {
+			Camera.main.GetComponent<CarAttributes>().jump();
+		}
 	}
 
 	public void changeHUDSprite (string blockName, string fullBlockName) {
