@@ -9,28 +9,14 @@ using UnityStandardAssets.ImageEffects;
 
 public class Interface : MonoBehaviour {
 
-	public Button restartButton;
-	public Button mainMenuButton;
-	public Button pauseButton;
-	public Button leftButton;
-	public Button rightButton;
-	public Button jumpButton;
+	public Button restartButton, mainMenuButton ,pauseButton, leftButton, rightButton, jumpButton;
 
-	public Text highScoreText;
-	public Text loadingText;
-	public Text scoreText;
-	public Text pointText;
-	public Text carPointText;
-	public Text speedText;
-	public Text instructionsText;
-	public Text multiplierText;
-	public Text expText;
+	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText, instructionsText;
+	public Text multiplierText, expText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
-	public Image nextBlockSprite;
-	public Image nextBlockBackground;
-	public Image jumpProgressBar;
+	public Image nextBlockSprite, nextBlockBackground, jumpProgressBar;
 
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
@@ -42,30 +28,28 @@ public class Interface : MonoBehaviour {
 	Vector4 textOff;
 
 	string level;
-
 	public bool paused = false;
 	bool loading = false;
 
-	float carSpeed;
-	float updateCount;
-	static float updateLimit = 0.25f;
-
-	bool gotPoints = false;
-	bool carPoints = false;
-	float pointAlpha = 0;
+	bool blockPointOn = false;
+	float blockPointAlpha = 0;
+	bool carPointOn = false;
 	float carPointAlpha = 0;
 	float instructionsAlpha = 1;
 	bool multiplierBig = false;
 
-	float deltaTime;
+	float carSpeed;
+	float scoreAndSpeedUpdateCount;
+	static float scoreAndSpeedUpdateLimit = 0.15f;
+
 	float exp;
 	float score;
 	float timePassed;
-	static float playSoundsLimit = 0.075f;
 	float playSoundTime;
-
+	static float playSoundsLimit = 0.075f;
 	public float lastJumpTime = 5;
 	static int jumpTimeLimit = 5;
+	float deltaTime;
 
 	void Start () {
 		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
@@ -73,21 +57,11 @@ public class Interface : MonoBehaviour {
 		jumpButtonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0.1f);
 		textOn = new Vector4 (1, 1, 1, 1);
 		textOff = new Vector4 (1, 1, 1, 0);
-
 		restartButton.onClick.AddListener(delegate { restartButtonClick(); });
 		mainMenuButton.onClick.AddListener(delegate { menuButtonClick(); });
-
 		turnOnOrOffButton (restartButton, false);
 		turnOnOrOffButton (mainMenuButton, false);
-
-		highScoreText.GetComponent<Text> ().color = textOff;
-
 		level = Camera.main.GetComponent<LevelManagement>().level;
-		Time.timeScale = 1;
-		loadingText.text = "";
-
-		nextBlockSprite = GameObject.Find ("NextBlock").GetComponent<Image> ();
-
 		exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
 	}
 
@@ -101,38 +75,49 @@ public class Interface : MonoBehaviour {
 		}
 	}
 
+	/*
+	 * gameplay interface 
+	 */
+
 	void updateGameplayInterface (){
-		updateCount += deltaTime;
-		if (updateCount > updateLimit) {
-			updateCount = 0;
-			if (Camera.main.GetComponent<CarMangment> ().cars.Length != 0) {
-				if (Camera.main.GetComponent<CarMangment> ().cars [0] != null) {
-					carSpeed = Camera.main.GetComponent<CarMangment> ().cars [0].GetComponent<CarMovement> ().speedometer;
-				} 
+		updateScoreAndSpeed ();
+		textEffects ();
+		if (level == LevelManagement.drive) {
+			updateJumpInterface ();
+		}
+	}
+
+	void updateScoreAndSpeed () {
+		scoreAndSpeedUpdateCount += deltaTime;
+		if (scoreAndSpeedUpdateCount > scoreAndSpeedUpdateLimit) {
+			scoreAndSpeedUpdateCount = 0;
+			if (Camera.main.GetComponent<CarMangment> ().cars [0] != null) {
+				carSpeed = Camera.main.GetComponent<CarMangment> ().cars [0].GetComponent<CarMovement> ().speedometer;
 			}
-			if (carSpeed != 0) {
-				float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
-				score = Mathf.FloorToInt (Camera.main.GetComponent<Points> ().total);
-				scoreText.text = score.ToString () + "\n";
-				speedText.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
+			float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
+			score = Mathf.FloorToInt (Camera.main.GetComponent<Points> ().total);
+			scoreText.text = score.ToString () + "\n";
+			speedText.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
+		}
+	}
+
+	void textEffects () {
+		if (blockPointOn) {
+			blockPointAlpha -= deltaTime / 2;
+			blockPointText.GetComponent<Text> ().color = new Color (1, 1, 1, blockPointAlpha);
+			if (blockPointAlpha < 0) {
+				blockPointOn = false;
 			}
 		}
-		if (gotPoints) {
-			pointAlpha -= deltaTime * 0.75f;
-			pointText.GetComponent<Text> ().color = new Color (1, 1, 1, pointAlpha);
-			if (pointAlpha < 0) {
-				gotPoints = false;
-			}
-		}
-		if (carPoints) {
-			carPointAlpha -= deltaTime * 0.75f;
+		if (carPointOn) {
+			carPointAlpha -= deltaTime / 2;
 			carPointText.GetComponent<Text> ().color = new Color (1, 1, 1, carPointAlpha);
 			if (carPointAlpha < 0) {
-				carPoints = false;
+				carPointOn = false;
 			}
 		}
 		if (instructionsAlpha > 0) {
-			instructionsAlpha -= deltaTime * 0.25f;
+			instructionsAlpha -= deltaTime / 4;
 			instructionsText.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
 		} 
 		if (multiplierBig) {
@@ -143,30 +128,35 @@ public class Interface : MonoBehaviour {
 				multiplierBig = false;
 			}
 		}
-		if (level == LevelManagement.drive) {
-			if (lastJumpTime < jumpTimeLimit) {
-				lastJumpTime += deltaTime;
-				float progressBarScale = jumpProgressBar.transform.localScale.x + deltaTime/jumpTimeLimit;
-				jumpProgressBar.transform.localScale = new Vector3 (progressBarScale, 1, 1);
-				if (jumpButton.enabled) {
-					jumpProgressBar.color = textOn;
-					jumpButton.GetComponent<Button> ().enabled = false;
-					jumpButton.GetComponent<Image> ().color = jumpButtonOff;
-					jumpButton.GetComponentInChildren<Text> ().color = jumpButtonOff;
-				}
-			} else {
-				if (!jumpButton.enabled) {
-					jumpProgressBar.color = buttonOff;
-					jumpButton.GetComponent<Button> ().enabled = true;
-					jumpButton.GetComponent<Image> ().color = buttonOn;
-					jumpButton.GetComponentInChildren<Text> ().color = textOn;
-				}
+	}
+
+	void updateJumpInterface () {
+		if (lastJumpTime < jumpTimeLimit) {
+			lastJumpTime += deltaTime;
+			float progressBarScale = jumpProgressBar.transform.localScale.x + deltaTime/jumpTimeLimit;
+			jumpProgressBar.transform.localScale = new Vector3 (progressBarScale, 1, 1);
+			if (jumpButton.enabled) {
+				jumpProgressBar.color = textOn;
+				jumpButton.GetComponent<Button> ().enabled = false;
+				jumpButton.GetComponent<Image> ().color = jumpButtonOff;
+				jumpButton.GetComponentInChildren<Text> ().color = textOff;
 			}
-			if (Input.GetButtonDown ("Jump") && lastJumpTime >= jumpTimeLimit) {
-				Camera.main.GetComponent<CarAttributes>().jump();
+		} else {
+			if (!jumpButton.enabled) {
+				jumpProgressBar.color = buttonOff;
+				jumpButton.GetComponent<Button> ().enabled = true;
+				jumpButton.GetComponent<Image> ().color = buttonOn;
+				jumpButton.GetComponentInChildren<Text> ().color = textOn;
 			}
 		}
+		if (Input.GetButtonDown ("Jump") && lastJumpTime >= jumpTimeLimit) {
+			Camera.main.GetComponent<CarAttributes>().jump();
+		}
 	}
+
+	/*
+	 * gameover interface 
+	 */
 
 	void updateGameOverInterface (){
 		if (score >= 0) {
@@ -216,7 +206,7 @@ public class Interface : MonoBehaviour {
 		}
 		turnOnOrOffButton (pauseButton, false);
 		highScoreText.GetComponent<Text> ().color = textOn;
-		pointText.GetComponent<Text> ().color = textOff;
+		blockPointText.GetComponent<Text> ().color = textOff;
 		multiplierText.GetComponent<Text> ().color = textOff;
 		speedText.GetComponent<Text> ().color = textOff;
 		carPointText.GetComponent<Text> ().color = textOff;
@@ -224,28 +214,32 @@ public class Interface : MonoBehaviour {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			} else {
-				highScoreText.text = "High Score " + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
 		} else if (level == LevelManagement.bowl) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreBowling;
+				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
 			} else {
-				highScoreText.text = "High Score " + Camera.main.GetComponent<Points> ().highscoreBowling;
+				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
 		} else if (level == LevelManagement.drive) {			
-			turnOffLeftandRightButtons ();
+			turnOffDriveButtons();
 			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score " + Camera.main.GetComponent<Points> ().highscoreDriving;
+				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
 			} else {
-				highScoreText.text = "High Score " + Camera.main.GetComponent<Points> ().highscoreDriving;
+				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
 		}
 	}
+
+	/*
+	 * Button functions
+	 */
 
 	public void pauseButtonClick() {
 		paused = !paused;
@@ -256,7 +250,7 @@ public class Interface : MonoBehaviour {
 			turnOnMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
-				turnOffLeftandRightButtons ();
+				turnOffDriveButtons ();
 				jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			} else {
 				nextBlockSprite.GetComponent<Image> ().color = buttonOff;
@@ -269,62 +263,11 @@ public class Interface : MonoBehaviour {
 			turnOffMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();
 			if (level == LevelManagement.drive) {
-				turnOnLeftandRightButtons ();
+				turnOnDriveButtons ();
 			} else {
 				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.9f);
 				nextBlockBackground.GetComponent<Image> ().color = new Vector4 (0.5f, 0.5f, 0.5f, 0.5f);
 			}
-		}
-	}
-		
-	public void multiplierOn(){
-		multiplierText.GetComponent<Text> ().color = textOn;
-		multiplierBig = true;
-	}
-
-	public void multiplierOff(){
-		multiplierText.GetComponent<Text> ().color = textOff;
-		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
-	}
-
-	void turnOnMainButtons() {
-		if (!restartButton.GetComponent<Button> ().enabled) {
-			turnOnOrOffButton (restartButton, true);
-			turnOnOrOffButton (mainMenuButton, true);
-		}
-	}
-
-	void turnOffMainButtons() {
-		if (restartButton.GetComponent<Button> ().enabled) {
-			turnOnOrOffButton (restartButton, false);
-			turnOnOrOffButton (mainMenuButton, false);
-		}
-	}
-
-	void turnOnLeftandRightButtons() {
-		if (!leftButton.GetComponent<Button> ().enabled) {
-			turnOnOrOffButton (leftButton, true);
-			turnOnOrOffButton (rightButton, true);
-			turnOnOrOffButton (jumpButton, true);
-		}
-	}
-
-	void turnOffLeftandRightButtons() {
-		if (leftButton.GetComponent<Button> ().enabled) {
-			turnOnOrOffButton (leftButton, false);
-			turnOnOrOffButton (rightButton, false);
-			turnOnOrOffButton (jumpButton, false);
-		}
-	}
-
-	void turnOnOrOffButton(Button button, bool setting){
-		button.GetComponent<Button> ().enabled = setting;
-		if (setting) {
-			button.GetComponent<Image> ().color = buttonOn;
-			button.GetComponentInChildren<Text> ().color = textOn;
-		} else {
-			button.GetComponent<Image> ().color = buttonOff;
-			button.GetComponentInChildren<Text> ().color = textOff;
 		}
 	}
 
@@ -352,6 +295,10 @@ public class Interface : MonoBehaviour {
 		SceneManager.LoadScene (level);
 	}
 
+	/*
+	 * Drive buttons for car movement 
+	 */
+
 	public void onPointerDownLeftButton() {
 		Camera.main.GetComponent<MakeCarsTurn>().leftButtonPressed = true;
 	}
@@ -374,6 +321,40 @@ public class Interface : MonoBehaviour {
 		}
 	}
 
+	/*
+	 * public tools 
+	 */
+		
+	public void changePointsText(float pointAmount, GameObject obj){
+		blockPointText.text = "+" + pointAmount;
+		blockPointOn = true;
+		blockPointAlpha = 1.0f;
+		blockPointText.GetComponent<Text> ().color = textOn;
+		Vector3 pointPosition = new Vector3 (
+			obj.transform.position.x,
+			obj.transform.position.y,
+			obj.transform.position.z + 1
+		);
+		blockPointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint(pointPosition);
+	}
+
+	public void changeCarPointsText(float pointAmount) {
+		carPointText.text = "+" + pointAmount;
+		carPointOn = true;
+		carPointAlpha = 1.0f;
+		carPointText.GetComponent<Text> ().color = textOn;
+	}
+
+	public void multiplierOn(){
+		multiplierText.GetComponent<Text> ().color = textOn;
+		multiplierBig = true;
+	}
+
+	public void multiplierOff(){
+		multiplierText.GetComponent<Text> ().color = textOff;
+		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
+	}
+		
 	public void changeHUDSprite (string blockName, string fullBlockName) {
 		if (blockName == AllBlockNames.hillBlock) {
 			nextBlockSprite.sprite = hill;
@@ -447,23 +428,48 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<ScreenOverlay> ().enabled = false;
 	}
 
-	public void changePointsText(float pointAmount, GameObject obj){
-		pointText.text = "+" + pointAmount;
-		gotPoints = true;
-		pointAlpha = 1.0f;
-		pointText.GetComponent<Text> ().color = textOn;
-		Vector3 pointPosition = new Vector3 (
-			obj.transform.position.x,
-			obj.transform.position.y,
-			obj.transform.position.z + 1
-		);
-		pointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint(pointPosition);
+	/*
+	 * class tools 
+	 */
+
+	void turnOnMainButtons() {
+		if (!restartButton.GetComponent<Button> ().enabled) {
+			turnOnOrOffButton (restartButton, true);
+			turnOnOrOffButton (mainMenuButton, true);
+		}
 	}
 
-	public void changeCarPointsText(float pointAmount) {
-		carPointText.text = "+" + pointAmount;
-		carPoints = true;
-		carPointAlpha = 1.0f;
-		carPointText.GetComponent<Text> ().color = textOn;
+	void turnOffMainButtons() {
+		if (restartButton.GetComponent<Button> ().enabled) {
+			turnOnOrOffButton (restartButton, false);
+			turnOnOrOffButton (mainMenuButton, false);
+		}
+	}
+
+	void turnOnDriveButtons() {
+		if (!leftButton.GetComponent<Button> ().enabled) {
+			turnOnOrOffButton (leftButton, true);
+			turnOnOrOffButton (rightButton, true);
+			turnOnOrOffButton (jumpButton, true);
+		}
+	}
+
+	void turnOffDriveButtons() {
+		if (leftButton.GetComponent<Button> ().enabled) {
+			turnOnOrOffButton (leftButton, false);
+			turnOnOrOffButton (rightButton, false);
+			turnOnOrOffButton (jumpButton, false);
+		}
+	}
+
+	void turnOnOrOffButton(Button button, bool setting){
+		button.GetComponent<Button> ().enabled = setting;
+		if (setting) {
+			button.GetComponent<Image> ().color = buttonOn;
+			button.GetComponentInChildren<Text> ().color = textOn;
+		} else {
+			button.GetComponent<Image> ().color = buttonOff;
+			button.GetComponentInChildren<Text> ().color = textOff;
+		}
 	}
 }
