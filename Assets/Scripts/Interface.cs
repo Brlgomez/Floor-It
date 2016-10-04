@@ -94,14 +94,14 @@ public class Interface : MonoBehaviour {
 	void Update(){
 		deltaTime = Time.deltaTime;
 		if (!Camera.main.GetComponent<Interface> ().paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
-			updateGUI ();
+			updateGameplayInterface ();
 		}
 		if (Camera.main.GetComponent<CarMangment>().trueGameOver) {
-			trueGameOver ();
+			updateGameOverInterface ();
 		}
 	}
 
-	public void updateGUI(){
+	void updateGameplayInterface (){
 		updateCount += deltaTime;
 		if (updateCount > updateLimit) {
 			updateCount = 0;
@@ -168,9 +168,8 @@ public class Interface : MonoBehaviour {
 		}
 	}
 
-	public void trueGameOver(){
+	void updateGameOverInterface (){
 		if (score >= 0) {
-			carPointText.color = textOff;
 			scoreText.transform.position = Vector3.Lerp (
 				scoreText.transform.position, 
 				GameObject.Find ("Instructions").transform.position, 
@@ -220,6 +219,7 @@ public class Interface : MonoBehaviour {
 		pointText.GetComponent<Text> ().color = textOff;
 		multiplierText.GetComponent<Text> ().color = textOff;
 		speedText.GetComponent<Text> ().color = textOff;
+		carPointText.GetComponent<Text> ().color = textOff;
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
@@ -369,7 +369,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void onPointerDownJumpButton() {
-		if (lastJumpTime > jumpTimeLimit) {
+		if (lastJumpTime >= jumpTimeLimit) {
 			Camera.main.GetComponent<CarAttributes>().jump();
 		}
 	}
