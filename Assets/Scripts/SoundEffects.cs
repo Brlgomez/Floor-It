@@ -220,7 +220,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playMultiplierRevertSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
-			AudioSource.PlayClipAtPoint (multiplierRevertSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.99f));
+			AudioSource.PlayClipAtPoint (multiplierRevertSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
 		}
 	}
 }

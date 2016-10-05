@@ -157,7 +157,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void musicButtonClick () {
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.music, 1);
 			musicButton.GetComponentInChildren<Text> ().text = "Music: Off";
@@ -167,6 +166,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 			musicButton.GetComponentInChildren<Text> ().text = "Music: On";
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		}
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		PlayerPrefs.Save ();
 	}
 
