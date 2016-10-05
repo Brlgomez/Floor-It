@@ -29,7 +29,7 @@ public class BlockManagment : MonoBehaviour {
 			prevLastCarPosition = lastCarPosition;
 			if (Camera.main.GetComponent<FollowCar> ().lastCar != null) {
 				lastCarPosition = Camera.main.GetComponent<FollowCar> ().lastCar.transform.position;
-				if (Vector3.Distance (prevLastCarPosition, lastCarPosition) < 1) {
+				if (Vector3.Distance (prevLastCarPosition, lastCarPosition) < 0.5f) {
 					carStill = true;
 				} else {
 					carStill = false;
@@ -44,7 +44,7 @@ public class BlockManagment : MonoBehaviour {
 							Destroy (roadBlocks [i]);
 						}
 					}
-					if (carStill) { 
+					if (carStill && Camera.main.GetComponent<CarMangment>().cars.Length > 1) { 
 						if (i % 3 == 0) {
 							Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
 						}

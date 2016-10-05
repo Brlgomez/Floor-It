@@ -78,6 +78,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		GameObject newCar = (GameObject)Instantiate (carModels [carNumber], car.transform.position, car.transform.rotation);
 		Destroy (car);
 		car = newCar;
+		car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 		setCarPosition (carNumber);
 		setInitialText ();
 		setInitialHighlightPosition (carNumber);
@@ -232,6 +233,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 			GameObject newCar = (GameObject)Instantiate (carModels [carIndex], car.transform.position, car.transform.rotation);
 			Destroy (car);
 			car = newCar;
+			car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 			PlayerPrefs.SetInt (carPlayerPref, 1);
 			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - amount);
 			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
@@ -247,6 +249,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 				GameObject newCar = (GameObject)Instantiate (carModels [carIndex], car.transform.position, car.transform.rotation);
 				Destroy (car);
 				car = newCar;
+				car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
 				PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
 				PlayerPrefs.Save ();
 				GameObject.Find ("Highlight").transform.position = carButton.transform.position;

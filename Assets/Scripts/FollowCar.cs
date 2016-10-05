@@ -53,8 +53,8 @@ public class FollowCar : MonoBehaviour {
 					yPositionOfCam, 
 					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2) - 1
 				);
-				if (level == LevelManagement.bowl && leadCar.transform.position.z > pinZPosition - 5) {
-					end = new Vector3 (0, 20, pinZPosition - 5);
+				if (level == LevelManagement.bowl && leadCar.transform.position.z > pinZPosition - 6) {
+					end = new Vector3 (0, 25, pinZPosition - 6);
 					inPinArea = true;
 				} 
 				float distanceFromLead = Vector2.Distance (

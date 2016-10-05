@@ -119,7 +119,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					if (lastCar.transform.localScale.x > 1) {
 						zPos *= lastCar.transform.localScale.x;
 					}
-					if (previousZ != 0 && previousZ - currentZ > -zPos + 1.0f) {
+					if (previousZ != 0 && previousZ - currentZ > -zPos + 1) {
 						spawnZ = previousZ + zPos;
 						break;
 					}
