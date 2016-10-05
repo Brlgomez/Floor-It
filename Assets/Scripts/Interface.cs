@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityStandardAssets.ImageEffects;
+using UnityEngine.Analytics;
 
 public class Interface : MonoBehaviour {
 
@@ -215,6 +216,7 @@ public class Interface : MonoBehaviour {
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				analytics ();
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
@@ -223,6 +225,7 @@ public class Interface : MonoBehaviour {
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
+				analytics ();
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
@@ -231,10 +234,19 @@ public class Interface : MonoBehaviour {
 			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
+				analytics ();
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
 		}
+	}
+
+	void analytics () {
+		Analytics.CustomEvent("gameOver", new Dictionary<string, object> {
+			{ "level", Camera.main.GetComponent<LevelManagement> ().level },
+			{ "score", Camera.main.GetComponent<Points> ().highscoreInfinite },
+			{ "car", Camera.main.GetComponent<CarMangment>().carNum }
+		});
 	}
 
 	/*

@@ -17,6 +17,7 @@ public class CarMangment : MonoBehaviour {
 	public float newCarSpawnDist;
 	public float initialSpeed;
 	public float carJumpDist;
+	public int carNum;
 
 	void Start () {
 		trueGameOver = false;
@@ -25,7 +26,7 @@ public class CarMangment : MonoBehaviour {
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		Camera.main.GetComponent<SoundEffects> ().playGameplayMusic ();
 		allPinsStopped = true;
-		int carNum = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
+		carNum = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
 
 		initialCar.GetComponent<MeshFilter> ().mesh = carMeshes [carNum];
 		DestroyImmediate(initialCar.GetComponent<MeshCollider>());

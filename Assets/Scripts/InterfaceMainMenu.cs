@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Analytics;
 
 public class InterfaceMainMenu : MonoBehaviour {
 
@@ -221,10 +222,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void buyButtonClick () {
+		Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumable ();
 		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
-		PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + 55555);
-		PlayerPrefs.Save ();
-		expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 	}
 
 	void buyCar (string carPlayerPref, int amount, int carIndex, Button carButton) {
@@ -311,10 +310,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOnCarButton (busButton, PlayerPrefManagement.bus);
 		turnOnCarButton (abstractButton, PlayerPrefManagement.abstractCar);
 
-		//buyButton.GetComponent<Button> ().enabled = true;
-		//buyButton.GetComponentInChildren<Text> ().enabled = true;
-		//buyButton.GetComponent<Image> ().color = carLocked;
-		//buyButton.GetComponentInChildren<Text> ().color = textOn;
+		buyButton.GetComponent<Button> ().enabled = true;
+		buyButton.GetComponentInChildren<Text> ().enabled = true;
+		buyButton.GetComponent<Image> ().color = carLocked;
+		buyButton.GetComponentInChildren<Text> ().color = textOn;
 	}
 
 	void turnOffAll () {
