@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
-// Placing the Purchaser class in the CompleteProject namespace allows it to interact with ScoreManager,
-// one of the existing Survival Shooter scripts.
 // Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
 public class InAppPurchases : MonoBehaviour, IStoreListener {
 	private static IStoreController m_StoreController;
@@ -22,8 +20,8 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 	// when defining the Product Identifiers on the store. Except, for illustration purposes, the
 	// kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
 	// specific mapping to Unity Purchasing's AddProduct, below.
-	public static string kProductIDConsumable = "consumable";
-	public static string kProductIDNonConsumable = "exp55555";
+	public static string kProductIDConsumable = "exp55555";
+	public static string kProductIDNonConsumable = "nonConsumable";
 	public static string kProductIDSubscription = "subscription";
 
 	// Apple App Store-specific product identifier for the subscription product.
@@ -32,8 +30,7 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 	// Google Play Store-specific product identifier subscription product.
 	private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
 
-	void Start ()
-	{
+	void Start () {
 		// If we haven't set up the Unity Purchasing reference
 		if (m_StoreController == null) {
 			// Begin to configure our connection to Purchasing
@@ -161,8 +158,7 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 			Debug.Log ("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 		}
 	}
-
-
+		
 	//
 	// --- IStoreListener
 	//
@@ -188,21 +184,18 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 		// A consumable product has been purchased by this user.
 		if (String.Equals (args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal)) {
 			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			// The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-		}
-		// Or ... a non-consumable product has been purchased by this user.
-		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal)) {
-			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			// TODO: The non-consumable item has been successfully purchased, grant this item to the player.
 			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + 55555);
 			PlayerPrefs.Save ();
 			Camera.main.GetComponent<InterfaceMainMenu> ().expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 		}
+		// Or ... a non-consumable product has been purchased by this user.
+		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal)) {
+			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+		}
 		// Or ... a subscription product has been purchased by this user.
 		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal)) {
 			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			// TODO: The subscription item has been successfully purchased, grant this to the player.
 		}
 		// Or ... an unknown product has been purchased by this user. Fill in additional products here....
 		else {

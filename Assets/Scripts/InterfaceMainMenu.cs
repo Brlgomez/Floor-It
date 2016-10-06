@@ -222,7 +222,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void buyButtonClick () {
-		Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumable ();
+		Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
 		Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 	}
 
