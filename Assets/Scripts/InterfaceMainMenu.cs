@@ -27,6 +27,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Button musicButton;
 	public Button vibrationButton;
 	public Button statsButton;
+	public Button leaderboardButton;	
+	public Button achievementButton;
 
 	public Text titleText;
 	public Text expText;
@@ -69,6 +71,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 		musicButton.onClick.AddListener (delegate { musicButtonClick (); });
 		vibrationButton.onClick.AddListener (delegate { vibrationButtonClick (); });
 		statsButton.onClick.AddListener (delegate { statsButtonClick (); });
+		leaderboardButton.onClick.AddListener (delegate { leaderboardButtonClick (); });
+		achievementButton.onClick.AddListener (delegate { achievementButtonClick (); });
 		sudanButton.onClick.AddListener (delegate { sudanButtonClick (); });
 		limoButton.onClick.AddListener (delegate { limoButtonClick (); });
 		truckButton.onClick.AddListener (delegate { truckButtonClick (); });
@@ -153,6 +157,14 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else {
 			menuOn ();
 		}
+	}
+
+	public void achievementButtonClick () {
+		Camera.main.GetComponent<GooglePlayServices> ().activatedAchievements ();
+	}
+
+	public void leaderboardButtonClick () {
+		Camera.main.GetComponent<GooglePlayServices> ().activateLeaderBoards ();
 	}
 		
 	/*
@@ -285,6 +297,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOnButtonAndText (playBowlingButton);
 		turnOnButtonAndText (playDriveButton);
 
+		turnOnButtonAndText (leaderboardButton);
+		turnOnButtonAndText (achievementButton);
 		turnOnButtonAndText (statsButton);
 		statsButton.GetComponentInChildren<Text> ().text = "%";
 		turnOnButtonAndText (storeButton);
@@ -344,11 +358,15 @@ public class InterfaceMainMenu : MonoBehaviour {
 	void turnOffAll () {
 		turnOffButtonAndText (storeButton);
 		turnOffButtonAndText (settingsButton);
+		turnOffButtonAndText (leaderboardButton);
+		turnOffButtonAndText (achievementButton);
 		expText.GetComponent<Text> ().color = noColor;
 
-		turnOffButtonAndText (playButton);
-		turnOffButtonAndText (playBowlingButton);
-		turnOffButtonAndText (playDriveButton);
+		if (viewStore || viewSettings || viewStats) {
+			turnOffButtonAndText (playButton);
+			turnOffButtonAndText (playBowlingButton);
+			turnOffButtonAndText (playDriveButton);
+		}
 
 		if (!viewSettings) {
 			turnOffButtonAndText (soundButton);

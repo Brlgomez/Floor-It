@@ -1,0 +1,10 @@
+lastUpgrade=00934
+proj.pluginVersion=0.9.34
+proj.AppId=568843900598
+and.BundleId=com.brandongomez.floorit
+proj.classDir=Assets
+proj.ConstantsClassName=FloorItResources
+and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3c%21--%0aGoogle+Play+game+services+IDs.%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0a--%3e%0a%3cresources%3e%0a++%3cstring+name%3d%22app_id%22%3e568843900598%3c%2fstring%3e%0a++%3cstring+name%3d%22package_name%22%3ecom.brandongomez.floorit%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_100_points_in_the_floor_it_game_type%22%3eCgkItq30jccQEAIQBg%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_500_points_in_the_floor_it_game_type%22%3eCgkItq30jccQEAIQBw%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_1000_points_in_the_floor_it_game_type%22%3eCgkItq30jccQEAIQCA%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_100_points_in_the_bowl_game_type%22%3eCgkItq30jccQEAIQCQ%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_500_points_in_the_bowl_game_type%22%3eCgkItq30jccQEAIQCg%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_1000_points_in_the_bowl_game_type%22%3eCgkItq30jccQEAIQCw%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_100_points_in_the_drive_game_type%22%3eCgkItq30jccQEAIQDA%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_500_points_in_the_drive_game_type%22%3eCgkItq30jccQEAIQDQ%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_get_1000_points_in_the_drive_game_type%22%3eCgkItq30jccQEAIQDg%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_floor_it_highscore%22%3eCgkItq30jccQEAIQAQ%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_bowl_highscore%22%3eCgkItq30jccQEAIQAg%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_drive_highscore%22%3eCgkItq30jccQEAIQAw%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_floor_it_farthest_distance%22%3eCgkItq30jccQEAIQBA%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_drive_farthest_distance%22%3eCgkItq30jccQEAIQBQ%3c%2fstring%3e%0a%3c%2fresources%3e
+and.ClientId=
+proj.requireGPlus=false
+android.SetupDone=true

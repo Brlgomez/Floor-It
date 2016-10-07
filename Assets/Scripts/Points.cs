@@ -71,6 +71,7 @@ public class Points : MonoBehaviour {
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreFloorIt, highscoreInfinite);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
+					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreInfinite);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
@@ -92,7 +93,8 @@ public class Points : MonoBehaviour {
 					highscoreBowling = Mathf.FloorToInt (total * tempHighestMulti);
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreBowl, highscoreBowling);
 					PlayerPrefs.Save ();
-					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();				
+					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();	
+					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreBowling);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
@@ -105,6 +107,7 @@ public class Points : MonoBehaviour {
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreDrive, highscoreDriving);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
+					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreDriving);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}

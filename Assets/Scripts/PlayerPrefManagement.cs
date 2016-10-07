@@ -3,14 +3,11 @@ using System.Collections;
 
 public class PlayerPrefManagement : MonoBehaviour {
 
-	static public string highScoreFloorIt = "High Score Infinite";
-	static public string highScoreBowl = "High Score Bowling";
-	static public string highScoreDrive = "High Score Driving";
-	static public string carType = "Car Type";
-	static public string exp = "Cash";
+	// player preference
 	static public string soundEffects = "Play Sound Effects";
 	static public string music = "Play Music";
 	static public string vibration = "Play Vibrations";
+	static public string carType = "Car Type";
 	static public string sudan = "Sudan Unlocked";
 	static public string limo = "Limo Unlocked";
 	static public string truck = "Truck Unlocked";
@@ -20,8 +17,12 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string bus = "Bus Unlocked";
 	static public string abstractCar = "Abstract Unlocked";
 	static public string level = "Level";
+	static public string exp = "Cash";
 
-	//stats
+	// stats
+	static public string highScoreFloorIt = "High Score Infinite";
+	static public string highScoreBowl = "High Score Bowling";
+	static public string highScoreDrive = "High Score Driving";
 	static public string totalExp = "totalExp";
 	static public string totalDistance = "totalDistance";
 	static public string farthestDistFloorIt = "farhestDistFloorIt";
@@ -31,21 +32,26 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string totalCarDeaths = "totalCarDeaths";
 	static public string totalGameOvers = "totalGameOvers";
 
+	// social
+	static public string googlePlayEnabled = "googlePlayEnabled";
+
 	public void increaseExp (int experiece) {
 		PlayerPrefs.SetInt (exp, PlayerPrefs.GetInt(exp, 0) + experiece);
 		PlayerPrefs.SetInt (totalExp, PlayerPrefs.GetInt(totalExp, 0) + experiece);
 	}
 
 	public void increaseDistance (float distance, string level) {
-		PlayerPrefs.SetFloat (totalDistance, PlayerPrefs.GetFloat(totalDistance, 0) + (distance/2));
+		float halvedDistance = distance / 2;
+		PlayerPrefs.SetFloat (totalDistance, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
+		Camera.main.GetComponent<GooglePlayServices> ().postDistance (level, Mathf.FloorToInt(halvedDistance));
 		if (level == LevelManagement.floorIt) {
-			if ((distance / 2) > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
-				PlayerPrefs.SetFloat (farthestDistFloorIt, PlayerPrefs.GetFloat(totalDistance, 0) + (distance/2));
+			if (halvedDistance > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
+				PlayerPrefs.SetFloat (farthestDistFloorIt, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
 			}
 		}
 		else if (level == LevelManagement.drive) {
-			if ((distance / 2) > PlayerPrefs.GetFloat(farthestDistDrive, 0)) {
-				PlayerPrefs.SetFloat (farthestDistDrive, PlayerPrefs.GetFloat(totalDistance, 0) + (distance/2));
+			if (halvedDistance > PlayerPrefs.GetFloat(farthestDistDrive, 0)) {
+				PlayerPrefs.SetFloat (farthestDistDrive, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
 			}
 		}
 		increaseGameOver ();
