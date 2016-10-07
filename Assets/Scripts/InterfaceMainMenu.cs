@@ -26,18 +26,22 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Button soundButton;
 	public Button musicButton;
 	public Button vibrationButton;
+	public Button statsButton;
 
 	public Text titleText;
 	public Text expText;
-	public Text loadingText;
 
 	public ScrollRect scrollrect;
 	public Scrollbar scrollbarVert;
 	public Image viewport;
 	public Image handle;
 
+	public Text statsText;
+	public Image statsBackGround;
+
 	bool viewSettings = false;
 	bool viewStore = false;
+	bool viewStats = false;
 	bool loading = false;
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
@@ -64,6 +68,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		soundButton.onClick.AddListener (delegate { soundEffectsButtonClick (); });
 		musicButton.onClick.AddListener (delegate { musicButtonClick (); });
 		vibrationButton.onClick.AddListener (delegate { vibrationButtonClick (); });
+		statsButton.onClick.AddListener (delegate { statsButtonClick (); });
 		sudanButton.onClick.AddListener (delegate { sudanButtonClick (); });
 		limoButton.onClick.AddListener (delegate { limoButtonClick (); });
 		truckButton.onClick.AddListener (delegate { truckButtonClick (); });
@@ -104,7 +109,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	void loadLevel (string level) {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		loadingText.text = "Loading...";
+		titleText.text = "Loading...";
 		PlayerPrefs.SetString (PlayerPrefManagement.level, level);
 		if (loading == false) {
 			StartCoroutine (loadNewScene (level));
@@ -140,6 +145,16 @@ public class InterfaceMainMenu : MonoBehaviour {
 		}
 	}
 
+	public void statsButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		viewStats = !viewStats;
+		if (viewStats) {
+			statsOn ();
+		} else {
+			menuOn ();
+		}
+	}
+		
 	/*
 	 *  settings buttons
 	 */
@@ -270,6 +285,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOnButtonAndText (playBowlingButton);
 		turnOnButtonAndText (playDriveButton);
 
+		turnOnButtonAndText (statsButton);
+		statsButton.GetComponentInChildren<Text> ().text = "%";
 		turnOnButtonAndText (storeButton);
 		storeButton.GetComponentInChildren<Text> ().text = "$";
 		turnOnButtonAndText (settingsButton);
@@ -314,17 +331,24 @@ public class InterfaceMainMenu : MonoBehaviour {
 		buyButton.GetComponent<Image> ().color = carLocked;
 		buyButton.GetComponentInChildren<Text> ().color = textOn;
 	}
+		
+	void statsOn () {
+		turnOffAll ();
+		titleText.text = "Stats";
+		statsBackGround.GetComponent<Image> ().color = scrollBackgrounOn;
+		statsText.GetComponent<Text> ().color = textOn;
+		statsButton.GetComponentInChildren<Text> ().text = "<-";
+		turnOnButtonAndText (statsButton);
+	}
 
 	void turnOffAll () {
 		turnOffButtonAndText (storeButton);
 		turnOffButtonAndText (settingsButton);
 		expText.GetComponent<Text> ().color = noColor;
 
-		if (viewSettings || viewStore) {
-			turnOffButtonAndText (playButton);
-			turnOffButtonAndText (playBowlingButton);
-			turnOffButtonAndText (playDriveButton);
-		}
+		turnOffButtonAndText (playButton);
+		turnOffButtonAndText (playBowlingButton);
+		turnOffButtonAndText (playDriveButton);
 
 		if (!viewSettings) {
 			turnOffButtonAndText (soundButton);
@@ -346,6 +370,12 @@ public class InterfaceMainMenu : MonoBehaviour {
 			turnOffButtonAndText (busButton);
 			turnOffButtonAndText (buyButton);
 			turnOffButtonAndText (abstractButton);
+		}
+
+		if (!viewStats) {
+			turnOffButtonAndText (statsButton);
+			statsBackGround.GetComponent<Image> ().color = noColor;
+			statsText.GetComponent<Text> ().color = noColor;
 		}
 	}
 
@@ -459,5 +489,22 @@ public class InterfaceMainMenu : MonoBehaviour {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 0) {
 			abstractButton.GetComponentInChildren<Text> ().text = abstractAmount + " EXP";
 		}
+		setUpStats ();
+	}
+
+	void setUpStats () {
+		statsText.text += "\n\nHigh Scores\n\n";
+		statsText.text += "Floor It - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
+		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
+		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
+		statsText.text += "Farthest Distances\n\n";
+		statsText.text += "Floor It - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
+		statsText.text += "Drive - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
+		statsText.text += "Totals\n\nEXP Earned - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
+		statsText.text += "Distance - " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
+		statsText.text += "Game Overs - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
+		statsText.text += "Cars MIA - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
+		statsText.text += "Blocks Activated - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
+		statsText.text += "Bomb Cars Exploded - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
 	}
 }

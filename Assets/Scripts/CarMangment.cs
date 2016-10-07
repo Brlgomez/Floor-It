@@ -80,6 +80,7 @@ public class CarMangment : MonoBehaviour {
 					trueGameOver = true;
 					Camera.main.GetComponent<Points> ().checkScore ();
 					Camera.main.GetComponent<Interface> ().gameOverInterface ();
+					Camera.main.GetComponent<PlayerPrefManagement> ().increaseDistance (checkDistance (), level);
 				} else if (level == LevelManagement.bowl) {
 					GameObject[] pins = GameObject.FindGameObjectsWithTag (TagManagement.pin);
 					foreach (GameObject pin in pins) {
@@ -93,9 +94,16 @@ public class CarMangment : MonoBehaviour {
 						trueGameOver = true;
 						Camera.main.GetComponent<Points> ().checkScore ();
 						Camera.main.GetComponent<Interface> ().gameOverInterface ();
+						Camera.main.GetComponent<PlayerPrefManagement> ().increaseDistance (checkDistance (), level);
 					}
 				}
 			}
 		}
+	}
+
+	float checkDistance () {
+		Vector3 currentPosition = Camera.main.transform.position;
+		Vector3 startingPosition = new Vector3 (0, 15, 8);
+		return Vector3.Distance (startingPosition, currentPosition);
 	}
 }

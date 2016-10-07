@@ -216,7 +216,7 @@ public class Interface : MonoBehaviour {
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
-				analytics ();
+				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
@@ -225,7 +225,7 @@ public class Interface : MonoBehaviour {
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
-				analytics ();
+				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
@@ -234,17 +234,16 @@ public class Interface : MonoBehaviour {
 			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
-				analytics ();
+				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreDriving);
 			} else {
 				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
 		}
 	}
 
-	void analytics () {
+	void sendToAnalytics (int highscore) {
 		Analytics.CustomEvent("gameOver", new Dictionary<string, object> {
-			{ "level", Camera.main.GetComponent<LevelManagement> ().level },
-			{ "score", Camera.main.GetComponent<Points> ().highscoreInfinite },
+			{ "Highscore in " + Camera.main.GetComponent<LevelManagement> ().level, highscore },
 			{ "car", Camera.main.GetComponent<CarMangment>().carNum }
 		});
 	}

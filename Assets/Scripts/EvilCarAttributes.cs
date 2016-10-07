@@ -51,6 +51,7 @@ public class EvilCarAttributes : MonoBehaviour {
 		}
 		if (!smoke.isPlaying && particlePlayed) {
 			Camera.main.GetComponent<Points> ().incrementPoints (5, gameObject);
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBombCars ();
 			Destroy (gameObject);
 		}
 	}

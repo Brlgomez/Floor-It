@@ -39,6 +39,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					}
 				}
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -59,6 +60,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					}
 				}
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -93,6 +95,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			rb.useGravity = false;
 			rb.angularDrag = 100;
 			rb.velocity += Vector3.up / 2;
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -159,6 +162,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			} else {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -176,6 +180,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				allBlocks [i].transform.position = allBlocks [rand].transform.position;
 				allBlocks [rand].transform.position = tmp;
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -201,6 +206,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				}
 				allBlocks [i].GetComponent<Renderer> ().material = clearMaterial;
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -211,6 +217,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -235,6 +242,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			}
 			car.GetComponent<CarMovement> ().resized = true;
 			car.GetComponent<CarMovement> ().resizeCounter = 0;
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -267,6 +275,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			} else {
 				block.GetComponent<BlockActivated> ().activated (false);
 			}
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -367,6 +376,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<Interface> ().multiplierOn ();
 			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
+			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 }

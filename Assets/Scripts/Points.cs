@@ -64,7 +64,7 @@ public class Points : MonoBehaviour {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
-				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total)));
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
 					highscoreInfinite = Mathf.FloorToInt (total);
@@ -86,7 +86,7 @@ public class Points : MonoBehaviour {
 				if (tempHighestMulti == 0) {
 					tempHighestMulti = 1;
 				}
-				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total * tempHighestMulti)));
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total * tempHighestMulti));
 				if (Mathf.FloorToInt (total * tempHighestMulti) > highscoreBowling) {
 					newHighScore = true;
 					highscoreBowling = Mathf.FloorToInt (total * tempHighestMulti);
@@ -98,7 +98,7 @@ public class Points : MonoBehaviour {
 				}
 			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
-				PlayerPrefs.SetInt (PlayerPrefManagement.exp, (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + Mathf.FloorToInt(total)));
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
 					highscoreDriving = Mathf.FloorToInt (total);
