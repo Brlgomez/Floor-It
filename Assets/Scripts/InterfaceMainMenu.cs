@@ -160,10 +160,18 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void achievementButtonClick () {
+		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.bowl, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0));
 		Camera.main.GetComponent<GooglePlayServices> ().activatedAchievements ();
 	}
 
 	public void leaderboardButtonClick () {
+		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.bowl, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().postDistance (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.farthestDistFloorIt, 0));
+		Camera.main.GetComponent<GooglePlayServices> ().postDistance (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.farthestDistDrive, 0));
 		Camera.main.GetComponent<GooglePlayServices> ().activateLeaderBoards ();
 	}
 		
@@ -349,7 +357,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	void statsOn () {
 		turnOffAll ();
 		titleText.text = "Stats";
-		statsBackGround.GetComponent<Image> ().color = scrollBackgrounOn;
+		statsBackGround.GetComponent<Image> ().color = new Vector4 (0.125f, 0.125f, 0.125f, 0.5f);
 		statsText.GetComponent<Text> ().color = textOn;
 		statsButton.GetComponentInChildren<Text> ().text = "<-";
 		turnOnButtonAndText (statsButton);
@@ -525,18 +533,16 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	void setUpStats () {
-		statsText.text += "High Scores\n\n";
-		statsText.text += "Floor It - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
-		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
-		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
-		statsText.text += "Farthest Distances\n\n";
-		statsText.text += "Floor It - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		statsText.text += "Drive - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
-		statsText.text += "Totals\n\nEXP Earned - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		statsText.text += "Distance - " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-		statsText.text += "Game Overs - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
-		statsText.text += "Cars MIA - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
-		statsText.text += "Blocks Activated - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
-		statsText.text += "Bomb Cars Exploded - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
+		statsText.text += "\n\nFloor It High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
+		statsText.text += "Drive High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
+		statsText.text += "Drive High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
+		statsText.text += "Floor It Farthest Distance - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
+		statsText.text += "Drive Farthest Distance - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
+		statsText.text += "Total EXP Earned - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
+		statsText.text += "Total Distance - " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
+		statsText.text += "Total Game Overs - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
+		statsText.text += "Total Cars MIA - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
+		statsText.text += "Total Blocks Activated - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
+		statsText.text += "Total Bomb Cars Exploded - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
 	}
 }

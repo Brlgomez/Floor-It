@@ -32,15 +32,15 @@ public class GooglePlayServices : MonoBehaviour {
 	}
 
 	public void postScore (string level, int score) {
-		if (level == LevelManagement.floorIt) {
+		if (level == LevelManagement.floorIt && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_floor_it_highscore, (bool success) => {
 
 			});
-		} else if (level == LevelManagement.bowl) {
+		} else if (level == LevelManagement.bowl && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_bowl_highscore, (bool success) => {
 
 			});
-		} else if (level == LevelManagement.drive) {
+		} else if (level == LevelManagement.drive && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_drive_highscore, (bool success) => {
 
 			});
@@ -48,11 +48,11 @@ public class GooglePlayServices : MonoBehaviour {
 	}
 
 	public void postDistance (string level, int distance) {
-		if (level == LevelManagement.floorIt) {
+		if (level == LevelManagement.floorIt && distance != 0) {
 			Social.ReportScore (distance, FloorItResources.leaderboard_floor_it_farthest_distance, (bool success) => {
 
 			});
-		} else if (level == LevelManagement.drive) {
+		} else if (level == LevelManagement.drive && distance != 0) {
 			Social.ReportScore (distance, FloorItResources.leaderboard_drive_farthest_distance, (bool success) => {
 
 			});

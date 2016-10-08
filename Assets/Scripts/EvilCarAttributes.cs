@@ -17,7 +17,8 @@ public class EvilCarAttributes : MonoBehaviour {
 	bool particlePlayed;
 	public bool explodeNow;
 
-	GameObject leadCar = null;
+	GameObject followCar = null;
+	float shortestDist;
 
 	void Start () {
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
@@ -27,6 +28,7 @@ public class EvilCarAttributes : MonoBehaviour {
 		exploded = false;
 		particlePlayed = false;
 		explodeNow = false;
+		getShortestDistance ();
 	}
 	
 	void Update () {
@@ -35,8 +37,8 @@ public class EvilCarAttributes : MonoBehaviour {
 			aiTurnCount = 0;
 			lookAtLeadCar ();
 		}
-		if (leadCar != null && !exploded) {
-			if (Vector3.Distance (transform.position, leadCar.transform.position) < (explodedDist * transform.localScale.x) || GetComponent<CarMovement> ().gameOver || explodeNow) {
+		if (followCar != null && !exploded) {
+			if (Vector3.Distance (transform.position, followCar.transform.position) < (explodedDist * transform.localScale.x) || GetComponent<CarMovement> ().gameOver || explodeNow) {
 				explosionForce ();
 				smoke.Play ();
 				ParticleSystem.EmissionModule em = smoke.emission;
@@ -56,7 +58,7 @@ public class EvilCarAttributes : MonoBehaviour {
 		}
 	}
 
-	void ChangeMaterial(Material newMat) {
+	void ChangeMaterial (Material newMat) {
 		Renderer rend = GetComponent<Renderer>();
 		Material[] mats = new Material[rend.materials.Length];
 		for (int j = 0; j < rend.materials.Length; j++) {
@@ -66,27 +68,40 @@ public class EvilCarAttributes : MonoBehaviour {
 	}
 
 
-	void lookAtLeadCar(){
+	void lookAtLeadCar () {
 		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
-			if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-				if (!GetComponent<CarMovement> ().carFlipped && GetComponent<CarMovement> ().evilCarWithinRange) {
-					leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-					if (Mathf.Abs (transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
-						Vector3 targetPosition = leadCar.transform.position;
-						targetPosition.y = transform.position.y;
-						Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
-						transform.rotation = Quaternion.Slerp (
-							transform.rotation, 
-							targetRotation, 
-							Time.deltaTime * 10f
-						);
-					}
+			getShortestDistance ();
+			if (shortestDist < 5) {
+				GetComponent<CarMovement> ().evilCarWithinRange = true;
+				if (!GetComponent<CarMovement> ().carFlipped) {
+					Vector3 targetPosition = followCar.transform.position;
+					targetPosition.y = transform.position.y;
+					Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
+					transform.rotation = Quaternion.Slerp (
+						transform.rotation, 
+						targetRotation, 
+						Time.deltaTime * 10f
+					);
 				}
+			} else {
+				GetComponent<CarMovement> ().evilCarWithinRange = false;
 			}
 		}
 	}
 
-	void explosionForce(){
+	void getShortestDistance () {
+		followCar = Camera.main.GetComponent<FollowCar>().leadCar;
+		shortestDist = Vector3.Distance (followCar.transform.position, transform.position);
+		for (int i = 0; i < GameObject.FindGameObjectsWithTag (TagManagement.car).Length; i++) {
+			float distance = Vector3.Distance (GameObject.FindGameObjectsWithTag (TagManagement.car) [i].transform.position, transform.position);
+			if (distance < shortestDist) {
+				shortestDist = distance;
+				followCar = GameObject.FindGameObjectsWithTag (TagManagement.car) [i];
+			}
+		}
+	}
+
+	void explosionForce () {
 		Vector3 explosionPos = transform.position;
 		Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 		foreach (Collider hit in colliders) {

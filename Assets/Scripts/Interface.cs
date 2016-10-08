@@ -95,10 +95,10 @@ public class Interface : MonoBehaviour {
 			if (Camera.main.GetComponent<CarMangment> ().cars [0] != null) {
 				carSpeed = Camera.main.GetComponent<CarMangment> ().cars [0].GetComponent<CarMovement> ().speedometer;
 			}
-			float normalizedSpeed = Mathf.Round (carSpeed * 100) / 10;
+			float normalizedSpeed = Mathf.Round (carSpeed * 2 * 60) / 10;
 			score = Mathf.FloorToInt (Camera.main.GetComponent<Points> ().total);
 			scoreText.text = score.ToString () + "\n";
-			speedText.text = string.Format("{0:F1}\nm/s", normalizedSpeed);
+			speedText.text = string.Format("{0:F1}\nu/m", normalizedSpeed);
 		}
 	}
 
