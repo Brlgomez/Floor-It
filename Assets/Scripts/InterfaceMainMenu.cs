@@ -297,8 +297,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOnButtonAndText (playBowlingButton);
 		turnOnButtonAndText (playDriveButton);
 
-		turnOnButtonAndText (leaderboardButton);
-		turnOnButtonAndText (achievementButton);
+		turnOnButtonAndImage (leaderboardButton);
+		turnOnButtonAndImage (achievementButton);
 		turnOnButtonAndText (statsButton);
 		statsButton.GetComponentInChildren<Text> ().text = "%";
 		turnOnButtonAndText (storeButton);
@@ -322,7 +322,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOffAll ();
 		titleText.text = "Store";
 		expText.GetComponent<Text> ().color = textOn;
-		storeButton.GetComponentInChildren<Text> ().text = "->";
+		storeButton.GetComponentInChildren<Text> ().text = "<-";
 		turnOnButtonAndText (storeButton);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
@@ -358,8 +358,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	void turnOffAll () {
 		turnOffButtonAndText (storeButton);
 		turnOffButtonAndText (settingsButton);
-		turnOffButtonAndText (leaderboardButton);
-		turnOffButtonAndText (achievementButton);
+		turnOffButtonAndImage (leaderboardButton);
+		turnOffButtonAndImage (achievementButton);
 		expText.GetComponent<Text> ().color = noColor;
 
 		if (viewStore || viewSettings || viewStats) {
@@ -409,6 +409,20 @@ public class InterfaceMainMenu : MonoBehaviour {
 		b.GetComponentInChildren<Text> ().enabled = false;
 	}
 
+	void turnOffButtonAndImage (Button b) {
+		b.GetComponent<Button> ().enabled = false;
+		b.GetComponent<Image> ().color = noColor;
+		b.GetComponentsInChildren<Image> ()[1].enabled = false;
+		b.GetComponentsInChildren<Image> ()[1].color = noColor;
+	}
+
+	void turnOnButtonAndImage (Button b) {
+		b.GetComponent<Button> ().enabled = true;
+		b.GetComponent<Image> ().color = buttonOn;
+		b.GetComponentsInChildren<Image> ()[1].enabled = true;
+		b.GetComponentsInChildren<Image> ()[1].color = textOn;
+	}
+		
 	void turnOnCarButton (Button button, string playerPref) {
 		button.GetComponent<Button> ().enabled = true;
 		button.GetComponentInChildren<Text> ().enabled = true;
