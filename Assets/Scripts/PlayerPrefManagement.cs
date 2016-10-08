@@ -45,12 +45,12 @@ public class PlayerPrefManagement : MonoBehaviour {
 		Camera.main.GetComponent<GooglePlayServices> ().postDistance (level, Mathf.FloorToInt(distance));
 		if (level == LevelManagement.floorIt) {
 			if (distance > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
-				PlayerPrefs.SetFloat (farthestDistFloorIt, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
+				PlayerPrefs.SetFloat (farthestDistFloorIt, distance);
 			}
 		}
 		else if (level == LevelManagement.drive) {
 			if (distance > PlayerPrefs.GetFloat(farthestDistDrive, 0)) {
-				PlayerPrefs.SetFloat (farthestDistDrive, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
+				PlayerPrefs.SetFloat (farthestDistDrive, distance);
 			}
 		}
 		increaseGameOver ();
