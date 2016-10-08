@@ -511,7 +511,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	void setUpStats () {
-		statsText.text += "\n\nHigh Scores\n\n";
+		statsText.text += "High Scores\n\n";
 		statsText.text += "Floor It - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
 		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
 		statsText.text += "Drive - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
