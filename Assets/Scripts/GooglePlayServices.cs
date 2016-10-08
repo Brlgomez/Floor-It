@@ -61,49 +61,49 @@ public class GooglePlayServices : MonoBehaviour {
 
 	public void revealScoreAchievements (string level, int score) {
 		if (level == LevelManagement.floorIt) {
-			if (score > 100) {
+			if (score >= 100) {
 				Social.ReportProgress (FloorItResources.achievement_floor_it, 100.0f, (bool success) => {
 				
 				});
 			}
-			if (score > 500) {
+			if (score >= 500) {
 				Social.ReportProgress (FloorItResources.achievement_dropping_blocks, 100.0f, (bool success) => {
 
 				});
 			}
-			if (score > 1000) {
+			if (score >= 1000) {
 				Social.ReportProgress (FloorItResources.achievement_block_master, 100.0f, (bool success) => {
 
 				});
 			}
 		} else if (level == LevelManagement.bowl) {
-			if (score > 100) {
+			if (score >= 100) {
 				Social.ReportProgress (FloorItResources.achievement_strike, 100.0f, (bool success) => {
 			
 				});
 			}
-			if (score > 500) {
+			if (score >= 500) {
 				Social.ReportProgress (FloorItResources.achievement_double, 100.0f, (bool success) => {
 
 				});
 			}
-			if (score > 1000) {
+			if (score >= 1000) {
 				Social.ReportProgress (FloorItResources.achievement_turkey, 100.0f, (bool success) => {
 
 				});
 			}
 		} else if (level == LevelManagement.drive) {
-			if (score > 100) {
+			if (score >= 100) {
 				Social.ReportProgress (FloorItResources.achievement_self_control, 100.0f, (bool success) => {
 			
 				});
 			}
-			if (score > 500) {
+			if (score >= 500) {
 				Social.ReportProgress (FloorItResources.achievement_twisting_roads, 100.0f, (bool success) => {
 
 				});
 			}
-			if (score > 1000) {
+			if (score >= 1000) {
 				Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
 
 				});

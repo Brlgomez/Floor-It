@@ -41,17 +41,16 @@ public class PlayerPrefManagement : MonoBehaviour {
 	}
 
 	public void increaseDistance (float distance, string level) {
-		float halvedDistance = distance / 2;
-		PlayerPrefs.SetFloat (totalDistance, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
-		Camera.main.GetComponent<GooglePlayServices> ().postDistance (level, Mathf.FloorToInt(halvedDistance));
+		PlayerPrefs.SetFloat (totalDistance, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
+		Camera.main.GetComponent<GooglePlayServices> ().postDistance (level, Mathf.FloorToInt(distance));
 		if (level == LevelManagement.floorIt) {
-			if (halvedDistance > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
-				PlayerPrefs.SetFloat (farthestDistFloorIt, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
+			if (distance > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
+				PlayerPrefs.SetFloat (farthestDistFloorIt, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
 			}
 		}
 		else if (level == LevelManagement.drive) {
-			if (halvedDistance > PlayerPrefs.GetFloat(farthestDistDrive, 0)) {
-				PlayerPrefs.SetFloat (farthestDistDrive, PlayerPrefs.GetFloat(totalDistance, 0) + halvedDistance);
+			if (distance > PlayerPrefs.GetFloat(farthestDistDrive, 0)) {
+				PlayerPrefs.SetFloat (farthestDistDrive, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
 			}
 		}
 		increaseGameOver ();

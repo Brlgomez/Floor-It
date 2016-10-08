@@ -104,6 +104,7 @@ public class CarMangment : MonoBehaviour {
 	float checkDistance () {
 		Vector3 currentPosition = Camera.main.transform.position;
 		Vector3 startingPosition = new Vector3 (0, 15, 8);
-		return Vector3.Distance (startingPosition, currentPosition);
+		Debug.Log (Vector3.Distance (startingPosition, currentPosition)/2);
+		return (Vector3.Distance (startingPosition, currentPosition)/2);
 	}
 }
