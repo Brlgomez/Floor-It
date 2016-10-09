@@ -44,7 +44,11 @@ public class CarMangment : MonoBehaviour {
 		carJumpDist = Camera.main.GetComponent<CarTypeAttributes> ().getJumpDistance (carNum);
 
 		initialCar.GetComponent<Rigidbody> ().mass = carMass;
-		initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
+		if (level == LevelManagement.floorIt) {
+			initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration/2;
+		} else {
+			initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
+		}
 		initialCar.GetComponent<CarMovement> ().slowestSpeed = initialSpeed;
 		if (level == LevelManagement.drive) {
 			initialCar.GetComponent<CarMovement> ().driveSpeedIncrease = initialSpeed * 0.5f;

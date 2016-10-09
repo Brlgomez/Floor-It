@@ -64,6 +64,7 @@ public class Points : MonoBehaviour {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
+				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreInfinite) {
@@ -72,7 +73,6 @@ public class Points : MonoBehaviour {
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreFloorIt, highscoreInfinite);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
-					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreInfinite);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
@@ -89,19 +89,20 @@ public class Points : MonoBehaviour {
 					tempHighestMulti = 1;
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total * tempHighestMulti));
-				Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (level, Mathf.FloorToInt((total * tempHighestMulti)));
+				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total * tempHighestMulti));
+				Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (level, Mathf.FloorToInt(total * tempHighestMulti));
 				if (Mathf.FloorToInt (total * tempHighestMulti) > highscoreBowling) {
 					newHighScore = true;
 					highscoreBowling = Mathf.FloorToInt (total * tempHighestMulti);
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreBowl, highscoreBowling);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();	
-					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreBowling);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}
 			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
+				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreDriving) {
@@ -110,7 +111,6 @@ public class Points : MonoBehaviour {
 					PlayerPrefs.SetInt (PlayerPrefManagement.highScoreDrive, highscoreDriving);
 					PlayerPrefs.Save ();
 					Camera.main.GetComponent<SoundEffects> ().playHighScoreSound ();
-					Camera.main.GetComponent<GooglePlayServices> ().postScore (level, highscoreDriving);
 				} else {
 					Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 				}

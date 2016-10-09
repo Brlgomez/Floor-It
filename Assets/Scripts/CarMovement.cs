@@ -24,7 +24,6 @@ public class CarMovement : MonoBehaviour {
 	public bool flying;
 	public bool resized;
 	public bool carFlipped;
-	static float evilCarRange = 5;
 	bool evilCarFirstLooked = false;
 	public bool evilCarWithinRange = false;
 	public float speedometer;

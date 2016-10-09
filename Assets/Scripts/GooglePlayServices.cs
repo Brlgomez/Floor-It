@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
@@ -7,19 +8,30 @@ using UnityEngine.SocialPlatforms;
 
 public class GooglePlayServices : MonoBehaviour {
 
+	public Text errorText;
+
 	void Awake () {
-		// recommended for debugging:
 		PlayGamesPlatform.DebugLogEnabled = false;
-		// Activate the Google Play Games platform
-		PlayGamesPlatform.Activate();
-		Social.localUser.Authenticate ((bool success) => {});
+		PlayGamesPlatform.Activate ();
+		logIn ();
+	}
+
+	public void logIn() {
+		if (!Social.localUser.authenticated) {
+			// Activate the Google Play Games platform
+			Social.localUser.Authenticate ((bool success) => {
+
+			});
+		}
 	}
 
 	public void activateLeaderBoards() {
 		Social.localUser.Authenticate((bool success) => {
 			if (success) {
 				Social.ShowLeaderboardUI();
-			} 
+			} else {
+				errorMessage ();
+			}
 		});
 	}
 
@@ -27,22 +39,30 @@ public class GooglePlayServices : MonoBehaviour {
 		Social.localUser.Authenticate((bool success) => {
 			if (success) {
 				Social.ShowAchievementsUI();
-			} 
+			} else {
+				errorMessage ();
+			}
 		});
 	}
 
 	public void postScore (string level, int score) {
 		if (level == LevelManagement.floorIt && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_floor_it_score, (bool success) => {
-
+				if (!success) {
+					errorMessage ();
+				}
 			});
 		} else if (level == LevelManagement.bowl && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_bowl_score, (bool success) => {
-
+				if (!success) {
+					errorMessage ();
+				}
 			});
 		} else if (level == LevelManagement.drive && score != 0) {
 			Social.ReportScore (score, FloorItResources.leaderboard_drive_score, (bool success) => {
-
+				if (!success) {
+					errorMessage ();
+				}
 			});
 		}
 	}
@@ -109,5 +129,9 @@ public class GooglePlayServices : MonoBehaviour {
 				});
 			}
 		}
+	}
+
+	public void errorMessage () {
+		errorText.text = "Connection Failed";
 	}
 }

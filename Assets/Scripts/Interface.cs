@@ -215,28 +215,28 @@ public class Interface : MonoBehaviour {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
 				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
 			} else {
-				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
 		} else if (level == LevelManagement.bowl) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
 			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
+				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
 				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
 			} else {
-				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreBowling;
+				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
 		} else if (level == LevelManagement.drive) {			
 			turnOffDriveButtons();
 			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
-				highScoreText.text = "New High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
+				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
 				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreDriving);
 			} else {
-				highScoreText.text = "High Score\n " + Camera.main.GetComponent<Points> ().highscoreDriving;
+				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
 		}
 	}

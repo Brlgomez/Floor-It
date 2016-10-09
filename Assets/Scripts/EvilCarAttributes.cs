@@ -5,7 +5,6 @@ public class EvilCarAttributes : MonoBehaviour {
 
 	ParticleSystem smoke;
 	GameObject invisibleFloor;
-	static float maxDiffAngle = 0.05f;
 	float aiTurnCount;
 	static float aiTurnLimit = 0.1f;
 	static float explodedDist = 1.25f;

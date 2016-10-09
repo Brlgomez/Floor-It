@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Analytics;
 
 public class InterfaceMainMenu : MonoBehaviour {
 
@@ -29,6 +28,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Button statsButton;
 	public Button leaderboardButton;	
 	public Button achievementButton;
+	public Button backButton;
 
 	public Text titleText;
 	public Text expText;
@@ -82,6 +82,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		busButton.onClick.AddListener (delegate { busButtonClick (); });
 		abstractButton.onClick.AddListener (delegate { abstractButtonClick (); });
 		buyButton.onClick.AddListener (delegate { buyButtonClick (); });
+		backButton.onClick.AddListener (delegate { backButtonClick (); });
 
 		PlayerPrefs.SetInt (PlayerPrefManagement.sudan, 1);
 		int carNumber = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
@@ -160,19 +161,19 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void achievementButtonClick () {
-		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.bowl, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().revealScoreAchievements (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0));
 		Camera.main.GetComponent<GooglePlayServices> ().activatedAchievements ();
 	}
 
 	public void leaderboardButtonClick () {
-		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.bowl, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().postScore (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().postDistance (LevelManagement.floorIt, PlayerPrefs.GetInt (PlayerPrefManagement.farthestDistFloorIt, 0));
-		Camera.main.GetComponent<GooglePlayServices> ().postDistance (LevelManagement.drive, PlayerPrefs.GetInt (PlayerPrefManagement.farthestDistDrive, 0));
 		Camera.main.GetComponent<GooglePlayServices> ().activateLeaderBoards ();
+	}
+
+	public void backButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		viewStats = false;
+		viewStore = false;
+		viewSettings = false;
+		menuOn ();
 	}
 		
 	/*
@@ -318,7 +319,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	void settingsOn () {
 		turnOffAll ();
 		titleText.text = "Settings";
-		turnOnButtonAndText (settingsButton);
+		turnOnButtonAndText (backButton);
 		settingsButton.GetComponentInChildren<Text> ().text = "<-";
 
 		turnOnButtonAndText (soundButton);
@@ -331,7 +332,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		titleText.text = "Store";
 		expText.GetComponent<Text> ().color = textOn;
 		storeButton.GetComponentInChildren<Text> ().text = "<-";
-		turnOnButtonAndText (storeButton);
+		turnOnButtonAndText (backButton);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
 		viewport.GetComponent<Image> ().color = scrollBackgrounOn;
@@ -340,6 +341,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 		sudanButton.GetComponent<Button> ().enabled = true;
 		sudanButton.GetComponent<Image> ().color = textOn;
+		sudanButton.GetComponent<Image> ().raycastTarget = true;
 		turnOnCarButton (limoButton, PlayerPrefManagement.limo);
 		turnOnCarButton (truckButton, PlayerPrefManagement.truck);
 		turnOnCarButton (sportButton, PlayerPrefManagement.sport);
@@ -359,15 +361,16 @@ public class InterfaceMainMenu : MonoBehaviour {
 		titleText.text = "Stats";
 		statsBackGround.GetComponent<Image> ().color = new Vector4 (0.125f, 0.125f, 0.125f, 0.5f);
 		statsText.GetComponent<Text> ().color = textOn;
-		statsButton.GetComponentInChildren<Text> ().text = "<-";
-		turnOnButtonAndText (statsButton);
+		turnOnButtonAndText (backButton);
 	}
 
 	void turnOffAll () {
 		turnOffButtonAndText (storeButton);
 		turnOffButtonAndText (settingsButton);
+		turnOffButtonAndText (statsButton);
 		turnOffButtonAndImage (leaderboardButton);
 		turnOffButtonAndImage (achievementButton);
+		turnOffButtonAndText (backButton);
 		expText.GetComponent<Text> ().color = noColor;
 
 		if (viewStore || viewSettings || viewStats) {
@@ -399,7 +402,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 		}
 
 		if (!viewStats) {
-			turnOffButtonAndText (statsButton);
 			statsBackGround.GetComponent<Image> ().color = noColor;
 			statsText.GetComponent<Text> ().color = noColor;
 		}
@@ -409,12 +411,14 @@ public class InterfaceMainMenu : MonoBehaviour {
 		b.GetComponent<Button> ().enabled = true;
 		b.GetComponent<Image> ().color = buttonOn;
 		b.GetComponentInChildren<Text> ().enabled = true;
+		b.GetComponent<Image> ().raycastTarget = true;
 	}
 
 	void turnOffButtonAndText (Button b) {
 		b.GetComponent<Button> ().enabled = false;
 		b.GetComponent<Image> ().color = noColor;
 		b.GetComponentInChildren<Text> ().enabled = false;
+		b.GetComponent<Image> ().raycastTarget = false;
 	}
 
 	void turnOffButtonAndImage (Button b) {
@@ -422,6 +426,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		b.GetComponent<Image> ().color = noColor;
 		b.GetComponentsInChildren<Image> ()[1].enabled = false;
 		b.GetComponentsInChildren<Image> ()[1].color = noColor;
+		b.GetComponent<Image> ().raycastTarget = false;
 	}
 
 	void turnOnButtonAndImage (Button b) {
@@ -429,6 +434,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		b.GetComponent<Image> ().color = buttonOn;
 		b.GetComponentsInChildren<Image> ()[1].enabled = true;
 		b.GetComponentsInChildren<Image> ()[1].color = textOn;
+		b.GetComponent<Image> ().raycastTarget = true;
 	}
 		
 	void turnOnCarButton (Button button, string playerPref) {
@@ -440,6 +446,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else {
 			button.GetComponent<Image> ().color = textOn;
 		}
+		button.GetComponent<Image> ().raycastTarget = true;
 	}
 
 	/*
@@ -533,16 +540,16 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	void setUpStats () {
-		statsText.text += "\n\nFloor It High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
-		statsText.text += "Drive High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
-		statsText.text += "Drive High Score - " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
-		statsText.text += "Floor It Farthest Distance - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		statsText.text += "Drive Farthest Distance - " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
-		statsText.text += "Total EXP Earned - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		statsText.text += "Total Distance - " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-		statsText.text += "Total Game Overs - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
-		statsText.text += "Total Cars MIA - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
-		statsText.text += "Total Blocks Activated - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
-		statsText.text += "Total Bomb Cars Exploded - " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
+		statsText.text += "\nFloor It High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
+		statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
+		statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
+		statsText.text += "Floor It Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
+		statsText.text += "Drive Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
+		statsText.text += "Total EXP Earned: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
+		statsText.text += "Total Dist: " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
+		statsText.text += "Total Game Overs: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
+		statsText.text += "Total Cars MIA: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
+		statsText.text += "Total Blocks Activated: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
+		statsText.text += "Total Bomb Cars Exploded: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
 	}
 }
