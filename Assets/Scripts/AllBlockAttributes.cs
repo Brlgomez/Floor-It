@@ -38,8 +38,8 @@ public class AllBlockAttributes : MonoBehaviour {
 						changeSpeedOfAllCars (onSpeedBlockAcc);
 					}
 				}
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -59,8 +59,8 @@ public class AllBlockAttributes : MonoBehaviour {
 						changeSpeedOfAllCars (-currentSpeed * 2.5f);
 					}
 				}
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -89,13 +89,13 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playBubbleSound (transform.position);
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (flyBlockPoints, car);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
 			Behaviour halo = (Behaviour)car.transform.GetChild (0).GetComponent ("Halo");
 			halo.enabled = true;
 			rb.useGravity = false;
 			rb.angularDrag = 100;
 			rb.velocity += Vector3.up / 2;
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -159,10 +159,10 @@ public class AllBlockAttributes : MonoBehaviour {
 				}
 				nextCar.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment> ().carMass;
 				Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			} else {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -172,6 +172,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playShuffleSound (block.transform.position);
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints, block);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
@@ -180,7 +181,6 @@ public class AllBlockAttributes : MonoBehaviour {
 				allBlocks [i].transform.position = allBlocks [rand].transform.position;
 				allBlocks [rand].transform.position = tmp;
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -191,6 +191,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playInvisibleSound (block.transform.position);
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints, block);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
@@ -206,7 +207,6 @@ public class AllBlockAttributes : MonoBehaviour {
 				}
 				allBlocks [i].GetComponent<Renderer> ().material = clearMaterial;
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -216,8 +216,8 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<SoundEffects> ().playCoinSound (block.transform.position);
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -226,6 +226,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			block.GetComponent<BlockActivated> ().activated (true);
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (sizeBlockPoints, block);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
 			if (block.GetComponent<SizeBlockAttributes> ().big) {
 				car.transform.localScale = new Vector3 (sizeBig, sizeBig, sizeBig);
@@ -242,12 +243,14 @@ public class AllBlockAttributes : MonoBehaviour {
 			}
 			car.GetComponent<CarMovement> ().resized = true;
 			car.GetComponent<CarMovement> ().resizeCounter = 0;
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
 	public void onSuperBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
+			if (car.tag == TagManagement.car) {
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+			}
 			string blockName = block.name.Split ('_') [0];
 			Camera.main.GetComponent<Interface> ().setTextureOverlay (blockName);
 			Camera.main.GetComponent<SoundEffects> ().playSuperMusic ();
@@ -275,7 +278,6 @@ public class AllBlockAttributes : MonoBehaviour {
 			} else {
 				block.GetComponent<BlockActivated> ().activated (false);
 			}
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 
@@ -374,9 +376,9 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<Points> ().multiplierCount = 0;
 				Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes> ().multiplier + "\n";
 				Camera.main.GetComponent<Interface> ().multiplierOn ();
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
-			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 		}
 	}
 }

@@ -26,18 +26,18 @@ public static class FloorItResources
 {
         public const string achievement_on_a_narrow_highway = "CgkItq30jccQEAIQDg"; // <GPGSID>
         public const string achievement_strike = "CgkItq30jccQEAIQCQ"; // <GPGSID>
+        public const string leaderboard_drive_distance = "CgkItq30jccQEAIQBQ"; // <GPGSID>
         public const string achievement_dropping_blocks = "CgkItq30jccQEAIQBw"; // <GPGSID>
         public const string achievement_twisting_roads = "CgkItq30jccQEAIQDQ"; // <GPGSID>
-        public const string leaderboard_drive_farthest_distance = "CgkItq30jccQEAIQBQ"; // <GPGSID>
-        public const string leaderboard_floor_it_highscore = "CgkItq30jccQEAIQAQ"; // <GPGSID>
+        public const string leaderboard_floor_it_score = "CgkItq30jccQEAIQAQ"; // <GPGSID>
         public const string achievement_turkey = "CgkItq30jccQEAIQCw"; // <GPGSID>
-        public const string leaderboard_drive_highscore = "CgkItq30jccQEAIQAw"; // <GPGSID>
         public const string achievement_block_master = "CgkItq30jccQEAIQCA"; // <GPGSID>
         public const string achievement_floor_it = "CgkItq30jccQEAIQBg"; // <GPGSID>
-        public const string leaderboard_bowl_highscore = "CgkItq30jccQEAIQAg"; // <GPGSID>
+        public const string leaderboard_drive_score = "CgkItq30jccQEAIQAw"; // <GPGSID>
+        public const string leaderboard_floor_it_distance = "CgkItq30jccQEAIQBA"; // <GPGSID>
         public const string achievement_self_control = "CgkItq30jccQEAIQDA"; // <GPGSID>
         public const string achievement_double = "CgkItq30jccQEAIQCg"; // <GPGSID>
-        public const string leaderboard_floor_it_farthest_distance = "CgkItq30jccQEAIQBA"; // <GPGSID>
+        public const string leaderboard_bowl_score = "CgkItq30jccQEAIQAg"; // <GPGSID>
 
 }
 
