@@ -53,9 +53,9 @@ public class InterfaceMainMenu : MonoBehaviour {
 	static Vector4 noColor = Vector4.zero;
 
 	static int truckAmount = 500;
-	static int sportAmount = 4000;
-	static int limoAmount = 8000;
-	static int busAmount = 12000;
+	static int sportAmount = 2000;
+	static int busAmount = 6000;
+	static int limoAmount = 12000;
 	static int monsterTruckAmount = 20000;
 	static int abstractAmount = 30000;
 	static int coneAmount = 52427;
@@ -277,6 +277,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 			expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 			GameObject.Find ("Highlight").transform.position = carButton.transform.position;
 			setCarPosition (carIndex);
+			Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements (carIndex);
 		} else if (PlayerPrefs.GetInt (carPlayerPref, 0) == 1) {
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.carType, carIndex) != carIndex) {
@@ -309,19 +310,14 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOnButtonAndImage (leaderboardButton);
 		turnOnButtonAndImage (achievementButton);
 		turnOnButtonAndText (statsButton);
-		statsButton.GetComponentInChildren<Text> ().text = "%";
 		turnOnButtonAndText (storeButton);
-		storeButton.GetComponentInChildren<Text> ().text = "$";
-		turnOnButtonAndText (settingsButton);
-		settingsButton.GetComponentInChildren<Text> ().text = "~\n^";
+		turnOnButtonAndImage (settingsButton);
 	}
 
 	void settingsOn () {
 		turnOffAll ();
 		titleText.text = "Settings";
 		turnOnButtonAndText (backButton);
-		settingsButton.GetComponentInChildren<Text> ().text = "<-";
-
 		turnOnButtonAndText (soundButton);
 		turnOnButtonAndText (musicButton);
 		turnOnButtonAndText (vibrationButton);
@@ -331,7 +327,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 		turnOffAll ();
 		titleText.text = "Store";
 		expText.GetComponent<Text> ().color = textOn;
-		storeButton.GetComponentInChildren<Text> ().text = "<-";
 		turnOnButtonAndText (backButton);
 
 		scrollrect.GetComponent<ScrollRect> ().enabled = true;
@@ -366,7 +361,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	void turnOffAll () {
 		turnOffButtonAndText (storeButton);
-		turnOffButtonAndText (settingsButton);
+		turnOffButtonAndImage (settingsButton);
 		turnOffButtonAndText (statsButton);
 		turnOffButtonAndImage (leaderboardButton);
 		turnOffButtonAndImage (achievementButton);

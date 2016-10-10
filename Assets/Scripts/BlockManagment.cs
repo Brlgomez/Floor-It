@@ -47,6 +47,7 @@ public class BlockManagment : MonoBehaviour {
 					if (carStill && Camera.main.GetComponent<CarMangment>().cars.Length > 1) { 
 						if (i % 3 == 0) {
 							Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (roadBlocks [i], 10);
+							Camera.main.GetComponent<GooglePlayServices> ().revealHordeAchievement ();
 						}
 					}
 				}

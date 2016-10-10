@@ -19,6 +19,7 @@ public class AllBlockAttributes : MonoBehaviour {
 	static int shuffleBlockPoints = 3;
 	static int invisibleBlockPoints = 3;
 	static int sizeBlockPoints = 3;
+	public int blockActivated = 0;
 
 	float numberOfCars;
 
@@ -39,6 +40,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					}
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 		}
 	}
@@ -60,6 +62,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					}
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 		}
 	}
@@ -90,6 +93,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (flyBlockPoints, car);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 			Behaviour halo = (Behaviour)car.transform.GetChild (0).GetComponent ("Halo");
 			halo.enabled = true;
@@ -160,6 +164,10 @@ public class AllBlockAttributes : MonoBehaviour {
 				nextCar.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment> ().carMass;
 				Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
+				if (GameObject.FindGameObjectsWithTag (TagManagement.car).Length >= 5) {
+					Camera.main.GetComponent<GooglePlayServices> ().revealFiveFriendlyCarsAchievement ();
+				}
 			} else {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
 			}
@@ -173,6 +181,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (shuffleBlockPoints, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
@@ -192,6 +201,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (invisibleBlockPoints, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 			GameObject[] allBlocks = GameObject.FindGameObjectsWithTag (TagManagement.blockOnRoad);
 			for (int i = 0; i < allBlocks.Length; i++) {
@@ -217,6 +227,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (pointBlockPoints, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 		}
 	}
@@ -227,6 +238,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<Points> ().incrementPoints (sizeBlockPoints, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 			if (block.GetComponent<SizeBlockAttributes> ().big) {
 				car.transform.localScale = new Vector3 (sizeBig, sizeBig, sizeBig);
@@ -250,6 +262,10 @@ public class AllBlockAttributes : MonoBehaviour {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
+				Camera.main.GetComponent<GooglePlayServices> ().revealOnSpecialBlockAchievement ();
+			} else if (car.tag == TagManagement.evilCar) {
+				Camera.main.GetComponent<GooglePlayServices> ().revealBombOnSpecialBlockAchievement ();
 			}
 			string blockName = block.name.Split ('_') [0];
 			Camera.main.GetComponent<Interface> ().setTextureOverlay (blockName);
@@ -377,6 +393,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<Interface> ().multiplierText.text = "x" + block.GetComponent<MultiplierBlockAttributes> ().multiplier + "\n";
 				Camera.main.GetComponent<Interface> ().multiplierOn ();
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
 			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
 		}
