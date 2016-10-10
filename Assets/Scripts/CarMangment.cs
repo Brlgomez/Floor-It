@@ -45,7 +45,7 @@ public class CarMangment : MonoBehaviour {
 
 		initialCar.GetComponent<Rigidbody> ().mass = carMass;
 		if (level == LevelManagement.floorIt) {
-			initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration/2;
+			initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration * 0.67f;
 		} else {
 			initialCar.GetComponent<CarMovement> ().acceleration = carAcceleration;
 		}
