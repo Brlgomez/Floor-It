@@ -90,18 +90,18 @@ public class GooglePlayServices : MonoBehaviour {
 				});
 			}
 			if (score >= 1000) {
-				Social.ReportProgress (FloorItResources.achievement_dropping_blocks, 100.0f, (bool success) => {
+				Social.ReportProgress (FloorItResources.achievement_build_a_road, 100.0f, (bool success) => {
 
 				});
 			}
 			if (score >= 2000) {
-				Social.ReportProgress (FloorItResources.achievement_block_master, 100.0f, (bool success) => {
+				Social.ReportProgress (FloorItResources.achievement_hit_the_road, 100.0f, (bool success) => {
 
 				});
 			}
 		} else if (level == LevelManagement.bowl) {
 			if (score >= 100) {
-				Social.ReportProgress (FloorItResources.achievement_strike, 100.0f, (bool success) => {
+				Social.ReportProgress (FloorItResources.achievement_jim_j_bullock, 100.0f, (bool success) => {
 			
 				});
 			}
@@ -122,12 +122,12 @@ public class GooglePlayServices : MonoBehaviour {
 				});
 			}
 			if (score >= 1000) {
-				Social.ReportProgress (FloorItResources.achievement_twisting_roads, 100.0f, (bool success) => {
+				Social.ReportProgress (FloorItResources.achievement_the_road, 100.0f, (bool success) => {
 
 				});
 			}
 			if (score >= 2000) {
-				Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
+				Social.ReportProgress (FloorItResources.achievement_endless_highway, 100.0f, (bool success) => {
 
 				});
 			}
@@ -137,68 +137,68 @@ public class GooglePlayServices : MonoBehaviour {
 	void revealDistanceAchievements (string level, int distance) {
 		if (level == LevelManagement.floorIt) {
 			if (distance >= 20) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_move_on_up, 100.0f, (bool success) => {
+
+				});
 			}
 			if (distance >= 200) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_wanderer, 100.0f, (bool success) => {
+
+				});
 			}
 			if (distance >= 400) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_juggling_master, 100.0f, (bool success) => {
+
+				});
 			}
 		} else if (level == LevelManagement.drive) {
 			if (distance >= 20) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_dont_stop, 100.0f, (bool success) => {
+
+				});
 			}
 			if (distance >= 200) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_lets_go_away, 100.0f, (bool success) => {
+
+				});
 			}
 			if (distance >= 400) {
-				//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-				//
-				//});
+				Social.ReportProgress (FloorItResources.achievement_untraveled, 100.0f, (bool success) => {
+
+				});
 			}
 		}
 	}
 
 	public void revealUnlockAchievements (int carNum) {
 		if (carNum == 1) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_nightjar, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 2) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_joey, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 3) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_wildflower, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 4) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_baal, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 5) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_conic, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 6) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement_hollyhock, 100.0f, (bool success) => {
+
+			});
 		} else if (carNum == 7) {
-			//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-			//
-			//});
+			Social.ReportProgress (FloorItResources.achievement______, 100.0f, (bool success) => {
+
+			});
 		}
 		revealAllUnlockAchievement ();
 	}
@@ -225,74 +225,110 @@ public class GooglePlayServices : MonoBehaviour {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 0) {
 			return;
 		}
-		//Social.ReportProgress (FloorItResources.achievement_on_a_narrow_highway, 100.0f, (bool success) => {
-		//
-		//});
+		Social.ReportProgress (FloorItResources.achievement_master_of_none, 100.0f, (bool success) => {
+
+		});
 	}
 
 	void revealLifetimeAchievements () {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) >= 100000) {
+			Social.ReportProgress (FloorItResources.achievement_lump_sum, 100.0f, (bool success) => {
 
+			});
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) >= 1000000) {
+				Social.ReportProgress (FloorItResources.achievement_all_for_myself, 100.0f, (bool success) => {
 
+				});
 			}
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalDistance, 0) >= 10000) {
+			Social.ReportProgress (FloorItResources.achievement_road_blocks, 100.0f, (bool success) => {
 
+			});
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalDistance, 0) >= 100000) {
+				Social.ReportProgress (FloorItResources.achievement_highwayman, 100.0f, (bool success) => {
 
+				});
 			}
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) >= 1000) {
+			Social.ReportProgress (FloorItResources.achievement_im_not_done, 100.0f, (bool success) => {
 
+			});
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) >= 10000) {
+				Social.ReportProgress (FloorItResources.achievement_the_elements, 100.0f, (bool success) => {
 
+				});
 			}
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) >= 500) {
+			Social.ReportProgress (FloorItResources.achievement_cars_never_die, 100.0f, (bool success) => {
 
+			});
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) >= 5000) {
+				Social.ReportProgress (FloorItResources.achievement_who_will_fall_far_behind, 100.0f, (bool success) => {
 
+				});
 			}
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) >= 100) {
+			Social.ReportProgress (FloorItResources.achievement_if_i_had_a_heart, 100.0f, (bool success) => {
 
+			});
 			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) >= 1000) {
+				Social.ReportProgress (FloorItResources.achievement_quiet_horses, 100.0f, (bool success) => {
 
+				});
 			}
 		}
 	}
 
 	public void revealBombOnSpecialBlockAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_thats_not_me, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealOnSpecialBlockAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_every_super_hero_needs_their_theme_music, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealStrikeAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_x, 100.0f, (bool success) => {
 
+		});
 	}
 		
 	public void revealNoActivationAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_triple_double_no_assist, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealNoActivationBowlAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_chelseas_law, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealFiveFriendlyCarsAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_by_the_kith_and_the_kin, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealBombCollisionAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_friendly_fire, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void revealHordeAchievement () {
+		Social.ReportProgress (FloorItResources.achievement_so_thats_what_happens, 100.0f, (bool success) => {
 
+		});
 	}
 
 	public void errorMessage () {
