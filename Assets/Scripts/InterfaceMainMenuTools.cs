@@ -56,6 +56,10 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().coneButton, PlayerPrefManagement.cone);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().busButton, PlayerPrefManagement.bus);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().abstractButton, PlayerPrefManagement.abstractCar);
+		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Button> ().enabled = true;
+		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().color = textOn;
+		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().raycastTarget = true;
+		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().nightVisual, PlayerPrefManagement.nightVisual);
 
 		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponent<Button> ().enabled = true;
 		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponentInChildren<Text> ().enabled = true;
@@ -80,9 +84,11 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Would you like to get the " + itemName + " for " + amount + "EXP?";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the " + itemName + " for " + 
+				amount + " EXP?";
 		} else {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "You need " + (amount - PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0)) + " more EXP to get the " + itemName + ".";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "You need " + 
+				(amount - PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0)) + " more EXP to get the " + itemName + ".";
 		}
 	}
 
@@ -115,6 +121,8 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().busButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().buyButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().abstractButton);
+		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().normalVisual);
+		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().nightVisual);
 
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
@@ -210,6 +218,11 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			GameObject.Find ("Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().busButton.transform.position;
 		} else if (carNumber == 7) {
 			GameObject.Find ("Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().abstractButton.transform.position;
+		} 
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual, 0) == 0) {
+			GameObject.Find ("Visual Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.transform.position;
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual, 0) == 1) {
+			GameObject.Find ("Visual Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.transform.position;
 		}
 	}
 
@@ -260,20 +273,34 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().abstractButton.GetComponentInChildren<Text> ().text = InterfaceMainMenu.abstractAmount + " EXP";
 		}
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.nightVisual, 0) == 0) {
+			Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.nightVisualAmount + " EXP";
+		}
 		setUpStats ();
 	}
 
 	public void setUpStats () {
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "\nFloor It High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Dist: " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Game Overs: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Cars MIA: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Bomb Cars Exploded: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "\nFloor It High Score: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Farthest Dist: " + 
+			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Farthest Dist: " + 
+			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Dist: " + 
+			string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Game Overs: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Cars MIA: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Bomb Cars Exploded: " + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
 	}
 }

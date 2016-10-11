@@ -29,6 +29,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Button leaderboardButton;	
 	public Button achievementButton;
 	public Button backButton;
+	public Button normalVisual;
+	public Button nightVisual;
 
 	public Text titleText;
 	public Text expText;
@@ -50,6 +52,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	bool viewStore = false;
 	bool viewStats = false;
 	bool loading = false;
+	bool carConfirmation = false;
 
 	public static int truckAmount = 500;
 	public static int sportAmount = 2000;
@@ -58,6 +61,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public static int monsterTruckAmount = 20000;
 	public static int abstractAmount = 30000;
 	public static int coneAmount = 52427;
+	public static int nightVisualAmount = 10000;
 
 	string globalCarPlayerPref;
 	int globalAmount;
@@ -89,7 +93,11 @@ public class InterfaceMainMenu : MonoBehaviour {
 		backButton.onClick.AddListener (delegate { backButtonClick (); });
 		confirmYesButton.onClick.AddListener (delegate { confirmYes (); });
 		confirmNoButton.onClick.AddListener (delegate { confirmNo (); });
+		normalVisual.onClick.AddListener (delegate { normalVisualButtonClick (); });
+		nightVisual.onClick.AddListener (delegate { nightVisualButtonClick (); });
 
+		setVisual ();
+		PlayerPrefs.SetInt (PlayerPrefManagement.normalVisual, 1);
 		PlayerPrefs.SetInt (PlayerPrefManagement.sudan, 1);
 		int carNumber = PlayerPrefs.GetInt (PlayerPrefManagement.carType, 0);
 		GameObject newCar = (GameObject)Instantiate (carModels [carNumber], car.transform.position, car.transform.rotation);
@@ -264,11 +272,20 @@ public class InterfaceMainMenu : MonoBehaviour {
 		confirmationPopUp (PlayerPrefManagement.abstractCar, abstractAmount, 7, abstractButton);
 	}
 		
+	public void normalVisualButtonClick () {
+		confirmationPopUpVisual (PlayerPrefManagement.normalVisual, 0, normalVisual);
+	}
+
+	public void nightVisualButtonClick () {
+		confirmationPopUpVisual (PlayerPrefManagement.nightVisual, nightVisualAmount, nightVisual);
+	}
+
 	public void buyButtonClick () {
 		Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
 	}
 
 	void confirmationPopUp (string carPlayerPref, int amount, int carIndex, Button carButton) {
+		carConfirmation = true;
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (PlayerPrefs.GetInt (carPlayerPref, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
@@ -278,28 +295,37 @@ public class InterfaceMainMenu : MonoBehaviour {
 			globalCarButton = carButton;
 			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (carPlayerPref, amount, carButton.GetComponent<Image>().sprite);
 		} else {
-			setCar (carPlayerPref, amount, carIndex, carButton);
+			setCar (carPlayerPref, carIndex, carButton);
 		}
 	}
 
 	void confirmYes () {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= globalAmount) {
 			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
-			GameObject newCar = (GameObject)Instantiate (carModels [globalCarIndex], car.transform.position, car.transform.rotation);
-			Destroy (car);
-			car = newCar;
-			car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-			PlayerPrefs.SetInt (globalCarPlayerPref, 1);
-			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
-			PlayerPrefs.SetInt (PlayerPrefManagement.carType, globalCarIndex);
-			PlayerPrefs.Save ();
-			globalCarButton.GetComponent<Image> ().color = Vector4.one;
-			globalCarButton.GetComponentInChildren<Text> ().text = "";
-			expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
-			GameObject.Find ("Highlight").transform.position = globalCarButton.transform.position;
-			Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (globalCarIndex);
-			Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
-			Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
+			if (carConfirmation) {
+				GameObject newCar = (GameObject)Instantiate (carModels [globalCarIndex], car.transform.position, car.transform.rotation);
+				Destroy (car);
+				car = newCar;
+				car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+				PlayerPrefs.SetInt (globalCarPlayerPref, 1);
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
+				PlayerPrefs.SetInt (PlayerPrefManagement.carType, globalCarIndex);
+				PlayerPrefs.Save ();
+				globalCarButton.GetComponentInChildren<Text> ().text = "";
+				expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+				GameObject.Find ("Highlight").transform.position = globalCarButton.transform.position;
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().setCarPosition (globalCarIndex);
+				Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
+			} else {
+				PlayerPrefs.SetInt (globalCarPlayerPref, 1);
+				globalCarButton.GetComponentInChildren<Text> ().text = "";
+				GameObject.Find ("Visual Highlight").transform.position = globalCarButton.transform.position;
+				PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
+				PlayerPrefs.Save ();
+				setVisualPref (globalCarPlayerPref);
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
+			}
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
 		}
@@ -310,18 +336,53 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 	}
 
-	void setCar (string carPlayerPref, int amount, int carIndex, Button carButton) {
-		if (PlayerPrefs.GetInt (carPlayerPref, 0) == 1) {
-			if (PlayerPrefs.GetInt (PlayerPrefManagement.carType, carIndex) != carIndex) {
-				GameObject newCar = (GameObject)Instantiate (carModels [carIndex], car.transform.position, car.transform.rotation);
-				Destroy (car);
-				car = newCar;
-				car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-				PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
-				PlayerPrefs.Save ();
-				GameObject.Find ("Highlight").transform.position = carButton.transform.position;
-				Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (carIndex);
-			}
-		} 
+	void setCar (string carPlayerPref, int carIndex, Button carButton) {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.carType, carIndex) != carIndex) {
+			GameObject newCar = (GameObject)Instantiate (carModels [carIndex], car.transform.position, car.transform.rotation);
+			Destroy (car);
+			car = newCar;
+			car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+			PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
+			PlayerPrefs.Save ();
+			GameObject.Find ("Highlight").transform.position = carButton.transform.position;
+			Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (carIndex);
+		}
+	}
+
+	void confirmationPopUpVisual (string playerPref, int amount, Button button) {
+		carConfirmation = false;
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
+			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
+			globalCarPlayerPref = playerPref;
+			globalAmount = amount;
+			globalCarButton = button;
+			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, amount, button.GetComponent<Image>().sprite);
+		} else {
+			setVisualPref (playerPref);
+		}
+	}
+
+	void setVisualPref (string visualName) {
+		if (visualName == PlayerPrefManagement.normalVisual) {
+			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 0);
+			GameObject.Find ("Visual Highlight").transform.position = normalVisual.transform.position;
+		} else if (visualName == PlayerPrefManagement.nightVisual) {
+			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 1);
+			GameObject.Find ("Visual Highlight").transform.position = nightVisual.transform.position;
+		}
+		setVisual ();
+	}
+
+	void setVisual () {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 0) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
+			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
+			Color sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+		}
 	}
 }

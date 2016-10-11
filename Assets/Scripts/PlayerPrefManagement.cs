@@ -19,10 +19,9 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string level = "Level";
 	static public string exp = "Cash";
 	static public string visual = "Visual Setting";
-	static public string normalVisual = "normal";
-	static public string morningVisual = "morning";
-	static public string nightVisual = "night";
-	static public string pixelVisual = "pixelated";
+	static public string normalVisual = "normal visual";
+	static public string nightVisual = "night visual";
+	static public string pixelVisual = "pixelated visual";
 
 	// stats
 	static public string highScoreFloorIt = "High Score Infinite";
