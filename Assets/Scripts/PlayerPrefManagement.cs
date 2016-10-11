@@ -8,14 +8,14 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string music = "Play Music";
 	static public string vibration = "Play Vibrations";
 	static public string carType = "Car Type";
-	static public string sudan = "Sudan Unlocked";
-	static public string limo = "Limo Unlocked";
-	static public string truck = "Truck Unlocked";
-	static public string sport = "Sport Unlocked";
-	static public string monsterTruck = "Monster Truck Unlocked";
-	static public string cone = "Cone Unlocked";
-	static public string bus = "Bus Unlocked";
-	static public string abstractCar = "Abstract Unlocked";
+	static public string sudan = "sudan";
+	static public string limo = "limo";
+	static public string truck = "truck";
+	static public string sport = "sport car";
+	static public string monsterTruck = "monster truck";
+	static public string cone = "cone";
+	static public string bus = "bus";
+	static public string abstractCar = "abstract car";
 	static public string level = "Level";
 	static public string exp = "Cash";
 

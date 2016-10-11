@@ -170,32 +170,32 @@ public class GooglePlayServices : MonoBehaviour {
 		}
 	}
 
-	public void revealUnlockAchievements (int carNum) {
-		if (carNum == 1) {
+	public void revealUnlockAchievements () {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_nightjar, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 2) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.truck, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_joey, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 3) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.sport, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_wildflower, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 4) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.monsterTruck, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_baal, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 5) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_conic, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 6) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.bus, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement_hollyhock, 100.0f, (bool success) => {
 
 			});
-		} else if (carNum == 7) {
+		} if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 1) {
 			Social.ReportProgress (FloorItResources.achievement______, 100.0f, (bool success) => {
 
 			});
