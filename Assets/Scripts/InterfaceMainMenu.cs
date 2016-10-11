@@ -51,19 +51,13 @@ public class InterfaceMainMenu : MonoBehaviour {
 	bool viewStats = false;
 	bool loading = false;
 
-	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
-	static Vector4 buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
-	static Vector4 scrollBackgrounOn = new Vector4 (0.125f, 0.125f, 0.125f, 0.125f);
-	static Vector4 textOn = Vector4.one;
-	static Vector4 noColor = Vector4.zero;
-
-	static int truckAmount = 500;
-	static int sportAmount = 2000;
-	static int busAmount = 6000;
-	static int limoAmount = 12000;
-	static int monsterTruckAmount = 20000;
-	static int abstractAmount = 30000;
-	static int coneAmount = 52427;
+	public static int truckAmount = 500;
+	public static int sportAmount = 2000;
+	public static int busAmount = 6000;
+	public static int limoAmount = 12000;
+	public static int monsterTruckAmount = 20000;
+	public static int abstractAmount = 30000;
+	public static int coneAmount = 52427;
 
 	string globalCarPlayerPref;
 	int globalAmount;
@@ -102,10 +96,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Destroy (car);
 		car = newCar;
 		car.GetComponent<MeshRenderer> ().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
-		setCarPosition (carNumber);
-		setInitialText ();
-		setInitialHighlightPosition (carNumber);
-		menuOn ();
+		Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (carNumber);
+		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialText ();
+		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialHighlightPosition (carNumber);
+		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
 	}
 		
@@ -147,9 +141,9 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		viewSettings = !viewSettings;
 		if (viewSettings) {
-			settingsOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().settingsOn ();
 		} else {
-			menuOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
 	}
 
@@ -157,9 +151,9 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		viewStore = !viewStore;
 		if (viewStore) {
-			storeOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 		} else {
-			menuOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
 	}
 
@@ -167,9 +161,9 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		viewStats = !viewStats;
 		if (viewStats) {
-			statsOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().statsOn ();
 		} else {
-			menuOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
 	}
 
@@ -186,7 +180,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		viewStats = false;
 		viewStore = false;
 		viewSettings = false;
-		menuOn ();
+		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 	}
 		
 	/*
@@ -269,7 +263,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public void abstractButtonClick () {
 		confirmationPopUp (PlayerPrefManagement.abstractCar, abstractAmount, 7, abstractButton);
 	}
-
+		
 	public void buyButtonClick () {
 		Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
 	}
@@ -277,23 +271,12 @@ public class InterfaceMainMenu : MonoBehaviour {
 	void confirmationPopUp (string carPlayerPref, int amount, int carIndex, Button carButton) {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (PlayerPrefs.GetInt (carPlayerPref, 0) == 0) {
-			turnOffAll ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
 			globalCarPlayerPref = carPlayerPref;
 			globalAmount = amount;
 			globalCarIndex = carIndex;
 			globalCarButton = carButton;
-			confirmationScreen.GetComponent<Image> ().color = new Vector4 (0.125f, 0.125f, 0.125f, 0.5f);
-			confirmationImage.sprite = carButton.GetComponent<Image> ().sprite;
-			confirmationImage.GetComponent<Image> ().color = textOn;
-			confirmationText.GetComponent<Text> ().color = textOn;
-			expText.GetComponent<Text> ().color = textOn;
-			turnOnButtonAndText (confirmYesButton);
-			turnOnButtonAndText (confirmNoButton);
-			if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
-				confirmationText.text = "Would you like to get the " + carPlayerPref + " for " + amount + "EXP?";
-			} else {
-				confirmationText.text = "You need " + (amount - PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0)) + " EXP to get the " + carPlayerPref + ".";
-			}
+			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (carPlayerPref, amount, carButton.GetComponent<Image>().sprite);
 		} else {
 			setCar (carPlayerPref, amount, carIndex, carButton);
 		}
@@ -310,13 +293,13 @@ public class InterfaceMainMenu : MonoBehaviour {
 			PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
 			PlayerPrefs.SetInt (PlayerPrefManagement.carType, globalCarIndex);
 			PlayerPrefs.Save ();
-			globalCarButton.GetComponent<Image> ().color = textOn;
+			globalCarButton.GetComponent<Image> ().color = Vector4.one;
 			globalCarButton.GetComponentInChildren<Text> ().text = "";
 			expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 			GameObject.Find ("Highlight").transform.position = globalCarButton.transform.position;
-			setCarPosition (globalCarIndex);
+			Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (globalCarIndex);
 			Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
-			storeOn ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
 		}
@@ -324,7 +307,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	void confirmNo () {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		storeOn ();
+		Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 	}
 
 	void setCar (string carPlayerPref, int amount, int carIndex, Button carButton) {
@@ -337,266 +320,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 				PlayerPrefs.SetInt (PlayerPrefManagement.carType, carIndex);
 				PlayerPrefs.Save ();
 				GameObject.Find ("Highlight").transform.position = carButton.transform.position;
-				setCarPosition (carIndex);
+				Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (carIndex);
 			}
 		} 
-	}
-
-	/*
-	 * image and text manipulation
-	 */
-
-	void menuOn () {
-		turnOffAll ();
-		titleText.text = "Floor It";
-		expText.GetComponent<Text> ().color = textOn;
-		turnOnButtonAndText (playButton);
-		turnOnButtonAndText (playBowlingButton);
-		turnOnButtonAndText (playDriveButton);
-
-		turnOnButtonAndImage (leaderboardButton);
-		turnOnButtonAndImage (achievementButton);
-		turnOnButtonAndText (statsButton);
-		turnOnButtonAndText (storeButton);
-		turnOnButtonAndImage (settingsButton);
-	}
-
-	void settingsOn () {
-		turnOffAll ();
-		titleText.text = "Settings";
-		turnOnButtonAndText (backButton);
-		turnOnButtonAndText (soundButton);
-		turnOnButtonAndText (musicButton);
-		turnOnButtonAndText (vibrationButton);
-	}
-
-	void storeOn () {
-		turnOffAll ();
-		titleText.text = "Store";
-		expText.GetComponent<Text> ().color = textOn;
-		turnOnButtonAndText (backButton);
-
-		scrollrect.GetComponent<ScrollRect> ().enabled = true;
-		viewport.GetComponent<Image> ().color = scrollBackgrounOn;
-		scrollbarVert.GetComponent<Scrollbar> ().enabled = true;
-		handle.GetComponent<Image> ().color = buttonOn;
-
-		sudanButton.GetComponent<Button> ().enabled = true;
-		sudanButton.GetComponent<Image> ().color = textOn;
-		sudanButton.GetComponent<Image> ().raycastTarget = true;
-		turnOnCarButton (limoButton, PlayerPrefManagement.limo);
-		turnOnCarButton (truckButton, PlayerPrefManagement.truck);
-		turnOnCarButton (sportButton, PlayerPrefManagement.sport);
-		turnOnCarButton (monsterTruckButton, PlayerPrefManagement.monsterTruck);
-		turnOnCarButton (coneButton, PlayerPrefManagement.cone);
-		turnOnCarButton (busButton, PlayerPrefManagement.bus);
-		turnOnCarButton (abstractButton, PlayerPrefManagement.abstractCar);
-
-		buyButton.GetComponent<Button> ().enabled = true;
-		buyButton.GetComponentInChildren<Text> ().enabled = true;
-		buyButton.GetComponent<Image> ().color = carLocked;
-		buyButton.GetComponentInChildren<Text> ().color = textOn;
-	}
-		
-	void statsOn () {
-		turnOffAll ();
-		titleText.text = "Stats";
-		statsBackGround.GetComponent<Image> ().color = new Vector4 (0.125f, 0.125f, 0.125f, 0.5f);
-		statsText.GetComponent<Text> ().color = textOn;
-		turnOnButtonAndText (backButton);
-	}
-
-	void turnOffAll () {
-		turnOffButtonAndText (storeButton);
-		turnOffButtonAndImage (settingsButton);
-		turnOffButtonAndText (statsButton);
-		turnOffButtonAndImage (leaderboardButton);
-		turnOffButtonAndImage (achievementButton);
-		turnOffButtonAndText (backButton);
-		turnOffButtonAndText (confirmYesButton);
-		turnOffButtonAndText (confirmNoButton);
-		confirmationScreen.GetComponent<Image> ().color = noColor;
-		confirmationText.GetComponent<Text> ().color = noColor;
-		confirmationImage.GetComponent<Image> ().color = noColor;
-		expText.GetComponent<Text> ().color = noColor;
-
-		if (viewStore || viewSettings || viewStats) {
-			turnOffButtonAndText (playButton);
-			turnOffButtonAndText (playBowlingButton);
-			turnOffButtonAndText (playDriveButton);
-		}
-
-		if (!viewSettings) {
-			turnOffButtonAndText (soundButton);
-			turnOffButtonAndText (musicButton);
-			turnOffButtonAndText (vibrationButton);
-		}
-
-		//if (!viewStore) {
-			scrollrect.GetComponent<ScrollRect> ().enabled = false;
-			viewport.GetComponent<Image> ().color = noColor;
-			scrollbarVert.GetComponent<Scrollbar> ().enabled = false;
-			handle.GetComponent<Image> ().color = noColor;
-			turnOffButtonAndText (sudanButton);
-			turnOffButtonAndText (limoButton);
-			turnOffButtonAndText (truckButton);
-			turnOffButtonAndText (sportButton);
-			turnOffButtonAndText (monsterTruckButton);
-			turnOffButtonAndText (coneButton);
-			turnOffButtonAndText (busButton);
-			turnOffButtonAndText (buyButton);
-			turnOffButtonAndText (abstractButton);
-		//}
-
-		if (!viewStats) {
-			statsBackGround.GetComponent<Image> ().color = noColor;
-			statsText.GetComponent<Text> ().color = noColor;
-		}
-	}
-
-	void turnOnButtonAndText (Button b) {
-		b.GetComponent<Button> ().enabled = true;
-		b.GetComponent<Image> ().color = buttonOn;
-		b.GetComponentInChildren<Text> ().enabled = true;
-		b.GetComponent<Image> ().raycastTarget = true;
-	}
-
-	void turnOffButtonAndText (Button b) {
-		b.GetComponent<Button> ().enabled = false;
-		b.GetComponent<Image> ().color = noColor;
-		b.GetComponentInChildren<Text> ().enabled = false;
-		b.GetComponent<Image> ().raycastTarget = false;
-	}
-
-	void turnOffButtonAndImage (Button b) {
-		b.GetComponent<Button> ().enabled = false;
-		b.GetComponent<Image> ().color = noColor;
-		b.GetComponentsInChildren<Image> ()[1].enabled = false;
-		b.GetComponentsInChildren<Image> ()[1].color = noColor;
-		b.GetComponent<Image> ().raycastTarget = false;
-	}
-
-	void turnOnButtonAndImage (Button b) {
-		b.GetComponent<Button> ().enabled = true;
-		b.GetComponent<Image> ().color = buttonOn;
-		b.GetComponentsInChildren<Image> ()[1].enabled = true;
-		b.GetComponentsInChildren<Image> ()[1].color = textOn;
-		b.GetComponent<Image> ().raycastTarget = true;
-	}
-		
-	void turnOnCarButton (Button button, string playerPref) {
-		button.GetComponent<Button> ().enabled = true;
-		button.GetComponentInChildren<Text> ().enabled = true;
-		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
-			button.GetComponent<Image> ().color = carLocked;
-			button.GetComponentInChildren<Text> ().color = textOn;
-		} else {
-			button.GetComponent<Image> ().color = textOn;
-		}
-		button.GetComponent<Image> ().raycastTarget = true;
-	}
-
-	/*
-	 * Other
-	 */
-
-	void setCarPosition (int carNumber) {
-		if (carNumber == 1) {
-			car.transform.position = new Vector3 (0, 0, 0.4f);
-		} else if (carNumber == 4) {
-			car.transform.position = new Vector3 (0, 0, 0.4f);
-		} else if (carNumber == 5) {
-			car.transform.position = Vector3.zero;
-		} else if (carNumber == 6) {
-			car.transform.position = new Vector3 (0, 0, 0.4f);
-		} else if (carNumber == 7) {
-			car.transform.position = new Vector3 (0, 0, 0.3f);
-		} else {
-			car.transform.position = new Vector3 (0, 0, 0.2f);
-		}
-	}
-
-	void setInitialHighlightPosition (int carNumber) {
-		if (carNumber == 0) {
-			GameObject.Find ("Highlight").transform.position = sudanButton.transform.position;
-		} else if (carNumber == 1) {
-			GameObject.Find ("Highlight").transform.position = limoButton.transform.position;
-		} else if (carNumber == 2) {
-			GameObject.Find ("Highlight").transform.position = truckButton.transform.position;
-		} else if (carNumber == 3) {
-			GameObject.Find ("Highlight").transform.position = sportButton.transform.position;
-		} else if (carNumber == 4) {
-			GameObject.Find ("Highlight").transform.position = monsterTruckButton.transform.position;
-		} else if (carNumber == 5) {
-			GameObject.Find ("Highlight").transform.position = coneButton.transform.position;
-		} else if (carNumber == 6) {
-			GameObject.Find ("Highlight").transform.position = busButton.transform.position;
-		} else if (carNumber == 7) {
-			GameObject.Find ("Highlight").transform.position = abstractButton.transform.position;
-		}
-	}
-
-	void setInitialText () {
-		int highScoreInfinite, highScoreBowling, highScoreDriving;
-		int exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
-		highScoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
-		highScoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
-		highScoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
-		playButton.GetComponentInChildren<Text> ().text = "Floor It\n\nHigh Score\n" + highScoreInfinite;
-		playBowlingButton.GetComponentInChildren<Text> ().text = "Bowl\n\nHigh Score\n" + highScoreBowling;
-		playDriveButton.GetComponentInChildren<Text> ().text = "Drive\n\nHigh Score\n" + highScoreDriving;
-		expText.text = exp + " EXP";
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0) {
-			soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: On";
-		} else {
-			soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: Off";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0) {
-			musicButton.GetComponentInChildren<Text> ().text = "Music: On";
-			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
-		} else {
-			musicButton.GetComponentInChildren<Text> ().text = "Music: Off";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0) == 0) {
-			vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: On";
-		} else {
-			vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: Off";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 0) {
-			limoButton.GetComponentInChildren<Text> ().text = limoAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.truck, 0) == 0) {
-			truckButton.GetComponentInChildren<Text> ().text = truckAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.sport, 0) == 0) {
-			sportButton.GetComponentInChildren<Text> ().text = sportAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.monsterTruck, 0) == 0) {
-			monsterTruckButton.GetComponentInChildren<Text> ().text = monsterTruckAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 0) {
-			coneButton.GetComponentInChildren<Text> ().text = coneAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.bus, 0) == 0) {
-			busButton.GetComponentInChildren<Text> ().text = busAmount + " EXP";
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 0) {
-			abstractButton.GetComponentInChildren<Text> ().text = abstractAmount + " EXP";
-		}
-		setUpStats ();
-	}
-
-	void setUpStats () {
-		statsText.text += "\nFloor It High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
-		statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
-		statsText.text += "Drive High Score: " + PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
-		statsText.text += "Floor It Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		statsText.text += "Drive Farthest Dist: " + string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
-		statsText.text += "Total EXP Earned: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		statsText.text += "Total Dist: " + string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-		statsText.text += "Total Game Overs: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
-		statsText.text += "Total Cars MIA: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
-		statsText.text += "Total Blocks Activated: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
-		statsText.text += "Total Bomb Cars Exploded: " + PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
 	}
 }

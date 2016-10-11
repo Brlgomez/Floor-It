@@ -18,6 +18,11 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string abstractCar = "abstract car";
 	static public string level = "Level";
 	static public string exp = "Cash";
+	static public string visual = "Visual Setting";
+	static public string normalVisual = "normal";
+	static public string morningVisual = "morning";
+	static public string nightVisual = "night";
+	static public string pixelVisual = "pixelated";
 
 	// stats
 	static public string highScoreFloorIt = "High Score Infinite";
