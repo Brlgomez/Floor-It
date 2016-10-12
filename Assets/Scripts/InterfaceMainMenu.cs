@@ -92,7 +92,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialText ();
 		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialHighlightPosition (carNumber);
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
-		Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
 	}
 		
 	/*
@@ -160,6 +159,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void achievementButtonClick () {
+		Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
 		Camera.main.GetComponent<GooglePlayServices> ().activatedAchievements ();
 	}
 
@@ -308,8 +308,9 @@ public class InterfaceMainMenu : MonoBehaviour {
 			} else {
 				PlayerPrefs.SetInt (globalCarPlayerPref, 1);
 				globalCarButton.GetComponentInChildren<Text> ().text = "";
-				GameObject.Find ("Visual Highlight").transform.position = globalCarButton.transform.position;
 				PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
+				expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
+				GameObject.Find ("Visual Highlight").transform.position = globalCarButton.transform.position;
 				PlayerPrefs.Save ();
 				setVisualPref (globalCarPlayerPref);
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
