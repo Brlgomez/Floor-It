@@ -11,7 +11,7 @@ namespace Assets.Pixelation.Scripts
 
         public Color Color = Color.white;
 
-        private void OnRenderImage(RenderTexture source, RenderTexture destination)
+		public void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             float w = Camera.main.pixelWidth;
             float h = Camera.main.pixelHeight;

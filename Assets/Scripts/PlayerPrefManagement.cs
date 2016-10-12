@@ -21,7 +21,7 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string visual = "Visual Setting";
 	static public string normalVisual = "normal visual";
 	static public string nightVisual = "night visual";
-	static public string pixelVisual = "pixelated visual";
+	static public string pixelVisual = "classic handheld visual";
 
 	// stats
 	static public string highScoreFloorIt = "High Score Infinite";

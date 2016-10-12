@@ -276,6 +276,9 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.nightVisual, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.nightVisualAmount + " EXP";
 		}
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.pixelVisual, 0) == 0) {
+			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.pixelVisualAmount + " EXP";
+		}
 		setUpStats ();
 	}
 

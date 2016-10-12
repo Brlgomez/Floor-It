@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityStandardAssets.ImageEffects;
 using UnityEngine.Analytics;
+using Assets.Pixelation.Scripts;
 
 public class Interface : MonoBehaviour {
 
@@ -64,15 +65,8 @@ public class Interface : MonoBehaviour {
 		turnOnOrOffButton (mainMenuButton, false);
 		level = Camera.main.GetComponent<LevelManagement>().level;
 		exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 0) {
-			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
-			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
-			RenderSettings.skybox.SetColor ("_Tint", sky);
-		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
-			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
-			Color sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
-			RenderSettings.skybox.SetColor ("_Tint", sky);
-		}
+		setVisual ();
+		Time.timeScale = 1;
 	}
 
 	void Update(){
@@ -490,6 +484,25 @@ public class Interface : MonoBehaviour {
 		} else {
 			button.GetComponent<Image> ().color = buttonOff;
 			button.GetComponentInChildren<Text> ().color = textOff;
+		}
+	}
+
+	void setVisual () {
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 0) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
+			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = false;
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
+			Color sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = false;
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 2) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
+			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = true;
 		}
 	}
 }

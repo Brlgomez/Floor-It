@@ -2,38 +2,22 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Assets.Pixelation.Scripts;
 
 public class InterfaceMainMenu : MonoBehaviour {
 
 	public GameObject[] carModels;
 	public GameObject car;
 
-	public Button playButton;
-	public Button playBowlingButton;
-	public Button playDriveButton;
-	public Button storeButton;
-	public Button settingsButton;
-	public Button sudanButton;
-	public Button limoButton;
-	public Button truckButton;
-	public Button sportButton;
-	public Button monsterTruckButton;
-	public Button coneButton;
-	public Button busButton;
-	public Button abstractButton;
+	public Button playButton, playBowlingButton, playDriveButton;
+	public Button storeButton, settingsButton, statsButton, leaderboardButton, achievementButton;
+	public Button soundButton, musicButton, vibrationButton;
+	public Button sudanButton, limoButton, truckButton, sportButton, monsterTruckButton, coneButton, busButton, abstractButton;
+	public Button normalVisual, nightVisual, pixelVisual;
+	public Button confirmYesButton, confirmNoButton, backButton;
 	public Button buyButton;
-	public Button soundButton;
-	public Button musicButton;
-	public Button vibrationButton;
-	public Button statsButton;
-	public Button leaderboardButton;	
-	public Button achievementButton;
-	public Button backButton;
-	public Button normalVisual;
-	public Button nightVisual;
 
-	public Text titleText;
-	public Text expText;
+	public Text titleText, expText;
 
 	public ScrollRect scrollrect;
 	public Scrollbar scrollbarVert;
@@ -45,8 +29,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Image confirmationScreen;
 	public Text confirmationText;
 	public Image confirmationImage;
-	public Button confirmYesButton;
-	public Button confirmNoButton;
 
 	bool viewSettings = false;
 	bool viewStore = false;
@@ -62,6 +44,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public static int abstractAmount = 30000;
 	public static int coneAmount = 52427;
 	public static int nightVisualAmount = 10000;
+	public static int pixelVisualAmount = 30000;
 
 	string globalCarPlayerPref;
 	int globalAmount;
@@ -95,6 +78,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		confirmNoButton.onClick.AddListener (delegate { confirmNo (); });
 		normalVisual.onClick.AddListener (delegate { normalVisualButtonClick (); });
 		nightVisual.onClick.AddListener (delegate { nightVisualButtonClick (); });
+		pixelVisual.onClick.AddListener (delegate { pixelVisualButtonClick (); });
 
 		setVisual ();
 		PlayerPrefs.SetInt (PlayerPrefManagement.normalVisual, 1);
@@ -280,6 +264,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 		confirmationPopUpVisual (PlayerPrefManagement.nightVisual, nightVisualAmount, nightVisual);
 	}
 
+	public void pixelVisualButtonClick () {
+		confirmationPopUpVisual (PlayerPrefManagement.pixelVisual, pixelVisualAmount, pixelVisual);
+	}
+
 	public void buyButtonClick () {
 		Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
 	}
@@ -370,7 +358,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else if (visualName == PlayerPrefManagement.nightVisual) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 1);
 			GameObject.Find ("Visual Highlight").transform.position = nightVisual.transform.position;
-		}
+		} else if (visualName == PlayerPrefManagement.pixelVisual) {
+			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 2);
+			GameObject.Find ("Visual Highlight").transform.position = pixelVisual.transform.position;
+		} 
 		setVisual ();
 	}
 
@@ -379,10 +370,17 @@ public class InterfaceMainMenu : MonoBehaviour {
 			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
 			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
 			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = false;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
 			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
 			Color sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
 			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = false;
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 2) {
+			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
+			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
+			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<Chunky> ().enabled = true;
 		}
 	}
 }
