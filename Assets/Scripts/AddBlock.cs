@@ -242,7 +242,7 @@ public class AddBlock : MonoBehaviour {
 		float rand = Random.Range (0, 100);
 		int numberOfCars = Camera.main.GetComponent<CarMangment> ().cars.Length;
 		if (superBlockActivated) {
-			if (rand > 0 && rand < extraPercent && numberOfCars <= maxAmountOfCars) {
+			if (rand > 0 && rand < extraPercent && numberOfCars < maxAmountOfCars) {
 				nextBlock = AllBlockNames.extraCarBlock;
 			} else {
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonBlocks.Length);
@@ -264,7 +264,7 @@ public class AddBlock : MonoBehaviour {
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
 			}
-			if (rand < extraPercent && numberOfCars <= maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
+			if (rand < extraPercent && numberOfCars < maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
 				extraCarCounter = 0;
 				nextBlock = AllBlockNames.extraCarBlock;
 			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
