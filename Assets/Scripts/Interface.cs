@@ -488,20 +488,18 @@ public class Interface : MonoBehaviour {
 	}
 
 	void setVisual () {
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 0) {
-			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
-			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
-			RenderSettings.skybox.SetColor ("_Tint", sky);
-			Camera.main.GetComponent<Chunky> ().enabled = false;
-		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+		GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
+		Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
+		RenderSettings.skybox.SetColor ("_Tint", sky);
+		Camera.main.GetComponent<EdgeDetection> ().enabled = false;
+		Camera.main.GetComponent<Chunky> ().enabled = false;
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
 			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
-			Color sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
+			sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
 			RenderSettings.skybox.SetColor ("_Tint", sky);
-			Camera.main.GetComponent<Chunky> ().enabled = false;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 2) {
-			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
-			Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
-			RenderSettings.skybox.SetColor ("_Tint", sky);
+			Camera.main.GetComponent<EdgeDetection> ().enabled = true;
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 3) {;
 			Camera.main.GetComponent<Chunky> ().enabled = true;
 		}
 	}

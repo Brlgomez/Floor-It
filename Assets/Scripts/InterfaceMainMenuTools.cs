@@ -60,6 +60,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().color = textOn;
 		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().raycastTarget = true;
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().nightVisual, PlayerPrefManagement.nightVisual);
+		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual, PlayerPrefManagement.outlineVisual);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual, PlayerPrefManagement.pixelVisual);
 
 		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponent<Button> ().enabled = true;
@@ -124,6 +125,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().abstractButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().normalVisual);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().nightVisual);
+		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual);
 
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
@@ -226,6 +228,8 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual, 0) == 1) {
 			GameObject.Find ("Visual Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.transform.position;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual, 0) == 2) {
+			GameObject.Find ("Visual Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual.transform.position;
+		}else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual, 0) == 3) {
 			GameObject.Find ("Visual Highlight").transform.position = Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.transform.position;
 		}
 	}
@@ -279,6 +283,9 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.nightVisual, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.nightVisualAmount + " EXP";
+		}
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.outlineVisual, 0) == 0) {
+			Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.outlineVisualAmount + " EXP";
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.pixelVisual, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.pixelVisualAmount + " EXP";
