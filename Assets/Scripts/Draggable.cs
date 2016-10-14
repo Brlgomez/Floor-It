@@ -52,6 +52,7 @@ public class Draggable : MonoBehaviour {
 			screenPosition = Camera.main.WorldToScreenPoint (target.transform.position);
 			Vector3 screen = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
 			offset = target.transform.position - Camera.main.ScreenToWorldPoint (screen);
+			offset = new Vector3 (offset.x, offset.y, offset.z);
 		}
 	}
 
@@ -72,23 +73,28 @@ public class Draggable : MonoBehaviour {
 		if (target != null) {
 			dragTime += Time.deltaTime;
 			if (dragTime > dragTimeToMove) {
-				//float offsetZ = ((Input.mousePosition.y - (Screen.height / 2)) / Screen.height) * 1.5f;
-				//offset = new Vector3 (offset.x, offset.y, offsetZ);
-				target.tag = TagManagement.pickedUp;
-				// track mouse position.
-				Vector3 currentScreenSpace = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);
-				// convert screen position to world position with offset changes.
-				Vector3 currentPosition = Camera.main.ScreenToWorldPoint (currentScreenSpace) + offset;
-				// will update target gameobject's rounded current postion.
-				currentPosition = roundVector (currentPosition);
-				// will create a sphere and will determine if object can be dragged
-				// if no object is where the mouse it, the object will drag to it
-				Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
-				float radius = 0.5f;
-				Vector3 targetPos = target.transform.position;
-				if (!Physics.CheckSphere (spawnPos, radius) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
-					highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
-					target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+				Vector3 currentPosition = target.transform.position;
+				if (dragTime > dragTimeToMove * 1.5f) {
+					dragTime = dragTimeToMove;
+					Debug.Log ("hi");
+					RaycastHit hit;
+					Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+					if (Physics.Raycast (ray.origin, ray.direction * 10, out hit)) {
+						if (hit.collider.tag == TagManagement.invisibleFloor) {
+							currentPosition = hit.point;
+						}
+					}
+					// will update target gameobject's rounded current postion.
+					currentPosition = roundVector (currentPosition);
+					// will create a sphere and will determine if object can be dragged
+					// if no object is where the mouse it, the object will drag to it
+					Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
+					float radius = 0.5f;
+					Vector3 targetPos = target.transform.position;
+					if (!Physics.CheckSphere (spawnPos, radius) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
+						highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+						target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+					}
 				}
 			}
 		}
