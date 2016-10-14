@@ -258,6 +258,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 		
 	public void normalVisualButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		setVisualPref (PlayerPrefManagement.normalVisual);
 	}
 
@@ -312,8 +313,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	void confirmYes () {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= globalAmount) {
-			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 			if (carConfirmation) {
+				Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
 				GameObject newCar = (GameObject)Instantiate (carModels [globalCarIndex], car.transform.position, car.transform.rotation);
 				Destroy (car);
 				car = newCar;

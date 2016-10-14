@@ -74,6 +74,10 @@ public class CarMangment : MonoBehaviour {
 			mats [0] = Camera.main.GetComponent<CarTypeAttributes>().getCarTypeMaterial(carNum); 
 			rend.materials = mats;
 		} 
+
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+			initialCar.GetComponent<Light> ().enabled = true;
+		}
 	}
 
 	void Update(){

@@ -28,6 +28,9 @@ public class EvilCarAttributes : MonoBehaviour {
 		particlePlayed = false;
 		explodeNow = false;
 		getShortestDistance ();
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+			GetComponent<Light> ().enabled = true;
+		}
 	}
 	
 	void Update () {
