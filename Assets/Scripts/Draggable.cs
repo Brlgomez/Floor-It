@@ -72,6 +72,8 @@ public class Draggable : MonoBehaviour {
 		if (target != null) {
 			dragTime += Time.deltaTime;
 			if (dragTime > dragTimeToMove) {
+				float offsetZ = ((Input.mousePosition.y - (Screen.height / 2)) / Screen.height) * 2;
+				offset = new Vector3 (offset.x, offset.y, offsetZ);
 				target.tag = TagManagement.pickedUp;
 				// track mouse position.
 				Vector3 currentScreenSpace = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPosition.z);

@@ -44,7 +44,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public static int monsterTruckAmount = 20000;
 	public static int abstractAmount = 30000;
 	public static int coneAmount = 52427;
-	public static int nightVisualAmount = 10000;
+	public static int nightVisualAmount = 25000;
 	public static int outlineVisualAmount = 30000;
 	public static int pixelVisualAmount = 50000;
 

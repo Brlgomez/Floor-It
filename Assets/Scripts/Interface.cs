@@ -95,7 +95,7 @@ public class Interface : MonoBehaviour {
 		scoreAndSpeedUpdateCount += deltaTime;
 		if (scoreAndSpeedUpdateCount > scoreAndSpeedUpdateLimit) {
 			scoreAndSpeedUpdateCount = 0;
-			if (Camera.main.GetComponent<CarMangment> ().cars [0] != null) {
+			if (Camera.main.GetComponent<CarMangment> ().cars.Length > 0) {
 				carSpeed = Camera.main.GetComponent<CarMangment> ().cars [0].GetComponent<CarMovement> ().speedometer;
 			}
 			float normalizedSpeed = Mathf.Round (carSpeed * 2 * 60) / 10;

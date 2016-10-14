@@ -17,6 +17,7 @@ public class Points : MonoBehaviour {
 	float aliveCars;
 	static float multiplierLimit = 10;
 	public float multiplierCount;
+	bool checkedNoBlockAchievement = false;
 
 	void Start(){
 		total = 0;
@@ -64,8 +65,9 @@ public class Points : MonoBehaviour {
 		if (Camera.main.GetComponent<CarMangment> ().trueGameOver && !checkHighScore) {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
-				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
+				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
+				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
 					highscoreInfinite = Mathf.FloorToInt (total);
@@ -89,6 +91,7 @@ public class Points : MonoBehaviour {
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total * tempHighestMulti));
 				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total * tempHighestMulti));
+				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (highestMulti >= 10) {
 					Camera.main.GetComponent<GooglePlayServices> ().revealStrikeAchievement ();
 				}
@@ -108,6 +111,7 @@ public class Points : MonoBehaviour {
 				checkHighScore = true;
 				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
+				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
 					highscoreDriving = Mathf.FloorToInt (total);
@@ -124,17 +128,24 @@ public class Points : MonoBehaviour {
 	public void incrementPoints(float point, GameObject obj){
 		total += point * multiplier;
 		Camera.main.GetComponent<Interface> ().changePointsText (point * multiplier, obj);
-		checkNoBlockAchievement ();
+		checkNoBlockAchievementDuringGame ();
 	}
 
 	public void incrementPointsCars(float point){
 		total += point * multiplier;
 		Camera.main.GetComponent<Interface> ().changeCarPointsText (point * multiplier);
-		checkNoBlockAchievement ();
+		checkNoBlockAchievementDuringGame ();
 	}
 
-	void checkNoBlockAchievement () {
-		if (total >= 250 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0) {
+	void checkNoBlockAchievementDuringGame () {
+		if (total >= 25 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
+			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
+			checkedNoBlockAchievement = true;
+		}
+	}
+
+	void checkNoBlockAchievementAfterGame (int total) {
+		if (total >= 25 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
 			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
 		}
 	}
