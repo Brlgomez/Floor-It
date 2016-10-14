@@ -165,7 +165,7 @@ public class CarMovement : MonoBehaviour {
 		}
 		gameObject.tag = TagManagement.deadCar;
 		gameOver = true;
-		GetComponent<Light> ().enabled = false;
+		GetComponentsInChildren<Light> ()[0].enabled = false;
 		Camera.main.GetComponent<PlayerPrefManagement> ().increaseCarDeaths ();
 	}
 		

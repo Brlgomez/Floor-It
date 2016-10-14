@@ -76,7 +76,7 @@ public class CarMangment : MonoBehaviour {
 		} 
 
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
-			initialCar.GetComponent<Light> ().enabled = true;
+			initialCar.GetComponentsInChildren<Light> ()[0].enabled = true;
 		}
 	}
 

@@ -387,10 +387,12 @@ public class InterfaceMainMenu : MonoBehaviour {
 		RenderSettings.skybox.SetColor ("_Tint", sky);
 		Camera.main.GetComponent<EdgeDetection> ().enabled = false;
 		Camera.main.GetComponent<Chunky> ().enabled = false;
+		GameObject.Find ("Point light").GetComponent<Light> ().enabled = false;
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
 			GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 0;
 			sky = new Color (0.5f, 0.5f, 0.5f, 0.5f);
 			RenderSettings.skybox.SetColor ("_Tint", sky);
+			GameObject.Find ("Point light").GetComponent<Light> ().enabled = true;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 2) {
 			Camera.main.GetComponent<EdgeDetection> ().enabled = true;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 3) {;
