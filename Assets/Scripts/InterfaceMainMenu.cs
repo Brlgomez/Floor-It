@@ -44,9 +44,6 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public static int monsterTruckAmount = 20000;
 	public static int abstractAmount = 30000;
 	public static int coneAmount = 52427;
-	public static int nightVisualAmount = 25000;
-	public static int outlineVisualAmount = 30000;
-	public static int pixelVisualAmount = 50000;
 
 	string globalCarPlayerPref;
 	int globalAmount;
@@ -146,6 +143,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		viewStore = !viewStore;
 		if (viewStore) {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
+			Camera.main.GetComponent<InAppPurchases> ().checkReceipts ();
 		} else {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
@@ -260,23 +258,41 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 		
 	public void normalVisualButtonClick () {
-		confirmationPopUpVisual (PlayerPrefManagement.normalVisual, 0, normalVisual);
+		setVisualPref (PlayerPrefManagement.normalVisual);
 	}
 
 	public void nightVisualButtonClick () {
-		confirmationPopUpVisual (PlayerPrefManagement.nightVisual, nightVisualAmount, nightVisual);
+		visualConfirmationPopUp (PlayerPrefManagement.nightVisual, nightVisual);
 	}
 
-	public void outlineVisualButtonClick () {
-		confirmationPopUpVisual (PlayerPrefManagement.outlineVisual, outlineVisualAmount, outlineVisual);
-	}
+	public void outlineVisualButtonClick () {}
 
 	public void pixelVisualButtonClick () {
-		confirmationPopUpVisual (PlayerPrefManagement.pixelVisual, pixelVisualAmount, pixelVisual);
+		visualConfirmationPopUp (PlayerPrefManagement.pixelVisual, pixelVisual);
 	}
 
 	public void buyButtonClick () {
-		Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
+		buyConfirmationPopUp ("buy", buyButton);
+	}
+
+	void buyConfirmationPopUp (string playerPref, Button button) {
+		carConfirmation = false;
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		globalCarPlayerPref = playerPref;
+		Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
+		Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, 0, button.GetComponent<Image>().sprite);
+	}
+
+	void visualConfirmationPopUp (string playerPref, Button button) {
+		carConfirmation = false;
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
+			globalCarPlayerPref = playerPref;
+			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
+			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, 0, button.GetComponent<Image>().sprite);
+		} else {
+			setVisualPref (playerPref);
+		}
 	}
 
 	void confirmationPopUp (string carPlayerPref, int amount, int carIndex, Button carButton) {
@@ -313,14 +329,13 @@ public class InterfaceMainMenu : MonoBehaviour {
 				Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
 			} else {
-				PlayerPrefs.SetInt (globalCarPlayerPref, 1);
-				globalCarButton.GetComponentInChildren<Text> ().text = "";
-				PlayerPrefs.SetInt (PlayerPrefManagement.exp, PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) - globalAmount);
-				expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
-				GameObject.Find ("Visual Highlight").transform.position = globalCarButton.transform.position;
-				PlayerPrefs.Save ();
-				setVisualPref (globalCarPlayerPref);
-				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
+				if (globalCarPlayerPref == PlayerPrefManagement.nightVisual) {
+					Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumableNight ();
+				} else if (globalCarPlayerPref == PlayerPrefManagement.pixelVisual) {
+					Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumableClassic ();
+				} else if (globalCarPlayerPref == "buy") {
+					Camera.main.GetComponent<InAppPurchases> ().BuyConsumable ();
+				}
 			}
 		} else {
 			Camera.main.GetComponent<SoundEffects> ().playBadChoiceSound ();
@@ -345,38 +360,27 @@ public class InterfaceMainMenu : MonoBehaviour {
 		}
 	}
 
-	void confirmationPopUpVisual (string playerPref, int amount, Button button) {
-		carConfirmation = false;
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
-			globalCarPlayerPref = playerPref;
-			globalAmount = amount;
-			globalCarButton = button;
-			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, amount, button.GetComponent<Image>().sprite);
-		} else {
-			setVisualPref (playerPref);
-		}
-	}
-
-	void setVisualPref (string visualName) {
+	public void setVisualPref (string visualName) {
 		if (visualName == PlayerPrefManagement.normalVisual) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 0);
 			GameObject.Find ("Visual Highlight").transform.position = normalVisual.transform.position;
 		} else if (visualName == PlayerPrefManagement.nightVisual) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 1);
 			GameObject.Find ("Visual Highlight").transform.position = nightVisual.transform.position;
+			nightVisual.GetComponentInChildren<Text> ().text = "";
 		} else if (visualName == PlayerPrefManagement.outlineVisual) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 2);
 			GameObject.Find ("Visual Highlight").transform.position = outlineVisual.transform.position;
+			outlineVisual.GetComponentInChildren<Text> ().text = "";
 		}  else if (visualName == PlayerPrefManagement.pixelVisual) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.visual, 3);
 			GameObject.Find ("Visual Highlight").transform.position = pixelVisual.transform.position;
+			pixelVisual.GetComponentInChildren<Text> ().text = "";
 		} 
 		setVisual ();
 	}
 
-	void setVisual () {
+	public void setVisual () {
 		GameObject.Find ("Directional Light").GetComponent<Light> ().intensity = 1;
 		Color sky = new Color (0.75f, 0.75f, 0.75f, 0.5f);
 		RenderSettings.skybox.SetColor ("_Tint", sky);

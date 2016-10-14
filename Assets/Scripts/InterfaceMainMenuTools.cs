@@ -85,7 +85,14 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
+		if (itemName == PlayerPrefManagement.nightVisual) {
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get night mode?";
+		} else if (itemName == PlayerPrefManagement.pixelVisual) {
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the classic 1980s handheld aesthetic?";
+		} else if (itemName == "buy") {
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get 55,555 EXP to unlock more vehicles?";
+		}
+		else if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the " + itemName + " for " + 
 				amount + " EXP?";
 		} else {
@@ -282,13 +289,13 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			Camera.main.GetComponent<InterfaceMainMenu>().abstractButton.GetComponentInChildren<Text> ().text = InterfaceMainMenu.abstractAmount + " EXP";
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.nightVisual, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.nightVisualAmount + " EXP";
+			Camera.main.GetComponent<InterfaceMainMenu>().nightVisual.GetComponentInChildren<Text> ().text = "Get Night Mode";
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.outlineVisual, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.outlineVisualAmount + " EXP";
+			//Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.outlineVisualAmount + " EXP";
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.pixelVisual, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.pixelVisualAmount + " EXP";
+			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = "Get Classic Hanheld Mode";
 		}
 		setUpStats ();
 	}
@@ -312,7 +319,6 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Dist: " + 
 			string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated: " + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Bomb Cars Exploded: " + 

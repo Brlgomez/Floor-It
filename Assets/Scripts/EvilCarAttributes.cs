@@ -43,6 +43,8 @@ public class EvilCarAttributes : MonoBehaviour {
 				ParticleSystem.EmissionModule em = smoke.emission;
 				Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 				ChangeMaterial (invisibleFloor.GetComponent<Renderer>().material);
+				Behaviour halo = (Behaviour)transform.GetChild (0).GetComponent ("Halo");
+				halo.enabled = false;
 				GetComponent<Collider> ().enabled = false;
 				em.enabled = true;
 				exploded = true;

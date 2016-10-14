@@ -21,7 +21,8 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 	// kProductIDSubscription - it has custom Apple and Google identifiers. We declare their store-
 	// specific mapping to Unity Purchasing's AddProduct, below.
 	public static string kProductIDConsumable = "exp55555";
-	public static string kProductIDNonConsumable = "nonConsumable";
+	public static string kProductIDNonConsumableNight = "night_mode";
+	public static string kProductIDNonConsumableClassic = "classic_handheld_mode";
 	public static string kProductIDSubscription = "subscription";
 
 	// Apple App Store-specific product identifier for the subscription product.
@@ -52,7 +53,8 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 		// with its store-specific identifiers.
 		builder.AddProduct (kProductIDConsumable, ProductType.Consumable);
 		// Continue adding the non-consumable product.
-		builder.AddProduct (kProductIDNonConsumable, ProductType.NonConsumable);
+		builder.AddProduct (kProductIDNonConsumableNight, ProductType.NonConsumable);
+		builder.AddProduct (kProductIDNonConsumableClassic, ProductType.NonConsumable);
 		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
 		// if the Product ID was configured differently between Apple and Google stores. Also note that
 		// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
@@ -66,28 +68,30 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
 		UnityPurchasing.Initialize (this, builder);
 	}
-
-
+		
 	private bool IsInitialized () {
 		// Only say we are initialized if both the Purchasing references are set.
 		return m_StoreController != null && m_StoreExtensionProvider != null;
 	}
-
-
+		
 	public void BuyConsumable () {
 		// Buy the consumable product using its general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
 		BuyProductID (kProductIDConsumable);
 	}
-
-
-	public void BuyNonConsumable () {
+		
+	public void BuyNonConsumableNight () {
 		// Buy the non-consumable product using its general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
-		BuyProductID (kProductIDNonConsumable);
+		BuyProductID (kProductIDNonConsumableNight);
 	}
 
-
+	public void BuyNonConsumableClassic () {
+		// Buy the non-consumable product using its general identifier. Expect a response either 
+		// through ProcessPurchase or OnPurchaseFailed asynchronously.
+		BuyProductID (kProductIDNonConsumableClassic);
+	}
+		
 	public void BuySubscription () {
 		// Buy the subscription product using its the general identifier. Expect a response either 
 		// through ProcessPurchase or OnPurchaseFailed asynchronously.
@@ -95,7 +99,6 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 		// custom store-specific identifiers above.
 		BuyProductID (kProductIDSubscription);
 	}
-
 
 	void BuyProductID (string productId) {
 		// If Purchasing has been initialized ...
@@ -125,6 +128,25 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 		}
 	}
 
+	public void checkReceipts () {
+		if (IsInitialized ()) {
+			Product nightMode = m_StoreController.products.WithID (kProductIDNonConsumableNight);
+			Product classicMode = m_StoreController.products.WithID (kProductIDNonConsumableClassic);
+
+			if (nightMode != null && nightMode.hasReceipt) {
+				PlayerPrefs.SetInt (PlayerPrefManagement.nightVisual, 1);
+				PlayerPrefs.Save ();
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().turnOnCarButton (
+					Camera.main.GetComponent<InterfaceMainMenu>().nightVisual, PlayerPrefManagement.nightVisual);
+			}
+			if (classicMode != null && classicMode.hasReceipt) {
+				PlayerPrefs.SetInt (PlayerPrefManagement.pixelVisual, 1);
+				PlayerPrefs.Save ();
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().turnOnCarButton (
+					Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual, PlayerPrefManagement.pixelVisual);
+			}
+		}
+	}
 
 	// Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google.
 	// Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
@@ -190,8 +212,20 @@ public class InAppPurchases : MonoBehaviour, IStoreListener {
 			Camera.main.GetComponent<InterfaceMainMenu> ().expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 		}
 		// Or ... a non-consumable product has been purchased by this user.
-		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal)) {
+		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDNonConsumableNight, StringComparison.Ordinal)) {
 			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+			PlayerPrefs.SetInt (PlayerPrefManagement.nightVisual, 1);
+			PlayerPrefs.Save ();
+			Camera.main.GetComponent<InterfaceMainMenu>().setVisualPref (PlayerPrefManagement.nightVisual);
+			Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
+		} else if (String.Equals (args.purchasedProduct.definition.id, kProductIDNonConsumableClassic, StringComparison.Ordinal)) {
+			Debug.Log (string.Format ("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
+			Camera.main.GetComponent<SoundEffects> ().playBoughtItemSound ();
+			PlayerPrefs.SetInt (PlayerPrefManagement.pixelVisual, 1);
+			PlayerPrefs.Save ();
+			Camera.main.GetComponent<InterfaceMainMenu>().setVisualPref (PlayerPrefManagement.pixelVisual);
+			Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
 		}
 		// Or ... a subscription product has been purchased by this user.
 		else if (String.Equals (args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal)) {
