@@ -138,14 +138,14 @@ public class Points : MonoBehaviour {
 	}
 
 	void checkNoBlockAchievementDuringGame () {
-		if (total >= 25 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
+		if (total >= 250 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
 			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
 			checkedNoBlockAchievement = true;
 		}
 	}
 
 	void checkNoBlockAchievementAfterGame (int total) {
-		if (total >= 25 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
+		if (total >= 250 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
 			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
 		}
 	}
