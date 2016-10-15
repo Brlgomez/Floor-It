@@ -75,7 +75,7 @@ public class GooglePlayServices : MonoBehaviour {
 
 			});
 		} else if (level == LevelManagement.drive && distance != 0) {
-			Social.ReportScore (distance, FloorItResources.leaderboard_drive_score, (bool success) => {
+			Social.ReportScore (distance, FloorItResources.leaderboard_drive_distance, (bool success) => {
 
 			});
 		}

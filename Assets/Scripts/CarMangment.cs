@@ -101,8 +101,8 @@ public class CarMangment : MonoBehaviour {
 					if (allPinsStopped == true) {
 						trueGameOver = true;
 						Camera.main.GetComponent<Points> ().checkScore ();
-						Camera.main.GetComponent<Interface> ().gameOverInterface ();
 						Camera.main.GetComponent<PlayerPrefManagement> ().increaseDistance (checkDistance (), level);
+						Camera.main.GetComponent<Interface> ().gameOverInterface ();
 					}
 				}
 			}
