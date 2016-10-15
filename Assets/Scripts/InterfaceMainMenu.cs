@@ -280,6 +280,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		carConfirmation = false;
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		globalCarPlayerPref = playerPref;
+		globalAmount = 0;
 		Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
 		Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, 0, button.GetComponent<Image>().sprite);
 	}
@@ -289,6 +290,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
 			globalCarPlayerPref = playerPref;
+			globalAmount = 0;
 			Camera.main.GetComponent<InterfaceMainMenuTools>().turnOffAll ();
 			Camera.main.GetComponent<InterfaceMainMenuTools>().confirmationOn (playerPref, 0, button.GetComponent<Image>().sprite);
 		} else {
