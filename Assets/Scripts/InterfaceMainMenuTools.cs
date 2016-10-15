@@ -86,7 +86,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
 		if (itemName == PlayerPrefManagement.nightVisual) {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get night mode?";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Turn on your headlights and get night mode?";
 		} else if (itemName == PlayerPrefManagement.pixelVisual) {
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the classic 1980s handheld aesthetic?";
 		} else if (itemName == "buy") {
@@ -295,7 +295,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			//Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual.GetComponentInChildren<Text> ().text = InterfaceMainMenu.outlineVisualAmount + " EXP";
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.pixelVisual, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = "Get Classic Hanheld Mode";
+			Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual.GetComponentInChildren<Text> ().text = "Get Classic Mode";
 		}
 		setUpStats ();
 	}

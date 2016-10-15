@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AddBlock : MonoBehaviour {
 
@@ -20,10 +21,10 @@ public class AddBlock : MonoBehaviour {
 	static int evilCarPercent = comSuperPercent + 1;
 
 	/* How far a car must be in order for blocks to spawn */
-	float extraCarDistSpawn = 30;
-	float bombBlockDistSpawn = 60;
-	float evilCarDistSpawn = 90;
-	float superBlockDistSpawn = 120;
+	float extraCarDistSpawn = 35;
+	float bombBlockDistSpawn = 70;
+	float evilCarDistSpawn = 105;
+	float superBlockDistSpawn = 130;
 
 	/* counters */
 	// a counter that will increment when the player activated a super block
@@ -114,20 +115,25 @@ public class AddBlock : MonoBehaviour {
 	// index that will randomly pick a block
 	int randBlockIndex = 0;
 	// array the will hold names of common blocks, these will be randomly selected to spawn
-	public string[] blockNames;
+	List<string> blockNames = new List<string>();
+	//public string[] blockNames;
 	// will increment whenever a new block is spawned
 	int numBlocksCount = 0;
 	// Time.deltaTime
 	float deltaTime;
 
+	int addBlockIndex = 0;
+	int distDifference = 20;
+
 	void Start () {
 		level = Camera.main.GetComponent<LevelManagement> ().level;
 
 		if (level == LevelManagement.bowl) {
-			extraCarDistSpawn = 5;
-			bombBlockDistSpawn = 10;
-			evilCarDistSpawn = 15;
-			superBlockDistSpawn = 20;
+			extraCarDistSpawn = 10;
+			bombBlockDistSpawn = 15;
+			evilCarDistSpawn = 20;
+			superBlockDistSpawn = 25;
+			distDifference = 5;
 		}
 
 		// initial block
@@ -144,25 +150,18 @@ public class AddBlock : MonoBehaviour {
 		}
 		reshuffle (xStart);
 
-		// names of each different type of block
-		numOfAllBlocks = numOfStandard + numOfHill + numOfJagged + AllBlockNames.commonBlocks.Length;
-		blockNames = new string[numOfAllBlocks];
-		int j = 0;
-		while (j < numOfStandard) {
-			blockNames [j] = AllBlockNames.standardBlock;
-			j++;
+		// fills up blocks array
+		for (int j = 0; j < numOfStandard; j++) {
+			blockNames.Add (AllBlockNames.standardBlock);
 		}
-		while (j < numOfStandard + numOfJagged) {
-			blockNames [j] = AllBlockNames.jaggedBlock;
-			j++;
+		for (int j = 0; j < numOfJagged; j++) {
+			blockNames.Add (AllBlockNames.jaggedBlock);
 		}
-		while (j < numOfStandard + numOfJagged + numOfHill) {
-			blockNames [j] = AllBlockNames.hillBlock;
-			j++;
+		for (int j = 0; j < numOfHill; j++) {
+			blockNames.Add (AllBlockNames.hillBlock);
 		}
-		while (j < blockNames.Length) {
-			blockNames [j] = AllBlockNames.commonBlocks [j % AllBlockNames.commonBlocks.Length];
-			j++;
+		for (int j = 0; j < AllBlockNames.commonBlocks.Length; j++) {
+			blockNames.Add (AllBlockNames.commonBlocks [j]);
 		}
 	}
 
@@ -173,26 +172,21 @@ public class AddBlock : MonoBehaviour {
 			bombCounter += deltaTime;
 			evilCarCounter += deltaTime;
 			extraCarCounter += deltaTime;
+			checkBlocksToBeAdded ();
 			checkForSuperBlocks ();
 			if (level == LevelManagement.drive) {
-				if (hudBlock != null && hudBlock.tag == TagManagement.blockOnHud) {
-					hudBlock.tag = TagManagement.moveableObject;
-				}
-				if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
-					leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-					if (leadCar.transform.position.z + leadCarSpeed > nextBlockZ - nextBlockZLimit) {
-						countForNextBlock += deltaTime; 
-						float leadCarZ = leadCar.transform.position.z;
-						if (countForNextBlock > (nextBlockZ - leadCarZ - (distBlocksSpawn + leadCarSpeed/5)) / (blockPerRow)) {
-							automaticallyAddBlocks ();
-							countForNextBlock = 0;
-						}
-					}
-				}
+				checkWhenToAutomaticallyAddBlocks ();
 			}
 			if (hudBlock == null) {
 				ifHudBlockNull ();
 			}
+		}
+	}
+
+	void checkBlocksToBeAdded () {
+		if (transform.position.z > (addBlockIndex + 1) * distDifference && addBlockIndex < AllBlockNames.blocksToBeAdded.Length) {
+			blockNames.Add (AllBlockNames.blocksToBeAdded[addBlockIndex]);
+			addBlockIndex++;
 		}
 	}
 
@@ -220,6 +214,23 @@ public class AddBlock : MonoBehaviour {
 		spawnNextBlock ();
 		hudBlock.tag = TagManagement.blockOnHud;
 		Camera.main.GetComponent<Interface> ().changeHUDSprite (hudBlock.name.Split ('_') [0], hudBlock.name);
+	}
+
+	void checkWhenToAutomaticallyAddBlocks () {
+		if (hudBlock != null && hudBlock.tag == TagManagement.blockOnHud) {
+			hudBlock.tag = TagManagement.moveableObject;
+		}
+		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
+			leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
+			if (leadCar.transform.position.z + leadCarSpeed > nextBlockZ - nextBlockZLimit) {
+				countForNextBlock += deltaTime; 
+				float leadCarZ = leadCar.transform.position.z;
+				if (countForNextBlock > (nextBlockZ - leadCarZ - (distBlocksSpawn + leadCarSpeed/5)) / (blockPerRow)) {
+					automaticallyAddBlocks ();
+					countForNextBlock = 0;
+				}
+			}
+		}
 	}
 
 	void automaticallyAddBlocks () {
@@ -259,7 +270,7 @@ public class AddBlock : MonoBehaviour {
 		} else if (superPointBlockActivated) {
 			nextBlock = AllBlockNames.pointBlock;
 		} else {
-			randBlockIndex = (int)Random.Range (0, blockNames.Length);
+			randBlockIndex = (int)Random.Range (0, blockNames.Count);
 			float cameraZPos = Camera.main.transform.position.z;
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
@@ -284,7 +295,7 @@ public class AddBlock : MonoBehaviour {
 				evilCarCounter = 0;
 				nextBlock = AllBlockNames.evilCarBlock;
 			} else {
-				randBlockIndex = (int)Random.Range (0, blockNames.Length);
+				randBlockIndex = (int)Random.Range (0, blockNames.Count);
 				nextBlock = blockNames [randBlockIndex];
 			}
 		}

@@ -9,7 +9,7 @@ using UnityEngine.SocialPlatforms;
 public class OnlineServices : MonoBehaviour {
 
 	// 0 = Google Play Service, 1 = Game Center (To be added)
-	static int onlineService = 0;
+	// static int onlineService = 0;
 	public Text errorText;
 
 	void Awake () {

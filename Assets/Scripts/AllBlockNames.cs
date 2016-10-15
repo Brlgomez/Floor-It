@@ -33,9 +33,13 @@ public class AllBlockNames : MonoBehaviour {
 
 	// common special blocks and can spawn at any time
 	public static string[] commonBlocks = {
-		accelerateBlock, bullseyeBlock, bouncyBlock, shuffleBlock, invisibleBlock, decelerateBlock, flyBlock, 
-		pointBlock, sizeBlock, objectBlock, multiplierBlock
+		accelerateBlock, bullseyeBlock, bouncyBlock, decelerateBlock, objectBlock
 	};
+
+	public static string[] blocksToBeAdded = {
+		pointBlock, flyBlock, invisibleBlock, sizeBlock, shuffleBlock, multiplierBlock
+	};
+
 	// common super blocks that can spawn if timer has passed the limit
 	public static string[] commonSuperBlocks = {
 		superBlock, superBullseyeBlock, superBouncyBlock, superPointBlock
