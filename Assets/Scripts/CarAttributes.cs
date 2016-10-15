@@ -108,7 +108,7 @@ public class CarAttributes : MonoBehaviour {
 		if (car.tag == TagManagement.evilCar && (hit.transform.tag == TagManagement.car || hit.transform.tag == TagManagement.evilCar)) {
 			car.GetComponent<EvilCarAttributes> ().explodeNow = true;
 			if (hit.transform.tag == TagManagement.evilCar) {
-				Camera.main.GetComponent<GooglePlayServices> ().revealBombCollisionAchievement ();
+				Camera.main.GetComponent<OnlineServices> ().revealBombCollisionAchievement ();
 			}
 		}
 		string blockName = hit.transform.name.Split ('_') [0];

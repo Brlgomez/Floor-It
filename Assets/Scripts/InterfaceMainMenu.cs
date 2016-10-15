@@ -160,12 +160,12 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	public void achievementButtonClick () {
-		Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
-		Camera.main.GetComponent<GooglePlayServices> ().activatedAchievements ();
+		Camera.main.GetComponent<OnlineServices> ().revealUnlockAchievements ();
+		Camera.main.GetComponent<OnlineServices> ().activatedAchievements ();
 	}
 
 	public void leaderboardButtonClick () {
-		Camera.main.GetComponent<GooglePlayServices> ().activateLeaderBoards ();
+		Camera.main.GetComponent<OnlineServices> ().activateLeaderBoards ();
 	}
 
 	public void backButtonClick () {
@@ -329,8 +329,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 				expText.text = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) + " EXP";
 				GameObject.Find ("Highlight").transform.position = globalCarButton.transform.position;
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().setCarPosition (globalCarIndex);
-				Camera.main.GetComponent<GooglePlayServices> ().revealUnlockAchievements ();
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
+				Camera.main.GetComponent<OnlineServices> ().revealUnlockAchievements ();
 			} else {
 				if (globalCarPlayerPref == PlayerPrefManagement.nightVisual) {
 					Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumableNight ();

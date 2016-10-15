@@ -74,9 +74,8 @@ public class Draggable : MonoBehaviour {
 			dragTime += Time.deltaTime;
 			if (dragTime > dragTimeToMove) {
 				Vector3 currentPosition = target.transform.position;
-				if (dragTime > dragTimeToMove * 1.5f) {
+				if (dragTime > dragTimeToMove * 1.25f) {
 					dragTime = dragTimeToMove;
-					Debug.Log ("hi");
 					RaycastHit hit;
 					Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 					if (Physics.Raycast (ray.origin, ray.direction * 10, out hit)) {

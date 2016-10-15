@@ -47,7 +47,7 @@ public class PlayerPrefManagement : MonoBehaviour {
 
 	public void increaseDistance (float distance, string level) {
 		PlayerPrefs.SetFloat (totalDistance, PlayerPrefs.GetFloat(totalDistance, 0) + distance);
-		Camera.main.GetComponent<GooglePlayServices> ().postDistance (level, Mathf.FloorToInt(distance));
+		Camera.main.GetComponent<OnlineServices> ().postDistance (level, Mathf.FloorToInt(distance));
 		if (level == LevelManagement.floorIt) {
 			if (distance > PlayerPrefs.GetFloat(farthestDistFloorIt, 0)) {
 				PlayerPrefs.SetFloat (farthestDistFloorIt, distance);

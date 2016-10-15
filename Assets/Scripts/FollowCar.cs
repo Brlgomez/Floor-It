@@ -123,11 +123,16 @@ public class FollowCar : MonoBehaviour {
 	}
 
 	float getYPositionOfCam (GameObject a, GameObject b) {
-		float yPos = Mathf.Abs(a.transform.position.z - b.transform.position.z) + 10;
-		if (yPos <= 10) {
+		float zPosDiff = Mathf.Abs(a.transform.position.z - b.transform.position.z) + 10;
+		float xPosDiff = Mathf.Abs(a.transform.position.x - b.transform.position.x) + 10;
+		if (zPosDiff <= 10|| xPosDiff <= 10) {
 			return 10.0f;
 		} else {
-			return yPos;
+			if (xPosDiff > zPosDiff) {
+				return xPosDiff;
+			} else {
+				return zPosDiff;
+			}
 		}
 	}
 

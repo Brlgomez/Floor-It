@@ -166,7 +166,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 				blockActivated++;
 				if (GameObject.FindGameObjectsWithTag (TagManagement.car).Length >= 5) {
-					Camera.main.GetComponent<GooglePlayServices> ().revealFiveFriendlyCarsAchievement ();
+					Camera.main.GetComponent<OnlineServices> ().revealFiveFriendlyCarsAchievement ();
 				}
 			} else {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
@@ -263,9 +263,9 @@ public class AllBlockAttributes : MonoBehaviour {
 			if (car.tag == TagManagement.car) {
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 				blockActivated++;
-				Camera.main.GetComponent<GooglePlayServices> ().revealOnSpecialBlockAchievement ();
+				Camera.main.GetComponent<OnlineServices> ().revealOnSpecialBlockAchievement ();
 			} else if (car.tag == TagManagement.evilCar) {
-				Camera.main.GetComponent<GooglePlayServices> ().revealBombOnSpecialBlockAchievement ();
+				Camera.main.GetComponent<OnlineServices> ().revealBombOnSpecialBlockAchievement ();
 			}
 			string blockName = block.name.Split ('_') [0];
 			Camera.main.GetComponent<Interface> ().setTextureOverlay (blockName);

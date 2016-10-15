@@ -66,7 +66,7 @@ public class Points : MonoBehaviour {
 			if (level == LevelManagement.floorIt) {
 				checkHighScore = true;
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
-				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
+				Camera.main.GetComponent<OnlineServices> ().postScore (level, Mathf.FloorToInt(total));
 				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreInfinite) {
 					newHighScore = true;
@@ -90,13 +90,13 @@ public class Points : MonoBehaviour {
 					tempHighestMulti = 1;
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total * tempHighestMulti));
-				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total * tempHighestMulti));
+				Camera.main.GetComponent<OnlineServices> ().postScore (level, Mathf.FloorToInt(total * tempHighestMulti));
 				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (highestMulti >= 10) {
-					Camera.main.GetComponent<GooglePlayServices> ().revealStrikeAchievement ();
+					Camera.main.GetComponent<OnlineServices> ().revealStrikeAchievement ();
 				}
 				if (Camera.main.GetComponent<AllBlockAttributes> ().blockActivated == 0) {
-					Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationBowlAchievement ();
+					Camera.main.GetComponent<OnlineServices> ().revealNoActivationBowlAchievement ();
 				}
 				if (Mathf.FloorToInt (total * tempHighestMulti) > highscoreBowling) {
 					newHighScore = true;
@@ -109,8 +109,8 @@ public class Points : MonoBehaviour {
 				}
 			} else if (level == LevelManagement.drive) {
 				checkHighScore = true;
-				Camera.main.GetComponent<GooglePlayServices> ().postScore (level, Mathf.FloorToInt(total));
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total));
+				Camera.main.GetComponent<OnlineServices> ().postScore (level, Mathf.FloorToInt(total));
 				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
 				if (Mathf.Floor (total) > highscoreDriving) {
 					newHighScore = true;
@@ -139,14 +139,14 @@ public class Points : MonoBehaviour {
 
 	void checkNoBlockAchievementDuringGame () {
 		if (total >= 250 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
-			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
+			Camera.main.GetComponent<OnlineServices> ().revealNoActivationAchievement ();
 			checkedNoBlockAchievement = true;
 		}
 	}
 
 	void checkNoBlockAchievementAfterGame (int total) {
 		if (total >= 250 && Camera.main.GetComponent<AllBlockAttributes>().blockActivated == 0 && !checkedNoBlockAchievement) {
-			Camera.main.GetComponent<GooglePlayServices> ().revealNoActivationAchievement ();
+			Camera.main.GetComponent<OnlineServices> ().revealNoActivationAchievement ();
 		}
 	}
 }
