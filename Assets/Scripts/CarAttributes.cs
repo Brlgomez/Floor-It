@@ -81,7 +81,8 @@ public class CarAttributes : MonoBehaviour {
 	}
 
 	public bool isGrounded (GameObject car) {
-		return Physics.Raycast (car.transform.position, -car.transform.up, 0.1f);
+		Vector3 rayPos = new Vector3 (car.transform.position.x, car.transform.position.y + 0.1f, car.transform.position.z);
+		return Physics.Raycast (rayPos, -car.transform.up, 0.3f);
 	}
 
 	public void jump () {

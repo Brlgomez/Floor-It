@@ -191,7 +191,7 @@ namespace GooglePlayGames.Editor
             };
 
             // only delete these if we are not version 0.9.34
-            if (PluginVersion.VersionKey !=  PluginVersion.VersionKeyJNIStats) {
+			if (!PluginVersion.VersionKey.Equals (PluginVersion.VersionKeyJNIStats)) {
                 foreach (string file in obsoleteFiles)
                 {
                     if (File.Exists(file))

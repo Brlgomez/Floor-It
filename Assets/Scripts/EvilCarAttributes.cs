@@ -10,8 +10,8 @@ public class EvilCarAttributes : MonoBehaviour {
 	static float explodedDist = 1.25f;
 
 	static int radius = 2;
-	static int power = 750;
-	static int upwardForce = 50;
+	static int power = 1000;
+	static int upwardForce = 25;
 	bool exploded;
 	bool particlePlayed;
 	public bool explodeNow;

@@ -4,8 +4,8 @@ using System.Collections;
 public class BombAttributes : MonoBehaviour {
 
 	static float radius = 4.5f;
-	static float power = 1000;
-	static float upwardForce = 50;
+	static float power = 1250;
+	static float upwardForce = 25;
 	ParticleSystem smoke;
 	Renderer rend;
 	Color colorStart;

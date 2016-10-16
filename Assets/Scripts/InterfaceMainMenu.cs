@@ -31,9 +31,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public Text confirmationText;
 	public Image confirmationImage;
 
-	bool viewSettings = false;
-	bool viewStore = false;
-	bool viewStats = false;
+	public bool viewLevelSelect = false;
+	public bool viewSettings = false;
+	public bool viewStore = false;
+	public bool viewStats = false;
 	bool loading = false;
 	bool carConfirmation = false;
 
@@ -48,7 +49,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	string globalCarPlayerPref;
 	int globalAmount;
 	int globalCarIndex;
-	Button globalCarButton;
+	Button globalCarButton; 
 
 	void Start () {
 		//PlayerPrefs.DeleteAll();
@@ -93,7 +94,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialHighlightPosition (carNumber);
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 	}
-		
+
 	/*
 	 *  main menu buttons
 	 */

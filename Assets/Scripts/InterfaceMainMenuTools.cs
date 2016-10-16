@@ -86,11 +86,11 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
 		if (itemName == PlayerPrefManagement.nightVisual) {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Turn on your headlights and get night mode?";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Turn on your headlights and witness the world of Floor It at night!";
 		} else if (itemName == PlayerPrefManagement.pixelVisual) {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the classic 1980s handheld aesthetic?";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get nostalgic the experience the classic 1990s handheld aesthetic!";
 		} else if (itemName == "buy") {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get 55,555 EXP to unlock more vehicles?";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "55,555 EXP to unlock more vehicles!";
 		}
 		else if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the " + itemName + " for " + 
@@ -199,16 +199,28 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	public void setCarPosition (int carNumber) {
 		if (carNumber == 1) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.5f);
+		} else if (carNumber == 2) {
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.4f, -0.1f);
+		} else if (carNumber == 3) {
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.15f);
 		} else if (carNumber == 4) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.9f, 0.2f);
 		} else if (carNumber == 5) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = Vector3.zero;
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.35f, 0);
 		} else if (carNumber == 6) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.5f, -0.3f);
 		} else if (carNumber == 7) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.3f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.6f, 0);
 		} else {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
+			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.1f);
 		}
 	}
 

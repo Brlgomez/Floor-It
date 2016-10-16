@@ -76,6 +76,7 @@ public class CarMangment : MonoBehaviour {
 		} 
 
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 1) {
+			initialCar.GetComponentsInChildren<Light> () [0].transform.localPosition = Camera.main.GetComponent<CarTypeAttributes> ().getPointLightPos (carNum);
 			initialCar.GetComponentsInChildren<Light> ()[0].enabled = true;
 		}
 	}

@@ -14,6 +14,7 @@ public class CarTypeAttributes : MonoBehaviour {
 	float[] newCarSpawnDist = new float[numOfCars];
 	float[] initialSpeed = new float[numOfCars];
 	float[] carJumpDist = new float[numOfCars];
+	Vector3[] pointLightPos = new Vector3[numOfCars];
 
 	void Awake(){
 		carTypeMaterial [0] = GameObject.Find ("Car").GetComponent<Renderer> ().materials[1];
@@ -88,6 +89,14 @@ public class CarTypeAttributes : MonoBehaviour {
 		carJumpDist [5] = 4.5f;
 		carJumpDist [6] = 2.0f;
 		carJumpDist [7] = 3.25f;
+		pointLightPos [0] = new Vector3 (0, 0.3f, -0.1f);
+		pointLightPos [1] = new Vector3 (0, 0.3f, 0.5f);
+		pointLightPos [2] = new Vector3 (0, 0.4f, -0.1f);
+		pointLightPos [3] = new Vector3 (0, 0.2f, 0.2f);
+		pointLightPos [4] = new Vector3 (0, 0.9f, 0.2f);
+		pointLightPos [5] = new Vector3 (0, 0.35f, 0);
+		pointLightPos [6] = new Vector3 (0, 0.5f, 0.4f);
+		pointLightPos [7] = new Vector3 (0, 0.6f, 0.2f);
 	}
 
 	public Material getCarTypeMaterial(int index){
@@ -124,5 +133,9 @@ public class CarTypeAttributes : MonoBehaviour {
 
 	public float getJumpDistance (int index) {
 		return carJumpDist [index];
+	}
+
+	public Vector3 getPointLightPos (int index) {
+		return pointLightPos [index];
 	}
 }
