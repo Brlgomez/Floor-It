@@ -5,9 +5,6 @@ using UnityEngine.UI;
 public class InterfaceMainMenuTools : MonoBehaviour {
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
-	static Vector4 buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
-	static Vector4 scrollBackgrounOn = new Vector4 (0.125f, 0.125f, 0.125f, 0.125f);
-	static Vector4 statsBackgrounOn = new Vector4 (0.125f, 0.125f, 0.125f, 0.5f);
 	static Vector4 textOn = Vector4.one;
 	static Vector4 noColor = Vector4.zero;
 
@@ -29,6 +26,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	public void settingsOn () {
 		turnOffAll ();
 		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Settings";
+		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = noColor;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().soundButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().musicButton);
@@ -38,17 +36,13 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	public void storeOn () {
 		turnOffAll ();
 		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Store";
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
+		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 
 		Camera.main.GetComponent<InterfaceMainMenu>().scrollrect.GetComponent<ScrollRect> ().enabled = true;
-		Camera.main.GetComponent<InterfaceMainMenu>().viewport.GetComponent<Image> ().color = scrollBackgrounOn;
 		Camera.main.GetComponent<InterfaceMainMenu>().scrollbarVert.GetComponent<Scrollbar> ().enabled = true;
-		Camera.main.GetComponent<InterfaceMainMenu>().handle.GetComponent<Image> ().color = buttonOn;
 
-		Camera.main.GetComponent<InterfaceMainMenu>().sudanButton.GetComponent<Button> ().enabled = true;
-		Camera.main.GetComponent<InterfaceMainMenu>().sudanButton.GetComponent<Image> ().color = textOn;
-		Camera.main.GetComponent<InterfaceMainMenu>().sudanButton.GetComponent<Image> ().raycastTarget = true;
+		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().sudanButton, PlayerPrefManagement.sudan);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().limoButton, PlayerPrefManagement.limo);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().truckButton, PlayerPrefManagement.truck);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().sportButton, PlayerPrefManagement.sport);
@@ -56,9 +50,8 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().coneButton, PlayerPrefManagement.cone);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().busButton, PlayerPrefManagement.bus);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().abstractButton, PlayerPrefManagement.abstractCar);
-		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Button> ().enabled = true;
-		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().color = textOn;
-		Camera.main.GetComponent<InterfaceMainMenu>().normalVisual.GetComponent<Image> ().raycastTarget = true;
+
+		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().normalVisual, PlayerPrefManagement.normalVisual);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().nightVisual, PlayerPrefManagement.nightVisual);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual, PlayerPrefManagement.outlineVisual);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual, PlayerPrefManagement.pixelVisual);
@@ -72,16 +65,14 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	public void statsOn () {
 		turnOffAll ();
 		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Stats";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsBackGround.GetComponent<Image> ().color = statsBackgrounOn;
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.GetComponent<Text> ().color = textOn;
+		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = noColor;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
 	}
 
 	public void confirmationOn (string itemName, int amount, Sprite image) {
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationScreen.GetComponent<Image> ().color = statsBackgrounOn;
+		Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation = true;
+		Camera.main.GetComponent<InterfaceMainMenu>().viewStore = false;
 		Camera.main.GetComponent<InterfaceMainMenu>().confirmationImage.sprite = image;
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationImage.GetComponent<Image> ().color = textOn;
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.GetComponent<Text> ().color = textOn;
 		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
@@ -91,8 +82,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get nostalgic the experience the classic 1990s handheld aesthetic!";
 		} else if (itemName == "buy") {
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "55,555 EXP to unlock more vehicles!";
-		}
-		else if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
+		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get the " + itemName + " for " + 
 				amount + " EXP?";
 		} else {
@@ -117,10 +107,6 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().musicButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().vibrationButton);
 
-		Camera.main.GetComponent<InterfaceMainMenu>().scrollrect.GetComponent<ScrollRect> ().enabled = false;
-		Camera.main.GetComponent<InterfaceMainMenu>().viewport.GetComponent<Image> ().color = noColor;
-		Camera.main.GetComponent<InterfaceMainMenu>().scrollbarVert.GetComponent<Scrollbar> ().enabled = false;
-		Camera.main.GetComponent<InterfaceMainMenu>().handle.GetComponent<Image> ().color = noColor;
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().sudanButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().limoButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().truckButton);
@@ -137,56 +123,29 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOffButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationScreen.GetComponent<Image> ().color = noColor;
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.GetComponent<Text> ().color = noColor;
-		Camera.main.GetComponent<InterfaceMainMenu>().confirmationImage.GetComponent<Image> ().color = noColor;
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = noColor;
-
-		Camera.main.GetComponent<InterfaceMainMenu>().statsBackGround.GetComponent<Image> ().color = noColor;
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.GetComponent<Text> ().color = noColor;
 	}
 
 	public void turnOnButtonAndText (Button b) {
-		if (!b.GetComponent<Button> ().enabled) {
-			b.GetComponent<Button> ().enabled = true;
-			b.GetComponent<Image> ().color = buttonOn;
-			b.GetComponentInChildren<Text> ().enabled = true;
-			b.GetComponent<Image> ().raycastTarget = true;
-		}
+		b.GetComponent<Image> ().raycastTarget = true;
+		b.interactable = true;
 	}
 
 	public void turnOffButtonAndText (Button b) {
-		if (b.GetComponent<Button> ().enabled) {
-			b.GetComponent<Button> ().enabled = false;
-			b.GetComponent<Image> ().color = noColor;
-			b.GetComponentInChildren<Text> ().enabled = false;
-			b.GetComponent<Image> ().raycastTarget = false;
-		}
+		b.GetComponent<Image> ().raycastTarget = false;
+		b.interactable = false;
 	}
 
 	public void turnOnButtonAndImage (Button b) {
-		if (!b.GetComponent<Button> ().enabled) {
-			b.GetComponent<Button> ().enabled = true;
-			b.GetComponent<Image> ().color = buttonOn;
-			b.GetComponentsInChildren<Image> () [1].enabled = true;
-			b.GetComponentsInChildren<Image> () [1].color = textOn;
-			b.GetComponent<Image> ().raycastTarget = true;
-		}
+		b.GetComponent<Image> ().raycastTarget = true;
+		b.interactable = true;
 	}
 
 	public void turnOffButtonAndImage (Button b) {
-		if (b.GetComponent<Button> ().enabled) {
-			b.GetComponent<Button> ().enabled = false;
-			b.GetComponent<Image> ().color = noColor;
-			b.GetComponentsInChildren<Image> () [1].enabled = false;
-			b.GetComponentsInChildren<Image> () [1].color = noColor;
-			b.GetComponent<Image> ().raycastTarget = false;
-		}
+		b.GetComponent<Image> ().raycastTarget = false;
+		b.interactable = false;
 	}
 
 	public void turnOnCarButton (Button button, string playerPref) {
-		button.GetComponent<Button> ().enabled = true;
-		button.GetComponentInChildren<Text> ().enabled = true;
 		if (PlayerPrefs.GetInt (playerPref, 0) == 0) {
 			button.GetComponent<Image> ().color = carLocked;
 			button.GetComponentInChildren<Text> ().color = textOn;
@@ -194,6 +153,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 			button.GetComponent<Image> ().color = textOn;
 		}
 		button.GetComponent<Image> ().raycastTarget = true;
+		button.interactable = true;
 	}
 
 	public void setCarPosition (int carNumber) {

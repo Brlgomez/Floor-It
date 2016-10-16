@@ -35,6 +35,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public bool viewSettings = false;
 	public bool viewStore = false;
 	public bool viewStats = false;
+	public bool viewConfirmation = false;
 	bool loading = false;
 	bool carConfirmation = false;
 
@@ -93,6 +94,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialText ();
 		Camera.main.GetComponent<InterfaceMainMenuTools>().setInitialHighlightPosition (carNumber);
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
+		viewLevelSelect = true;
 	}
 
 	/*
@@ -131,7 +133,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	public void settingsButtonClick () {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		viewSettings = !viewSettings;
+		viewSettings = true;
+		viewLevelSelect = false;
 		if (viewSettings) {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().settingsOn ();
 		} else {
@@ -141,7 +144,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	public void storeButtonClick () {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		viewStore = !viewStore;
+		viewStore = true;
+		viewLevelSelect = false;
 		if (viewStore) {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 			Camera.main.GetComponent<InAppPurchases> ().checkReceipts ();
@@ -152,7 +156,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	public void statsButtonClick () {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
-		viewStats = !viewStats;
+		viewStats = true;
+		viewLevelSelect = false;
 		if (viewStats) {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().statsOn ();
 		} else {
@@ -174,6 +179,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 		viewStats = false;
 		viewStore = false;
 		viewSettings = false;
+		viewConfirmation = false;
+		viewLevelSelect = true;
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 	}
 		
@@ -347,6 +354,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	}
 
 	void confirmNo () {
+		viewStore = true;
+		viewConfirmation = false;
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		Camera.main.GetComponent<InterfaceMainMenuTools>().storeOn ();
 	}
