@@ -56,10 +56,9 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().outlineVisual, PlayerPrefManagement.outlineVisual);
 		turnOnCarButton (Camera.main.GetComponent<InterfaceMainMenu>().pixelVisual, PlayerPrefManagement.pixelVisual);
 
-		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponent<Button> ().enabled = true;
-		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponentInChildren<Text> ().enabled = true;
 		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponent<Image> ().color = carLocked;
 		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.GetComponentInChildren<Text> ().color = textOn;
+		Camera.main.GetComponent<InterfaceMainMenu>().buyButton.interactable = true;
 	}
 
 	public void statsOn () {
