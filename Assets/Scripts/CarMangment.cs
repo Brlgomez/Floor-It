@@ -79,6 +79,9 @@ public class CarMangment : MonoBehaviour {
 			initialCar.GetComponentsInChildren<Light> () [0].transform.localPosition = Camera.main.GetComponent<CarTypeAttributes> ().getPointLightPos (carNum);
 			initialCar.GetComponentsInChildren<Light> ()[0].enabled = true;
 		}
+
+		Behaviour halo = (Behaviour)initialCar.transform.GetChild (0).GetComponent ("Halo");
+		halo.transform.localPosition = Camera.main.GetComponent<CarTypeAttributes> ().getHaloPos(carNum);
 	}
 
 	void Update(){

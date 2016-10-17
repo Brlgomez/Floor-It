@@ -79,7 +79,7 @@ public class CarMovement : MonoBehaviour {
 	}
 
 	void evilCarMovement(){
-		if (!(Vector3.Dot (transform.up, Vector3.down) > carFlippedLimit) || flying || Mathf.Abs(rb.velocity.y) > 0.3f) {
+		if (!(Vector3.Dot (transform.up, Vector3.down) > (carFlippedLimit - 0.5f)) || flying || Mathf.Abs(rb.velocity.y) > 0.3f) {
 			Vector3 forward = new Vector3 (transform.forward.x, 0.05f, transform.forward.z);
 			if (evilCarWithinRange) {
 				if (!evilCarFirstLooked) {

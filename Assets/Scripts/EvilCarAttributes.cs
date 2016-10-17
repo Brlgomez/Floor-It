@@ -18,8 +18,12 @@ public class EvilCarAttributes : MonoBehaviour {
 
 	GameObject followCar = null;
 	float shortestDist;
+	bool playedClip = false;
+
+	private AudioSource source;
 
 	void Start () {
+		source = GetComponent<AudioSource> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
 		smoke = gameObject.GetComponent<ParticleSystem> ();
 		transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
@@ -43,6 +47,7 @@ public class EvilCarAttributes : MonoBehaviour {
 			if (Vector3.Distance (transform.position, followCar.transform.position) < (explodedDist * transform.localScale.x) || GetComponent<CarMovement> ().gameOver || explodeNow) {
 				explosionForce ();
 				smoke.Play ();
+				source.Stop ();
 				ParticleSystem.EmissionModule em = smoke.emission;
 				Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 				ChangeMaterial (invisibleFloor.GetComponent<Renderer>().material);
@@ -59,6 +64,9 @@ public class EvilCarAttributes : MonoBehaviour {
 			Camera.main.GetComponent<Points> ().incrementPoints (5, gameObject);
 			Camera.main.GetComponent<PlayerPrefManagement> ().increaseBombCars ();
 			Destroy (gameObject);
+		}
+		if (Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			source.Stop ();
 		}
 	}
 
@@ -78,6 +86,10 @@ public class EvilCarAttributes : MonoBehaviour {
 			if (shortestDist < 5) {
 				GetComponent<CarMovement> ().evilCarWithinRange = true;
 				if (!GetComponent<CarMovement> ().carFlipped) {
+					if (!playedClip) {
+						Camera.main.GetComponent<SoundEffects> ().playEvilCarSound (source);
+						playedClip = true;
+					}
 					Vector3 targetPosition = followCar.transform.position;
 					targetPosition.y = transform.position.y;
 					Quaternion targetRotation = Quaternion.LookRotation (targetPosition - transform.position);
@@ -89,6 +101,8 @@ public class EvilCarAttributes : MonoBehaviour {
 				}
 			} else {
 				GetComponent<CarMovement> ().evilCarWithinRange = false;
+				source.Stop ();
+				playedClip = false;
 			}
 		}
 	}

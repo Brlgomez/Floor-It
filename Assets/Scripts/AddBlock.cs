@@ -34,7 +34,7 @@ public class AddBlock : MonoBehaviour {
 	// a counter that will increment for bomb blocks
 	float bombCounter = 0;
 	// if the counter goes above the limit, a bomb can now possibly spawn
-	static float bombLimit = 15;
+	static float bombLimit = 20;
 	// a counter that will increment for super blocks
 	float superCounter = 0;
 	// if the counter goes above the limit, a super block can now possibly spawn
@@ -252,14 +252,7 @@ public class AddBlock : MonoBehaviour {
 		string nextBlock = "";
 		float rand = Random.Range (0, 100);
 		int numberOfCars = Camera.main.GetComponent<CarMangment> ().cars.Length;
-		if (superBlockActivated) {
-			if (rand > 0 && rand < extraPercent && numberOfCars < maxAmountOfCars) {
-				nextBlock = AllBlockNames.extraCarBlock;
-			} else {
-				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonBlocks.Length);
-				nextBlock = AllBlockNames.commonBlocks [randBlockIndex];
-			}
-		} else if (superSlowBlockActivated) {
+		if (superSlowBlockActivated) {
 			nextBlock = AllBlockNames.decelerateBlock;
 		} else if (superSpeedBlockActivated) {
 			nextBlock = AllBlockNames.accelerateBlock;
@@ -269,6 +262,13 @@ public class AddBlock : MonoBehaviour {
 			nextBlock = AllBlockNames.bullseyeBlock;
 		} else if (superPointBlockActivated) {
 			nextBlock = AllBlockNames.pointBlock;
+		} else if (superBlockActivated) {
+			if (rand > 0 && rand < extraPercent && numberOfCars < maxAmountOfCars) {
+				nextBlock = AllBlockNames.extraCarBlock;
+			} else {
+				randBlockIndex = (int)Random.Range (0, AllBlockNames.superBlockActivated.Length);
+				nextBlock = AllBlockNames.superBlockActivated [randBlockIndex];
+			}
 		} else {
 			randBlockIndex = (int)Random.Range (0, blockNames.Count);
 			float cameraZPos = Camera.main.transform.position.z;

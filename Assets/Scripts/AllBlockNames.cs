@@ -40,6 +40,11 @@ public class AllBlockNames : MonoBehaviour {
 		pointBlock, flyBlock, invisibleBlock, sizeBlock, shuffleBlock, multiplierBlock
 	};
 
+	public static string[] superBlockActivated = {
+		accelerateBlock, bullseyeBlock, bouncyBlock, decelerateBlock,
+		pointBlock, flyBlock, invisibleBlock, sizeBlock, shuffleBlock, multiplierBlock
+	};
+
 	// common super blocks that can spawn if timer has passed the limit
 	public static string[] commonSuperBlocks = {
 		superBlock, superBullseyeBlock, superBouncyBlock, superPointBlock

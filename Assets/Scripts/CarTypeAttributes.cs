@@ -15,6 +15,7 @@ public class CarTypeAttributes : MonoBehaviour {
 	float[] initialSpeed = new float[numOfCars];
 	float[] carJumpDist = new float[numOfCars];
 	Vector3[] pointLightPos = new Vector3[numOfCars];
+	Vector3[] haloPos = new Vector3[numOfCars];
 
 	void Awake(){
 		carTypeMaterial [0] = GameObject.Find ("Car").GetComponent<Renderer> ().materials[1];
@@ -97,6 +98,14 @@ public class CarTypeAttributes : MonoBehaviour {
 		pointLightPos [5] = new Vector3 (0, 0.35f, 0);
 		pointLightPos [6] = new Vector3 (0, 0.5f, 0.4f);
 		pointLightPos [7] = new Vector3 (0, 0.6f, 0.2f);
+		haloPos [0] = new Vector3 (0, 0.25f, 0.2f);
+		haloPos [1] = new Vector3 (0, 0.25f, 0.3f);
+		haloPos [2] = new Vector3 (0, 0.25f, 0.2f);
+		haloPos [3] = new Vector3 (0, 0.25f, 0.2f);
+		haloPos [4] = new Vector3 (0, 0.8f, 0.3f);
+		haloPos [5] = new Vector3 (0, 0.25f, 0);
+		haloPos [6] = new Vector3 (0, 0.5f, 0.4f);
+		haloPos [7] = new Vector3 (0, 0.25f, 0.25f);
 	}
 
 	public Material getCarTypeMaterial(int index){
@@ -137,5 +146,9 @@ public class CarTypeAttributes : MonoBehaviour {
 
 	public Vector3 getPointLightPos (int index) {
 		return pointLightPos [index];
+	}
+
+	public Vector3 getHaloPos (int index) {
+		return haloPos [index];
 	}
 }

@@ -30,6 +30,7 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip multiplierSound;
 	public AudioClip multiplierRevertSound;
 	public AudioClip expSound;
+	public AudioClip evilCarSound;
 
 	private AudioSource source;
 
@@ -221,6 +222,14 @@ public class SoundEffects : MonoBehaviour {
 	public void playMultiplierRevertSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (multiplierRevertSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playEvilCarSound (AudioSource source) {
+		if (playSoundEffects == 0) {
+			source.clip = evilCarSound;
+			source.loop = true;
+			source.Play ();
 		}
 	}
 }
