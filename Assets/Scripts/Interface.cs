@@ -71,9 +71,9 @@ public class Interface : MonoBehaviour {
 
 	void Update(){
 		deltaTime = Time.deltaTime;
-		if (!Camera.main.GetComponent<Interface> ().paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
+		if (!Camera.main.GetComponent<Interface> ().paused && !Camera.main.GetComponent<CarMangment> ().trueGameOver) {
 			updateGameplayInterface ();
-		}
+		} 
 		if (Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			updateGameOverInterface ();
 		}
@@ -260,6 +260,7 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 0;
+			loadingText.GetComponentInChildren<Text>().text = "Paused";
 			pauseButton.GetComponentInChildren<Text>().text = "I>";
 			turnOnMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
@@ -273,6 +274,7 @@ public class Interface : MonoBehaviour {
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 1;
+			loadingText.GetComponentInChildren<Text>().text = "";
 			pauseButton.GetComponentInChildren<Text>().text = "II";
 			turnOffMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();

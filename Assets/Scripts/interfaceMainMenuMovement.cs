@@ -6,69 +6,110 @@ public class interfaceMainMenuMovement : MonoBehaviour {
 
 	public GameObject levelSelect;
 	public GameObject settings;
+	public GameObject backButton;
 	public Image stats;
 	public Image store;
 	public Image bottomButtons;
-	public GameObject backButton;
 	public Image confirmation;
 	public Image confirmationButtons;
+	public Text title;
+	public Text exp;
+
+	static Vector3 zero = new Vector3 (0, 1, 0);
 
 	float deltaTime;
+	public bool titleShift = false;
+	bool adjustHighlight = false;
+	public string titleText;
 
 	
 	// Update is called once per frame
 	void Update () {
-		deltaTime = Time.deltaTime * 5;
-		if (Camera.main.GetComponent<InterfaceMainMenu>().viewLevelSelect) {
-			levelSelect.transform.localScale = 
-				Vector3.MoveTowards (levelSelect.transform.localScale, Vector3.one, deltaTime);
-			bottomButtons.transform.localScale = 
-				Vector3.MoveTowards (bottomButtons.transform.localScale, Vector3.one, deltaTime);
-		} else {
-			levelSelect.transform.localScale = 
-				Vector3.MoveTowards (levelSelect.transform.localScale, Vector3.zero, deltaTime);
-			bottomButtons.transform.localScale = 
-				Vector3.MoveTowards (bottomButtons.transform.localScale, Vector3.zero, deltaTime);
-		}
+		deltaTime = Time.deltaTime * 7.5f;
+
+		titleMovement ();
 
 		if (Camera.main.GetComponent<InterfaceMainMenu> ().viewSettings || 
 			Camera.main.GetComponent<InterfaceMainMenu> ().viewStore || 
 			Camera.main.GetComponent<InterfaceMainMenu> ().viewStats) {
-			backButton.transform.localScale = 
-				Vector3.MoveTowards (backButton.transform.localScale, Vector3.one, deltaTime);
+			shiftUp (backButton.transform);
 		} else {
-			backButton.transform.localScale = 
-				Vector3.MoveTowards (backButton.transform.localScale, Vector3.zero, deltaTime);
+			shiftDown (backButton.transform);
+		}
+
+		if (Camera.main.GetComponent<InterfaceMainMenu> ().viewStore || 
+			Camera.main.GetComponent<InterfaceMainMenu>().viewLevelSelect ||
+			Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation) {
+			shiftUp (exp.transform);
+		} else {
+			shiftDown (exp.transform);
+		}
+
+		if (Camera.main.GetComponent<InterfaceMainMenu>().viewLevelSelect) {
+			shiftUp (levelSelect.transform);
+			shiftUp (bottomButtons.transform);
+		} else {
+			shiftDown (levelSelect.transform);
+			shiftDown (bottomButtons.transform);
 		}
 	
 		if (Camera.main.GetComponent<InterfaceMainMenu>().viewSettings) {
-			settings.transform.localScale = Vector3.MoveTowards (settings.transform.localScale, Vector3.one, deltaTime);
+			shiftUp (settings.transform);
 		} else {
-			settings.transform.localScale = Vector3.MoveTowards (settings.transform.localScale, Vector3.zero, deltaTime);
+			shiftDown (settings.transform);
 		}
 
 		if (Camera.main.GetComponent<InterfaceMainMenu>().viewStore) {
-			store.transform.localScale = Vector3.MoveTowards (store.transform.localScale, Vector3.one, deltaTime);
+			if (store.transform.localScale.x == 1 && adjustHighlight) {
+				Camera.main.GetComponent<InterfaceMainMenuTools> ().setInitialHighlightPosition (PlayerPrefs.GetInt(PlayerPrefManagement.carType, 0));
+				adjustHighlight = false;
+			}
+			shiftUp (store.transform);
 		} else {
-			store.transform.localScale = Vector3.MoveTowards (store.transform.localScale, Vector3.zero, deltaTime);
+			shiftDown (store.transform);
+			adjustHighlight = true;
 		}
 
 		if (Camera.main.GetComponent<InterfaceMainMenu>().viewStats) {
-			stats.transform.localScale = Vector3.MoveTowards (stats.transform.localScale, Vector3.one, deltaTime);
+			shiftUp (stats.transform);
 		} else {
-			stats.transform.localScale = Vector3.MoveTowards (stats.transform.localScale, Vector3.zero, deltaTime);
+			shiftDown (stats.transform);
 		}
 
 		if (Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation) {
-			confirmation.transform.localScale = 
-				Vector3.MoveTowards (confirmation.transform.localScale, Vector3.one, deltaTime);
-			confirmationButtons.transform.localScale = 
-				Vector3.MoveTowards (confirmationButtons.transform.localScale, Vector3.one, deltaTime);
+			shiftUp (confirmation.transform);
+			shiftUp (confirmationButtons.transform);
 		} else {
-			confirmation.transform.localScale = 
-				Vector3.MoveTowards (confirmation.transform.localScale, Vector3.zero, deltaTime);
-			confirmationButtons.transform.localScale = 
-				Vector3.MoveTowards (confirmationButtons.transform.localScale, Vector3.zero, deltaTime);
+			shiftDown (confirmation.transform);
+			shiftDown (confirmationButtons.transform);
+		}
+	}
+
+	void titleMovement () {
+		if (titleShift) {
+			if (title.transform.localScale.x != 0) {
+				title.transform.localScale = Vector3.MoveTowards (title.transform.localScale, zero, deltaTime * 2);
+			}
+			if (title.transform.localScale.x == 0) { 
+				titleShift = false;
+				title.text = titleText;
+			}
+		} else {
+			if (title.transform.localScale.x != 1) {
+				title.transform.localScale = Vector3.MoveTowards (title.transform.localScale, Vector3.one, deltaTime * 2);
+			}
+		}
+	}
+
+	void shiftDown (Transform obj) {
+		if (obj.localScale.x != 0) {
+			obj.localScale = Vector3.MoveTowards (obj.localScale, zero, deltaTime);
+		}
+	}
+
+	void shiftUp (Transform obj) {
+		if (obj.localScale.x != 1) {
+			obj.localScale = Vector3.MoveTowards (obj.localScale, Vector3.one, deltaTime);
 		}
 	}
 }

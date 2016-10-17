@@ -6,12 +6,10 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
 	static Vector4 textOn = Vector4.one;
-	static Vector4 noColor = Vector4.zero;
 
 	public void menuOn () {
 		turnOffAll ();
-		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Floor It";
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
+		Camera.main.GetComponent<interfaceMainMenuMovement>().titleText = "Floor It";
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().playButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().playBowlingButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().playDriveButton);
@@ -25,8 +23,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 	public void settingsOn () {
 		turnOffAll ();
-		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Settings";
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = noColor;
+		Camera.main.GetComponent<interfaceMainMenuMovement>().titleText = "Settings";
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().soundButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().musicButton);
@@ -35,9 +32,10 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 	public void storeOn () {
 		turnOffAll ();
-		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Store";
+		Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation = false;
+		Camera.main.GetComponent<InterfaceMainMenu>().viewStore = true;
+		Camera.main.GetComponent<interfaceMainMenuMovement>().titleText = "Store";
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 
 		Camera.main.GetComponent<InterfaceMainMenu>().scrollrect.GetComponent<ScrollRect> ().enabled = true;
 		Camera.main.GetComponent<InterfaceMainMenu>().scrollbarVert.GetComponent<Scrollbar> ().enabled = true;
@@ -63,8 +61,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 	public void statsOn () {
 		turnOffAll ();
-		Camera.main.GetComponent<InterfaceMainMenu>().titleText.text = "Stats";
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = noColor;
+		Camera.main.GetComponent<interfaceMainMenuMovement>().titleText = "Stats";
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
 	}
 
@@ -72,7 +69,6 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation = true;
 		Camera.main.GetComponent<InterfaceMainMenu>().viewStore = false;
 		Camera.main.GetComponent<InterfaceMainMenu>().confirmationImage.sprite = image;
-		Camera.main.GetComponent<InterfaceMainMenu>().expText.GetComponent<Text> ().color = textOn;
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmYesButton);
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().confirmNoButton);
 		if (itemName == PlayerPrefManagement.nightVisual) {

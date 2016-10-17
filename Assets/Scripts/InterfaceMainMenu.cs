@@ -140,6 +140,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
+		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
 	}
 
 	public void storeButtonClick () {
@@ -152,6 +153,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
+		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
 	}
 
 	public void statsButtonClick () {
@@ -163,6 +165,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		} else {
 			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		}
+		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
 	}
 
 	public void achievementButtonClick () {
@@ -182,6 +185,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		viewConfirmation = false;
 		viewLevelSelect = true;
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
+		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
 	}
 		
 	/*
