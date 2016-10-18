@@ -5,11 +5,8 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 
-
 public class OnlineServices : MonoBehaviour {
 
-	// 0 = Google Play Service, 1 = Game Center (To be added)
-	// static int onlineService = 0;
 	public Text errorText;
 
 	void Awake () {
@@ -20,7 +17,6 @@ public class OnlineServices : MonoBehaviour {
 
 	public void logIn() {
 		if (!Social.localUser.authenticated) {
-			// Activate the Google Play Games platform
 			Social.localUser.Authenticate ((bool success) => {});
 		}
 	}
@@ -156,27 +152,13 @@ public class OnlineServices : MonoBehaviour {
 	}
 
 	void revealAllUnlockAchievement () {
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.truck, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.sport, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.monsterTruck, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.bus, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 0) {
-			return;
-		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 0) {
-			return;
-		}
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.truck, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.sport, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.monsterTruck, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.bus, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.abstractCar, 0) == 0) { return; }
+		if (PlayerPrefs.GetInt (PlayerPrefManagement.cone, 0) == 0) { return; }
 		Social.ReportProgress (FloorItResources.achievement_master_of_none, 100.0f, (bool success) => {});
 	}
 

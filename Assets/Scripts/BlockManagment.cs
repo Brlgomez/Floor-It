@@ -22,7 +22,7 @@ public class BlockManagment : MonoBehaviour {
 			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
 			// destroy objects that have fallen
 			foreach (GameObject go in allObjects) {
-				if (go.transform.position.y < -250 && go.tag != TagManagement.pin && go.layer == 2) {
+				if (go.transform.position.y < -200 && (go.tag != TagManagement.pin && (go.layer == 2 || go.layer == 8))) {
 					Destroy (go);
 				}
 			}

@@ -31,6 +31,7 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip multiplierRevertSound;
 	public AudioClip expSound;
 	public AudioClip evilCarSound;
+	public AudioClip metalSound;
 
 	private AudioSource source;
 
@@ -138,6 +139,12 @@ public class SoundEffects : MonoBehaviour {
 	public void playBallBounceSound(Vector3 playAt, float vol) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (ballBounceSound, Vector3.Lerp(playAt, Camera.main.transform.position, vol));
+		}
+	}
+
+	public void playMetalSound(Vector3 playAt, float vol) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (metalSound, Vector3.Lerp(playAt, Camera.main.transform.position, vol));
 		}
 	}
 

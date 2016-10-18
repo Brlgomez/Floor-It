@@ -302,16 +302,22 @@ public class AllBlockAttributes : MonoBehaviour {
 		if (Random.Range (0, 100) > 10) {
 			GameObject sphereTemp = GameObject.Find ("Sphere");
 			GameObject sphere = Instantiate (sphereTemp);
-			sphere.AddComponent<SphereActions> ();
+			sphere.AddComponent<RigidbodySounds> ();
 			sphere.name = sphereTemp.name + "_Clone";
 			sphere.transform.position = new Vector3 (
 				block.transform.position.x, 
 				randomYSpawnPosition, 
 				block.transform.position.z
 			);
+			sphere.transform.Rotate(Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f));
+			sphere.GetComponent<Rigidbody> ().velocity += Vector3.forward * Random.Range(-0.25f, 0.25f);
+			sphere.GetComponent<Rigidbody> ().velocity += Vector3.right * Random.Range(-0.25f, 0.25f);
+			sphere.GetComponent<Rigidbody> ().useGravity = true;
+			sphere.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
 			GameObject temp = GameObject.Find ("Anvil");
 			GameObject anvil = Instantiate (temp);
+			anvil.AddComponent<RigidbodySounds> ();
 			anvil.name = temp.name + "_Clone";
 			anvil.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
 			anvil.transform.position = new Vector3 (

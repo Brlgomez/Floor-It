@@ -74,7 +74,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		if (itemName == PlayerPrefManagement.nightVisual) {
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Turn on your headlights and witness the world of Floor It at night!";
 		} else if (itemName == PlayerPrefManagement.pixelVisual) {
-			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get nostalgic the experience the classic 1990s handheld aesthetic!";
+			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "Get nostalgic and experience the classic 1990s handheld aesthetic!";
 		} else if (itemName == "buy") {
 			Camera.main.GetComponent<InterfaceMainMenu>().confirmationText.text = "55,555 EXP to unlock more vehicles!";
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0) >= amount) { 
