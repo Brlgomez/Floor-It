@@ -42,6 +42,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 				blockActivated++;
 			}
+			car.GetComponentsInChildren<ParticleSystem> () [0].Play ();
 		}
 	}
 
@@ -162,6 +163,7 @@ public class AllBlockAttributes : MonoBehaviour {
 					nextCar.transform.rotation = new Quaternion (0, temp.transform.rotation.y, 0, temp.transform.rotation.w);
 				}
 				nextCar.GetComponent<Rigidbody> ().mass = Camera.main.GetComponent<CarMangment> ().carMass;
+				nextCar.GetComponentsInChildren<ParticleSystem> () [1].Play ();
 				Camera.main.GetComponent<CarAttributes> ().changeMaterialOfCars ();
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 				blockActivated++;
@@ -346,6 +348,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			ySpawnPosition,
 			block.transform.position.z
 		);
+		evilCar.GetComponentsInChildren<ParticleSystem> () [1].Play ();
 	}
 
 	public void spawnObject (GameObject block) {

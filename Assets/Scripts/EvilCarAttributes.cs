@@ -25,7 +25,7 @@ public class EvilCarAttributes : MonoBehaviour {
 	void Start () {
 		source = GetComponent<AudioSource> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
-		smoke = gameObject.GetComponent<ParticleSystem> ();
+		smoke = gameObject.GetComponentsInChildren<ParticleSystem>()[2];
 		transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
 		GetComponent<Rigidbody> ().useGravity = true;
 		exploded = false;
@@ -48,13 +48,11 @@ public class EvilCarAttributes : MonoBehaviour {
 				explosionForce ();
 				smoke.Play ();
 				source.Stop ();
-				ParticleSystem.EmissionModule em = smoke.emission;
 				Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 				ChangeMaterial (invisibleFloor.GetComponent<Renderer>().material);
 				Behaviour halo = (Behaviour)transform.GetChild (0).GetComponent ("Halo");
 				halo.enabled = false;
 				GetComponent<Collider> ().enabled = false;
-				em.enabled = true;
 				exploded = true;
 				particlePlayed = true;
 				Camera.main.GetComponent<Vibration> ().vibrate();
