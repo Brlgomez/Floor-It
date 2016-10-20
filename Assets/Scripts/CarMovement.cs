@@ -134,7 +134,7 @@ public class CarMovement : MonoBehaviour {
 			setToGameOver ();
 		}
 		// immidiately game over a car if flipped so other cars wont continue following it
-		if (Camera.main.GetComponent<CarMangment> ().cars.Length > 1 && level == LevelManagement.drive && 
+		if (Camera.main.GetComponent<CarMangment> ().cars.Length > 1 && level != LevelManagement.bowl && 
 			carFlipped && tag == TagManagement.car && gameObject == Camera.main.GetComponent<CarMangment>().cars[0]) {
 			setToGameOver ();
 		}

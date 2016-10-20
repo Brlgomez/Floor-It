@@ -16,12 +16,10 @@ public class MakeCarsTurn : MonoBehaviour {
 	static float randomAngleMax = 0.002f;
 	static float minTurningTime = 1.0f;
 	static float maxTurningTime = 4.0f;
-	static float maxAngle = 0.5f;
-	static float maxDiffAngle = 0.1f;
+	static float maxAngle = 0.4f;
+	static float maxDiffAngle = 0.025f;
 
 	float turnSpeed;
-	float rotationCurr;
-	float rotationPrev;
 	bool needsToBeRecalibrated = false;
 
 	public bool leftButtonPressed = false;
@@ -49,34 +47,29 @@ public class MakeCarsTurn : MonoBehaviour {
 
 	void autoRotate() {
 		time += Time.deltaTime;
-		rotationCurr = 0;
-		rotationPrev = 0;
 		if (time > timeReset + turningTime) {
 			resestValues ();
 		}
 		if ((time > timeReset) && (time < (timeReset + turningTime))) {
-			for (int i = 0; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
-				if (Camera.main.GetComponent<CarMangment> ().cars [i] != null) {
-					rotationCurr = Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y;
-					if (Mathf.Abs (rotationCurr) > maxAngle) {
-						needsToBeRecalibrated = true;	
-					} else {
-						needsToBeRecalibrated = false;
-					}
-					if (rotationPrev != 0) {
-						if (Mathf.Abs (rotationCurr - rotationPrev) > maxDiffAngle) {
-							needsToBeRecalibrated = true;	
-						} else {
-							needsToBeRecalibrated = false;
-						}
-					}
-					rotationPrev = Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y;
-					if (needsToBeRecalibrated) {
-						recalibrateRotation ();
-					} else {
-						regularRotation (i);
-					}
-				} 
+			if (Camera.main.GetComponent<CarMangment> ().cars [0] != null) {
+				float rotationCurr = Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.y;
+				if (Mathf.Abs (rotationCurr) > maxAngle) {
+					needsToBeRecalibrated = true;	
+				} else {
+					needsToBeRecalibrated = false;
+				}
+				if (needsToBeRecalibrated) {
+					recalibrateRotation ();
+				} else {
+					regularRotation ();
+				}
+			}
+		}
+		if (Camera.main.GetComponent<CarMangment> ().cars.Length > 1) {
+			aiTurnCount += Time.deltaTime;
+			if (aiTurnCount > aiTurnLimit) {
+				aiTurnCount = 0;
+				lookAtLeadCar ();
 			}
 		}
 	}
@@ -88,25 +81,15 @@ public class MakeCarsTurn : MonoBehaviour {
 		turningTime = Random.Range (minTurningTime, maxTurningTime);
 	}
 
-	void regularRotation (int i) {
+	void regularRotation () {
 		Quaternion newRoation;
-		if (i == 0) {
-			newRoation = new Quaternion (
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.y + randomAngle, 
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
-			);
-		} else {
-			newRoation = new Quaternion (
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.x, 
-				Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.y, 
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.z, 
-				Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation.w
-			);
-		}
-		Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation = Quaternion.Slerp (
-			Camera.main.GetComponent<CarMangment> ().cars [i].transform.rotation, 
+		newRoation = new Quaternion (
+			Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.x, 
+			Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.y + randomAngle, 
+			Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.z, 
+			Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation.w);
+		Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation = Quaternion.Slerp (
+			Camera.main.GetComponent<CarMangment> ().cars [0].transform.rotation, 
 			newRoation, 
 			Time.deltaTime * turnSpeed
 		);
@@ -150,7 +133,7 @@ public class MakeCarsTurn : MonoBehaviour {
 			GameObject aiCar = Camera.main.GetComponent<CarMangment> ().cars [i];
 			if (aiCar!= null) {
 				if (!(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
-					if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle / 2) {
+					if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
 						Vector3 targetPosition = leadCar.transform.position;
 						targetPosition.y = aiCar.transform.position.y;
 						Quaternion targetRotation = Quaternion.LookRotation (targetPosition - aiCar.transform.position);

@@ -11,7 +11,7 @@ public class FollowCar : MonoBehaviour {
 	public bool inPinArea;
 	string level;
 	float timeLapsed;
-	static float timeLimit = 0.1f;
+	static float timeLimit = 0.075f;
 
 	void Start (){
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -48,8 +48,15 @@ public class FollowCar : MonoBehaviour {
 					yPositionOfCam = yPositionOfCam + 5;
 					yPosShift = 15;
 				}
-				Vector3 end = new Vector3 (
-					xPositionOfCam + transform.rotation.y * 1000, 
+				Vector3 end;
+				float xShift;
+				if (level != LevelManagement.drive) {
+					xShift = leadCar.transform.rotation.y * 2;
+				} else {
+					xShift = leadCar.transform.rotation.y / 2;
+				}
+				end = new Vector3 (
+					xPositionOfCam + xShift, 
 					yPositionOfCam, 
 					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2) - 1
 				);
