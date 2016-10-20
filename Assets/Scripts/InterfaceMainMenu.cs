@@ -115,6 +115,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 
 	void loadLevel (string level) {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		Camera.main.GetComponent<MainMenuCameraMovement> ().loading = true;
 		titleText.text = "Loading...";
 		PlayerPrefs.SetString (PlayerPrefManagement.level, level);
 		if (loading == false) {

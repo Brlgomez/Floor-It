@@ -91,7 +91,7 @@ public class Points : MonoBehaviour {
 				}
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseExp (Mathf.FloorToInt (total * tempHighestMulti));
 				Camera.main.GetComponent<OnlineServices> ().postScore (level, Mathf.FloorToInt(total * tempHighestMulti));
-				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total));
+				checkNoBlockAchievementAfterGame (Mathf.FloorToInt (total * tempHighestMulti));
 				if (highestMulti >= 10) {
 					Camera.main.GetComponent<OnlineServices> ().revealStrikeAchievement ();
 				}

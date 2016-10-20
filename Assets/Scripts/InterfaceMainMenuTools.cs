@@ -268,27 +268,29 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	}
 
 	public void setUpStats () {
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "\nFloor It High Score: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It High Score\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Farthest Dist: " + 
+
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Farthest Distance\n" + 
 			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Farthest Dist: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Farthest Distance\n" + 
 			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Cars MIA: " + 
-			PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Game Overs: " + 
-			PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned: " + 
+
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Dist: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Distance\n" + 
 			string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated: " + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Bomb Cars Exploded: " + 
-			PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "\n\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Game Overs\n" + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalGameOvers, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Cars MIA\n" + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalCarDeaths, 0) + "\n";
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Bomb Cars Exploded\n" + 
+			PlayerPrefs.GetInt (PlayerPrefManagement.totalBombCarsBlownUp, 0) + "";
 	}
 }

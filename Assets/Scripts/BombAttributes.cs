@@ -45,7 +45,7 @@ public class BombAttributes : MonoBehaviour {
 	}
 
 	void Update () {
-		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver && !Camera.main.GetComponent<Interface> ().paused && name != AllBlockNames.bombBlock) {
+		if (!Camera.main.GetComponent<Interface> ().paused && name != AllBlockNames.bombBlock) {
 			if (placed) { 
 				timer+=Time.deltaTime;
 				if (!isTransparent) {
