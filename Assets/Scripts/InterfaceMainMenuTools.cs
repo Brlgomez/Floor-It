@@ -209,14 +209,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 	}
 
 	public void setInitialText () {
-		int highScoreInfinite, highScoreBowling, highScoreDriving;
 		int exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
-		highScoreInfinite = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreFloorIt, 0);
-		highScoreBowling = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreBowl, 0);
-		highScoreDriving = PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0);
-		Camera.main.GetComponent<InterfaceMainMenu>().playButton.GetComponentInChildren<Text> ().text = "Floor It\n\nHigh Score\n" + highScoreInfinite;
-		Camera.main.GetComponent<InterfaceMainMenu>().playBowlingButton.GetComponentInChildren<Text> ().text = "Bowl\n\nHigh Score\n" + highScoreBowling;
-		Camera.main.GetComponent<InterfaceMainMenu>().playDriveButton.GetComponentInChildren<Text> ().text = "Drive\n\nHigh Score\n" + highScoreDriving;
 		Camera.main.GetComponent<InterfaceMainMenu>().expText.text = exp + " EXP";
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: On";
@@ -275,9 +268,9 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive High Score\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.highScoreDrive, 0) + "\n\n";
 
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Farthest Distance\n" + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Floor It Furthest Distance Traveled\n" + 
 			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistFloorIt, 0)) + " units \n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Farthest Distance\n" + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Drive Furthest Distance Traveled\n" + 
 			string.Format("{0:F1}", PlayerPrefs.GetFloat (PlayerPrefManagement.farthestDistDrive, 0)) + " units \n\n";
 
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned\n" + 

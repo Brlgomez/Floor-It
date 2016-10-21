@@ -43,8 +43,9 @@ public class Draggable : MonoBehaviour {
 		RaycastHit hitInfo;
 		target = returnClickedObject (out hitInfo);
 		dragTime = 0;
+		isMouseDrag = true;
 		if (target != null) {
-			isMouseDrag = true;
+			//isMouseDrag = true;
 			if (target.tag.Equals (TagManagement.blockOnRoad)) {
 				target.tag = TagManagement.pickedUp;
 			}
@@ -88,13 +89,19 @@ public class Draggable : MonoBehaviour {
 					// will create a sphere and will determine if object can be dragged
 					// if no object is where the mouse it, the object will drag to it
 					Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
-					float radius = 0.5f;
 					Vector3 targetPos = target.transform.position;
-					if (!Physics.CheckSphere (spawnPos, radius) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
+					if (!Physics.CheckSphere (spawnPos, 0.5f) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
 						highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
 						target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
 					}
 				}
+			}
+		} else {
+			dragTime += Time.deltaTime;
+			if (dragTime > dragTimeToMove/2) {
+				dragTime = 0;
+				RaycastHit hitInfo;
+				returnClickedObject (out hitInfo);
 			}
 		}
 	}
@@ -106,8 +113,12 @@ public class Draggable : MonoBehaviour {
 		if (Physics.Raycast (ray.origin, ray.direction * 10, out hit)) {
 			target = hit.collider.gameObject;
 			if (target.tag.Equals (TagManagement.invisibleFloor)) {
-				addNewPieceByClick (hit.point);
-				Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hit.point);
+				Vector3 spawnPos = roundVector (hit.point);
+				spawnPos = new Vector3 (spawnPos.x, -2, spawnPos.z);
+				if (!Physics.CheckSphere (spawnPos, 0.5f)) {
+					addNewPieceByClick (hit.point);
+					Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hit.point);
+				}
 			} else if (target.tag.Equals (TagManagement.moveableObject) || target.tag.Equals (TagManagement.blockOnRoad)) {
 				return target;
 			} 

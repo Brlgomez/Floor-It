@@ -51,7 +51,7 @@ public class FollowCar : MonoBehaviour {
 				Vector3 end;
 				float xShift;
 				if (level != LevelManagement.drive) {
-					xShift = leadCar.transform.rotation.y * 2;
+					xShift = leadCar.transform.rotation.y * 3;
 				} else {
 					xShift = leadCar.transform.rotation.y / 2;
 				}
