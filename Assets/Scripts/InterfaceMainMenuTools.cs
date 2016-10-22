@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class InterfaceMainMenuTools : MonoBehaviour {
 
+	public Sprite soundButtonOn, musicButtonOn, vibrationButtonOn, soundButtonOff, musicButtonOff, vibrationButtonOff;
 	static Vector4 carLocked = new Vector4 (0.25f, 0.25f, 0.25f, 1);
 	static Vector4 textOn = Vector4.one;
 
@@ -212,20 +213,20 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		int exp = PlayerPrefs.GetInt (PlayerPrefManagement.exp, 0);
 		Camera.main.GetComponent<InterfaceMainMenu>().expText.text = exp + " EXP";
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: On";
+			Camera.main.GetComponent<InterfaceMainMenu>().soundButton.GetComponentInChildren<Image> ().sprite = soundButtonOn;
 		} else {
-			Camera.main.GetComponent<InterfaceMainMenu>().soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: Off";
+			Camera.main.GetComponent<InterfaceMainMenu>().soundButton.GetComponentInChildren<Image> ().sprite = soundButtonOff;
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().musicButton.GetComponentInChildren<Text> ().text = "Music: On";
+			Camera.main.GetComponent<InterfaceMainMenu>().musicButton.GetComponentInChildren<Image> ().sprite = musicButtonOn;
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		} else {
-			Camera.main.GetComponent<InterfaceMainMenu>().musicButton.GetComponentInChildren<Text> ().text = "Music: Off";
+			Camera.main.GetComponent<InterfaceMainMenu>().musicButton.GetComponentInChildren<Image> ().sprite = musicButtonOff;
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0) == 0) {
-			Camera.main.GetComponent<InterfaceMainMenu>().vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: On";
+			Camera.main.GetComponent<InterfaceMainMenu> ().vibrationButton.GetComponentInChildren<Image> ().sprite = vibrationButtonOn;
 		} else {
-			Camera.main.GetComponent<InterfaceMainMenu>().vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: Off";
+			Camera.main.GetComponent<InterfaceMainMenu> ().vibrationButton.GetComponentInChildren<Image> ().sprite = vibrationButtonOff;
 		}
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.limo, 0) == 0) {
 			Camera.main.GetComponent<InterfaceMainMenu>().limoButton.GetComponentInChildren<Text> ().text = InterfaceMainMenu.limoAmount + " EXP";
@@ -275,7 +276,7 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total EXP Earned\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalExp, 0) + "\n";
-		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Distance\n" + 
+		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Distance Traveled\n" + 
 			string.Format("{0:F1}",PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0)) + " units \n";
 		Camera.main.GetComponent<InterfaceMainMenu>().statsText.text += "Total Blocks Activated\n" + 
 			PlayerPrefs.GetInt (PlayerPrefManagement.totalBlocksActivated, 0) + "\n";

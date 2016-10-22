@@ -19,6 +19,7 @@ public class Interface : MonoBehaviour {
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
 	public Image nextBlockSprite, nextBlockBackground, jumpProgressBar;
+	public Sprite pause, resume;
 
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
@@ -54,7 +55,7 @@ public class Interface : MonoBehaviour {
 	float deltaTime;
 
 	void Start () {
-		buttonOn = new Vector4 (0.5f, 0.5f, 0.5f, 1);
+		buttonOn = new Vector4 (1, 1, 1, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
 		jumpButtonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0.1f);
 		textOn = new Vector4 (1, 1, 1, 1);
@@ -261,7 +262,7 @@ public class Interface : MonoBehaviour {
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 0;
 			loadingText.GetComponentInChildren<Text>().text = "Paused";
-			pauseButton.GetComponentInChildren<Text>().text = "I>";
+			pauseButton.GetComponentInChildren<Image> ().sprite = resume;
 			turnOnMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
@@ -275,7 +276,7 @@ public class Interface : MonoBehaviour {
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 1;
 			loadingText.GetComponentInChildren<Text>().text = "";
-			pauseButton.GetComponentInChildren<Text>().text = "II";
+			pauseButton.GetComponentInChildren<Image> ().sprite = pause;
 			turnOffMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();
 			if (level == LevelManagement.drive) {
@@ -481,11 +482,13 @@ public class Interface : MonoBehaviour {
 	void turnOnOrOffButton(Button button, bool setting){
 		button.GetComponent<Button> ().enabled = setting;
 		if (setting) {
+			button.GetComponent<Image> ().raycastTarget = true;
+			button.interactable = true;
 			button.GetComponent<Image> ().color = buttonOn;
-			button.GetComponentInChildren<Text> ().color = textOn;
 		} else {
+			button.GetComponent<Image> ().raycastTarget = false;
+			button.interactable = false;
 			button.GetComponent<Image> ().color = buttonOff;
-			button.GetComponentInChildren<Text> ().color = textOff;
 		}
 	}
 

@@ -52,6 +52,8 @@ public class InterfaceMainMenu : MonoBehaviour {
 	int globalCarIndex;
 	Button globalCarButton; 
 
+	public ParticleSystem particles;
+
 	void Start () {
 		//PlayerPrefs.DeleteAll();
 		playButton.onClick.AddListener (delegate { playButtonClick (); });
@@ -196,11 +198,11 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public void soundEffectsButtonClick () {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0) == 0) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.soundEffects, 1);
-			soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: Off";
+			soundButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().soundButtonOff;
 			Camera.main.GetComponent<SoundEffects> ().playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
 		} else {
 			PlayerPrefs.SetInt (PlayerPrefManagement.soundEffects, 0);
-			soundButton.GetComponentInChildren<Text> ().text = "Sound Effects: On";
+			soundButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().soundButtonOn;
 			Camera.main.GetComponent<SoundEffects> ().playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
 			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		}
@@ -210,11 +212,11 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public void musicButtonClick () {
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.music, 0) == 0) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.music, 1);
-			musicButton.GetComponentInChildren<Text> ().text = "Music: Off";
+			musicButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().musicButtonOff;
 			Camera.main.GetComponent<SoundEffects> ().stopMusic ();
 		} else {
 			PlayerPrefs.SetInt (PlayerPrefManagement.music, 0);
-			musicButton.GetComponentInChildren<Text> ().text = "Music: On";
+			musicButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().musicButtonOn;
 			Camera.main.GetComponent<SoundEffects> ().playMenuMusic ();
 		}
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
@@ -225,10 +227,10 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (PlayerPrefs.GetInt (PlayerPrefManagement.vibration, 0) == 0) {
 			PlayerPrefs.SetInt (PlayerPrefManagement.vibration, 1);
-			vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: Off";
+			vibrationButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().vibrationButtonOff;
 		} else {
 			PlayerPrefs.SetInt (PlayerPrefManagement.vibration, 0);
-			vibrationButton.GetComponentInChildren<Text> ().text = "Vibration: On";
+			vibrationButton.GetComponentInChildren<Image> ().sprite = Camera.main.GetComponent<InterfaceMainMenuTools>().vibrationButtonOn;
 			Camera.main.GetComponent<Vibration> ().vibrate ();
 		}
 		PlayerPrefs.Save ();
@@ -344,6 +346,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().setCarPosition (globalCarIndex);
 				Camera.main.GetComponent<InterfaceMainMenuTools> ().storeOn ();
 				Camera.main.GetComponent<OnlineServices> ().revealUnlockAchievements ();
+				particles.Play ();
 			} else {
 				if (globalCarPlayerPref == PlayerPrefManagement.nightVisual) {
 					Camera.main.GetComponent<InAppPurchases> ().BuyNonConsumableNight ();
@@ -375,6 +378,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 			PlayerPrefs.Save ();
 			GameObject.Find ("Highlight").transform.position = carButton.transform.position;
 			Camera.main.GetComponent<InterfaceMainMenuTools>().setCarPosition (carIndex);
+			particles.Play ();
 		}
 	}
 

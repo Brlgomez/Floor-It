@@ -7,7 +7,7 @@ public class MainMenuCameraMovement : MonoBehaviour {
 	public bool loading;
 
 	void Start(){
-		lookPosition = new Vector3 (0, 0.25f, 0);
+		lookPosition = new Vector3 (0, 0, 0);
 	}
 
 	void Update () {

@@ -5,6 +5,8 @@ public class FollowCar : MonoBehaviour {
 
 	public GameObject leadCar;
 	public GameObject lastCar;
+	GameObject leftMostCar;
+	GameObject rightMostCar;
 	float yPositionOfCam;
 	float xPositionOfCam;
 	float pinZPosition;
@@ -33,16 +35,20 @@ public class FollowCar : MonoBehaviour {
 				}
 				if (aliveCars.Length == 1) {
 					leadCar = aliveCars [0];
-					lastCar = aliveCars [0];;
+					lastCar = aliveCars [0];
+					leftMostCar = aliveCars [0];
+					rightMostCar = aliveCars [0];
 				} else {
 					for (int i = 0; i < aliveCars.Length; i++) {
 						leadCar = getLeadCar (leadCar, aliveCars [i]);
 						lastCar = getLastCar (lastCar, aliveCars [i]);
+						leftMostCar = getLeftMostCar (leadCar, aliveCars [i]);
+						rightMostCar = getRightMostCar (leadCar, aliveCars [i]);
 					}
 				}
 			}
 			if (leadCar != null) {
-				yPositionOfCam = getYPositionOfCam (leadCar, lastCar);
+				yPositionOfCam = getYPositionOfCam (leadCar, lastCar, leftMostCar, rightMostCar);
 				int yPosShift = 10;
 				if (Screen.width < Screen.height) {
 					yPositionOfCam = yPositionOfCam + 5;
@@ -129,10 +135,58 @@ public class FollowCar : MonoBehaviour {
 		}
 	}
 
-	float getYPositionOfCam (GameObject a, GameObject b) {
-		float zPosDiff = Mathf.Abs(a.transform.position.z - b.transform.position.z) + 10;
-		float xPosDiff = Mathf.Abs(a.transform.position.x - b.transform.position.x) + 10;
-		if (zPosDiff <= 10|| xPosDiff <= 10) {
+	GameObject getLeftMostCar (GameObject a, GameObject b) {
+		if (a != null && b != null) {
+			if (!a.GetComponent<CarMovement> ().gameOver && !b.GetComponent<CarMovement> ().gameOver) {
+				if (a.transform.position.x <= b.transform.position.x) {
+					return a;
+				} else {
+					return b;
+				}
+			}
+			if (!a.GetComponent<CarMovement> ().gameOver && b.GetComponent<CarMovement> ().gameOver) {
+				return a;
+			}
+			if (a.GetComponent<CarMovement> ().gameOver && !b.GetComponent<CarMovement> ().gameOver) {
+				return b;
+			}
+			return null;
+		}
+		if (a == null) {
+			return b;
+		} else {
+			return a;
+		}
+	}
+
+	public GameObject getRightMostCar (GameObject a, GameObject b) {
+		if (a != null && b != null) {
+			if (!a.GetComponent<CarMovement> ().gameOver && !b.GetComponent<CarMovement> ().gameOver) {
+				if (a.transform.position.x >= b.transform.position.x) {
+					return a;
+				} else {
+					return b;
+				}
+			}
+			if (!a.GetComponent<CarMovement> ().gameOver && b.GetComponent<CarMovement> ().gameOver) {
+				return a;
+			}
+			if (a.GetComponent<CarMovement> ().gameOver && !b.GetComponent<CarMovement> ().gameOver) {
+				return b;
+			}
+			return null;
+		}
+		if (a == null) {
+			return b;
+		} else {
+			return a;
+		}
+	}
+
+	float getYPositionOfCam (GameObject a, GameObject b, GameObject c, GameObject d) {
+		float zPosDiff = Mathf.Abs (a.transform.position.z - b.transform.position.z) + 10;
+		float xPosDiff = Mathf.Abs (c.transform.position.x - d.transform.position.x) + 10;
+		if (zPosDiff <= 10 || xPosDiff <= 10) {
 			return 10.0f;
 		} else {
 			if (xPosDiff > zPosDiff) {
