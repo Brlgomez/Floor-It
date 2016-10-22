@@ -57,7 +57,7 @@ public class Interface : MonoBehaviour {
 	void Start () {
 		buttonOn = new Vector4 (1, 1, 1, 1);
 		buttonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0);
-		jumpButtonOff = new Vector4 (0.5f, 0.5f, 0.5f, 0.1f);
+		jumpButtonOff = new Vector4 (0.1f, 0.1f, 0.1f, 0.1f);
 		textOn = new Vector4 (1, 1, 1, 1);
 		textOff = new Vector4 (1, 1, 1, 0);
 		restartButton.onClick.AddListener(delegate { restartButtonClick(); });
