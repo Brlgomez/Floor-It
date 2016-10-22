@@ -144,14 +144,12 @@ public class Interface : MonoBehaviour {
 				jumpProgressBar.color = textOn;
 				jumpButton.GetComponent<Button> ().enabled = false;
 				jumpButton.GetComponent<Image> ().color = jumpButtonOff;
-				jumpButton.GetComponentInChildren<Text> ().color = textOff;
 			}
 		} else {
 			if (!jumpButton.enabled) {
 				jumpProgressBar.color = buttonOff;
 				jumpButton.GetComponent<Button> ().enabled = true;
 				jumpButton.GetComponent<Image> ().color = buttonOn;
-				jumpButton.GetComponentInChildren<Text> ().color = textOn;
 			}
 		}
 		if (Input.GetButtonDown ("Jump") && lastJumpTime >= jumpTimeLimit) {
