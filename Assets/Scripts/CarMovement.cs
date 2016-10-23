@@ -11,7 +11,7 @@ public class CarMovement : MonoBehaviour {
 
 	static float yPosFallingBarrier = -1;
 	static float distFromLeadForGameOver = -15;
-	static float carFlippedLimit = 0f; //0 to -1;
+	static float carFlippedLimit = -0.25f; //0 to -1;
 
 	public float flyingTimer = 0;
 	public static float flyingTime = 10; // in seconds;

@@ -13,12 +13,12 @@ public class Interface : MonoBehaviour {
 
 	public Button restartButton, mainMenuButton ,pauseButton, leftButton, rightButton, jumpButton;
 
-	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText, instructionsText;
+	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText;
 	public Text multiplierText, expText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
-	public Image nextBlockSprite, nextBlockBackground, jumpProgressBar;
+	public Image nextBlockSprite, jumpProgressBar;
 	public Sprite pause, resume;
 
 	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
@@ -38,7 +38,6 @@ public class Interface : MonoBehaviour {
 	float blockPointAlpha = 0;
 	bool carPointOn = false;
 	float carPointAlpha = 0;
-	float instructionsAlpha = 1;
 	bool multiplierBig = false;
 
 	float carSpeed;
@@ -121,10 +120,6 @@ public class Interface : MonoBehaviour {
 				carPointOn = false;
 			}
 		}
-		if (instructionsAlpha > 0) {
-			instructionsAlpha -= deltaTime / 4;
-			instructionsText.GetComponent<Text> ().color = new Color (1, 1, 1, instructionsAlpha);
-		} 
 		if (multiplierBig) {
 			if (multiplierText.transform.localScale.x <= 1) {
 				float multiScale = multiplierText.transform.localScale.x + deltaTime * 3;
@@ -215,7 +210,6 @@ public class Interface : MonoBehaviour {
 		carPointText.GetComponent<Text> ().color = textOff;
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
-			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
 				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
@@ -224,7 +218,6 @@ public class Interface : MonoBehaviour {
 			}
 		} else if (level == LevelManagement.bowl) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
-			nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
 				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
@@ -268,7 +261,6 @@ public class Interface : MonoBehaviour {
 				jumpProgressBar.GetComponent<Image> ().color = buttonOff;
 			} else {
 				nextBlockSprite.GetComponent<Image> ().color = buttonOff;
-				nextBlockBackground.GetComponent<Image> ().color = buttonOff;
 			}
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
@@ -280,8 +272,7 @@ public class Interface : MonoBehaviour {
 			if (level == LevelManagement.drive) {
 				turnOnDriveButtons ();
 			} else {
-				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.9f);
-				nextBlockBackground.GetComponent<Image> ().color = new Vector4 (0.5f, 0.5f, 0.5f, 0.5f);
+				nextBlockSprite.GetComponent<Image> ().color = new Vector4 (1, 1, 1, 0.75f);
 			}
 		}
 	}

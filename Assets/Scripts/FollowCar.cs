@@ -57,10 +57,11 @@ public class FollowCar : MonoBehaviour {
 				Vector3 end;
 				float xShift;
 				if (level != LevelManagement.drive) {
-					xShift = leadCar.transform.rotation.y * 3;
+					xShift = leadCar.transform.rotation.y * 2;
 				} else {
 					xShift = leadCar.transform.rotation.y / 2;
 				}
+				xShift = Mathf.Clamp (xShift, -1, 1);
 				end = new Vector3 (
 					xPositionOfCam + xShift, 
 					yPositionOfCam, 
