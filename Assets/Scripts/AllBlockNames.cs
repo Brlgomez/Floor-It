@@ -18,6 +18,7 @@ public class AllBlockNames : MonoBehaviour {
 	public static string sizeBlock = "SizeBlock";
 	public static string multiplierBlock = "MultiplierBlock";
 
+	public static string chainBlock = "ChainBlock";
 	public static string extraCarBlock = "ExtraCarBlock";
 	public static string bombBlock = "BombBlock";
 	public static string evilCarBlock = "EvilCarBlock";
@@ -54,7 +55,7 @@ public class AllBlockNames : MonoBehaviour {
 	public static string[] blocksThatCanBeDeactivated = {
 		extraCarBlock, shuffleBlock, superDecelerateBlock, superAccelerateBlock, superBlock, superBullseyeBlock,
 		superBouncyBlock, pointBlock, superPointBlock, sizeBlock, invisibleBlock, accelerateBlock, superAccelerateBlock,
-		decelerateBlock, superDecelerateBlock, multiplierBlock
+		decelerateBlock, superDecelerateBlock, multiplierBlock, chainBlock
 	};
 
 	// blocks that have limits

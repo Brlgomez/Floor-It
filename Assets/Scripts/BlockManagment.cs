@@ -41,6 +41,12 @@ public class BlockManagment : MonoBehaviour {
 					distanceToLastCar = roadBlocks [i].transform.position.z - lastCarPosition.z;
 					if (distanceToLastCar < maxDistAway && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
 						if (roadBlocks [i] != null) {
+							if (roadBlocks [i].name.Split ('_') [0] == AllBlockNames.chainBlock) {
+								Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
+								if (!roadBlocks [i].GetComponent<BlockActivated> ().hasActivated) {
+									Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
+								}
+							}
 							Destroy (roadBlocks [i]);
 						}
 					}

@@ -133,6 +133,8 @@ public class CarAttributes : MonoBehaviour {
 			Camera.main.GetComponent<AllBlockAttributes> ().onSizeBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.multiplierBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onMultiplayerBlock (GameObject.Find (hit.transform.name), car);
+		} else if (blockName == AllBlockNames.chainBlock) {
+			Camera.main.GetComponent<AllBlockAttributes> ().onChainBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.superAccelerateBlock) {
 			if (!GameObject.Find (hit.transform.name).GetComponent<BlockActivated> ().hasActivated) {
 				Camera.main.GetComponent<AllBlockAttributes> ().onSuperBlock (GameObject.Find (hit.transform.name), car);

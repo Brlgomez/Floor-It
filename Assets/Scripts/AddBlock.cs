@@ -10,21 +10,24 @@ public class AddBlock : MonoBehaviour {
 	// chance an extra car block will spawn, out of a 100
 	static int extraPercent = 1;
 	// chance a super accelerate block will spawn, out of a 100
-	static int superAccPercent = extraPercent + 1;
+	static int superAccPercent = 2;
 	// chance a decelerate accelerate block will spawn, out of a 100
-	static int superDecPercent = superAccPercent + 1;
+	static int superDecPercent =  3;
 	// chance a bomb block will spawn, out of a 100
-	static int bombPercent = superDecPercent + 2;
+	static int bombPercent = 4;
 	// chance a common super block will spawn, out of a 100
-	static int comSuperPercent = bombPercent + 1;
+	static int comSuperPercent = 5;
 	// chance a evil car block will spawn out of a 100
-	static int evilCarPercent = comSuperPercent + 1;
+	static int evilCarPercent = 6;
+	// chance a chain block will spawn
+	static int chainPercent = 7;
 
 	/* How far a car must be in order for blocks to spawn */
 	float extraCarDistSpawn = 35;
 	float bombBlockDistSpawn = 70;
 	float evilCarDistSpawn = 105;
 	float superBlockDistSpawn = 130;
+	float chainBlockDistSpawn = 50;
 
 	/* counters */
 	// a counter that will increment when the player activated a super block
@@ -47,6 +50,8 @@ public class AddBlock : MonoBehaviour {
 	float extraCarCounter = 0;
 	// if the counter goes above the limit, an extra block can now possibly spawn
 	static float extraCarLimit = 15;
+
+	public bool canSpawnChain = true;
 
 	/* which super block is activated */
 	public bool superBlockActivated = false;
@@ -134,6 +139,7 @@ public class AddBlock : MonoBehaviour {
 			evilCarDistSpawn = 20;
 			superBlockDistSpawn = 25;
 			distDifference = 5;
+			chainBlockDistSpawn = 20;
 		}
 
 		// initial block
@@ -275,25 +281,28 @@ public class AddBlock : MonoBehaviour {
 			if (leadCar != null) {
 				leadCarSpeed = leadCar.GetComponent<CarMovement> ().speed;
 			}
-			if (rand < extraPercent && numberOfCars < maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
+			if (rand == extraPercent && numberOfCars < maxAmountOfCars && cameraZPos > extraCarDistSpawn && extraCarCounter > extraCarLimit) {
 				extraCarCounter = 0;
 				nextBlock = AllBlockNames.extraCarBlock;
-			} else if (rand < superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
+			} else if (rand == superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				nextBlock = AllBlockNames.superAccelerateBlock;
-			} else if (rand < superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
+			} else if (rand == superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				nextBlock = AllBlockNames.superDecelerateBlock;
-			} else if (rand < bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > bombBlockDistSpawn) {
+			} else if (rand == bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > bombBlockDistSpawn) {
 				bombCounter = 0;
 				nextBlock = AllBlockNames.bombBlock;
-			} else if (rand < comSuperPercent && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
+			} else if (rand == comSuperPercent && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
 				nextBlock = AllBlockNames.commonSuperBlocks [randBlockIndex];
-			} else if (rand < evilCarPercent && blockPerRow >= blocksPerRowForEvilCar && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
+			} else if (rand == evilCarPercent && blockPerRow >= blocksPerRowForEvilCar && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
 				evilCarCounter = 0;
 				nextBlock = AllBlockNames.evilCarBlock;
+			} else if (rand == chainPercent && cameraZPos > chainBlockDistSpawn && canSpawnChain) {
+				canSpawnChain = false;
+				nextBlock = AllBlockNames.chainBlock;
 			} else {
 				randBlockIndex = (int)Random.Range (0, blockNames.Count);
 				nextBlock = blockNames [randBlockIndex];

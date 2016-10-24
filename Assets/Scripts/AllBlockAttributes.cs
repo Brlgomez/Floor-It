@@ -22,6 +22,7 @@ public class AllBlockAttributes : MonoBehaviour {
 	public int blockActivated = 0;
 
 	float numberOfCars;
+	public float chainCount = 0;
 
 	public void onSpeedBlock (GameObject block, GameObject car) {
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
@@ -405,6 +406,21 @@ public class AllBlockAttributes : MonoBehaviour {
 				blockActivated++;
 			}
 			Camera.main.GetComponent<SoundEffects> ().playMultiplierSound (block.transform.position);
+		}
+	}
+
+	public void onChainBlock (GameObject block, GameObject car){
+		if (!block.GetComponent<BlockActivated> ().hasActivated) {
+			block.GetComponent<BlockActivated> ().activated (true);
+			Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
+			if (car.tag == TagManagement.car) {
+				chainCount++;
+				Camera.main.GetComponent<Points> ().incrementPoints (chainCount, block);
+				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				blockActivated++;
+			} else {
+				chainCount = 0;
+			}
 		}
 	}
 }
