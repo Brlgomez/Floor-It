@@ -21,8 +21,9 @@ public class Interface : MonoBehaviour {
 	public Image nextBlockSprite, jumpProgressBar;
 	public Sprite pause, resume;
 
-	public Texture2D superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
-	public Texture2D superBouncyOverlay, superOverlay, superPointOverlay;
+	public Image overlay;
+	public Sprite superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
+	public Sprite superBouncyOverlay, superOverlay, superPointOverlay;
 
 	Vector4 buttonOn;
 	Vector4 buttonOff;
@@ -412,26 +413,24 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void setTextureOverlay(string blockName){
-		Texture2D overlay = superOverlay;
 		if (blockName == AllBlockNames.superDecelerateBlock) {
-			overlay = superDecelerateOverlay;
+			overlay.GetComponent<Image>().sprite = superDecelerateOverlay;
 		} else if (blockName == AllBlockNames.superAccelerateBlock) {
-			overlay = superAccelerateOverlay;
+			overlay.GetComponent<Image>().sprite = superAccelerateOverlay;
 		} else if (blockName == AllBlockNames.superBouncyBlock) {
-			overlay = superBouncyOverlay;
+			overlay.GetComponent<Image>().sprite = superBouncyOverlay;
 		} else if (blockName == AllBlockNames.superBullseyeBlock) {
-			overlay = superBullseyeOverlay;
+			overlay.GetComponent<Image>().sprite = superBullseyeOverlay;
 		} else if (blockName == AllBlockNames.superPointBlock) {
-			overlay = superPointOverlay;
+			overlay.GetComponent<Image>().sprite = superPointOverlay;
 		} else if (blockName == AllBlockNames.superBlock) {
-			overlay = superOverlay;
-		} 			
-		Camera.main.GetComponent<ScreenOverlay> ().texture = overlay;
-		Camera.main.GetComponent<ScreenOverlay> ().enabled = true;
+			overlay.GetComponent<Image>().sprite = superOverlay;
+		} 
+		overlay.GetComponent<Image> ().color = new Color (1, 1, 1, 1);
 	}
 
-	public void disableTextureOverlay(){ 	
-		Camera.main.GetComponent<ScreenOverlay> ().enabled = false;
+	public void disableTextureOverlay(){ 
+		overlay.GetComponent<Image> ().color = new Color (1, 1, 1, 0);
 	}
 
 	/*

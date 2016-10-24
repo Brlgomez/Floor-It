@@ -17,7 +17,7 @@ public class MakeCarsTurn : MonoBehaviour {
 	static float minTurningTime = 1.0f;
 	static float maxTurningTime = 4.0f;
 	static float maxAngle = 0.4f;
-	static float maxDiffAngle = 0.025f;
+	static float maxDiffAngle = 0.04f;
 
 	float turnSpeed;
 	bool needsToBeRecalibrated = false;

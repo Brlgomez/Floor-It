@@ -97,12 +97,14 @@ public class Draggable : MonoBehaviour {
 				}
 			}
 		} else {
+			/*
 			dragTime += Time.deltaTime;
 			if (dragTime > dragTimeToMove/2) {
 				dragTime = 0;
 				RaycastHit hitInfo;
 				returnClickedObject (out hitInfo);
 			}
+			*/
 		}
 	}
 
