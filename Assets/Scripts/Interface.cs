@@ -11,7 +11,7 @@ using Assets.Pixelation.Scripts;
 
 public class Interface : MonoBehaviour {
 
-	public Button restartButton, mainMenuButton ,pauseButton, leftButton, rightButton, jumpButton;
+	public Button restartButton, mainMenuButton, pauseButton, leftButton, rightButton, jumpButton;
 
 	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText;
 	public Text multiplierText, expText;
@@ -21,6 +21,7 @@ public class Interface : MonoBehaviour {
 	public Image nextBlockSprite, jumpProgressBar;
 	public Sprite pause, resume;
 
+	public Image pauseOverlay;
 	public Image overlay;
 	public Sprite superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Sprite superBouncyOverlay, superOverlay, superPointOverlay;
@@ -159,6 +160,7 @@ public class Interface : MonoBehaviour {
 
 	void updateGameOverInterface (){
 		if (score >= 0) {
+			pauseOverlay.GetComponent<Image> ().color = new Color (0, 0, 0, 0.5f);
 			scoreText.transform.position = Vector3.Lerp (
 				scoreText.transform.position, 
 				GameObject.Find ("Instructions").transform.position, 
@@ -255,6 +257,7 @@ public class Interface : MonoBehaviour {
 			Time.timeScale = 0;
 			loadingText.GetComponentInChildren<Text>().text = "Paused";
 			pauseButton.GetComponentInChildren<Image> ().sprite = resume;
+			pauseOverlay.GetComponent<Image> ().color = new Color (0, 0, 0, 0.5f);
 			turnOnMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().pauseMusic ();
 			if (level == LevelManagement.drive) {
@@ -268,6 +271,7 @@ public class Interface : MonoBehaviour {
 			Time.timeScale = 1;
 			loadingText.GetComponentInChildren<Text>().text = "";
 			pauseButton.GetComponentInChildren<Image> ().sprite = pause;
+			pauseOverlay.GetComponent<Image> ().color = new Color (0, 0, 0, 0);
 			turnOffMainButtons ();
 			Camera.main.GetComponent<SoundEffects> ().unpauseMusic ();
 			if (level == LevelManagement.drive) {
