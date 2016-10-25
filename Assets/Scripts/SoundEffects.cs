@@ -34,6 +34,7 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip metalSound;
 	public AudioClip chainOnSound;
 	public AudioClip chainOffSound;
+	public AudioClip pianoDropSound;
 
 	private AudioSource source;
 
@@ -150,6 +151,12 @@ public class SoundEffects : MonoBehaviour {
 	public void playMetalSound(Vector3 playAt, float vol) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (metalSound, Vector3.Lerp(playAt, Camera.main.transform.position, vol));
+		}
+	}
+
+	public void playPianoDropSound(Vector3 playAt, float vol) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (pianoDropSound, Vector3.Lerp(playAt, Camera.main.transform.position, vol));
 		}
 	}
 
