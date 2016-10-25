@@ -302,22 +302,8 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	public void spawnBall (GameObject block) {
 		int randomYSpawnPosition = Random.Range (10, 30);
-		if (Random.Range (0, 100) > 10) {
-			GameObject sphereTemp = GameObject.Find ("Sphere");
-			GameObject sphere = Instantiate (sphereTemp);
-			sphere.AddComponent<RigidbodySounds> ();
-			sphere.name = sphereTemp.name + "_Clone";
-			sphere.transform.position = new Vector3 (
-				block.transform.position.x, 
-				randomYSpawnPosition, 
-				block.transform.position.z
-			);
-			sphere.transform.Rotate(Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f));
-			sphere.GetComponent<Rigidbody> ().velocity += Vector3.forward * Random.Range(-0.25f, 0.25f);
-			sphere.GetComponent<Rigidbody> ().velocity += Vector3.right * Random.Range(-0.25f, 0.25f);
-			sphere.GetComponent<Rigidbody> ().useGravity = true;
-			sphere.GetComponent<Rigidbody> ().isKinematic = false;
-		} else {
+		int rand = Random.Range (0, 10);
+		if (rand == 1) {
 			GameObject temp = GameObject.Find ("Anvil");
 			GameObject anvil = Instantiate (temp);
 			anvil.AddComponent<RigidbodySounds> ();
@@ -330,6 +316,34 @@ public class AllBlockAttributes : MonoBehaviour {
 			);
 			anvil.GetComponent<Rigidbody> ().useGravity = true;
 			anvil.GetComponent<Rigidbody> ().isKinematic = false;
+		} else if (rand == 2) {
+			GameObject temp = GameObject.Find ("Piano");
+			GameObject piano = Instantiate (temp);
+			piano.AddComponent<RigidbodySounds> ();
+			piano.name = temp.name + "_Clone";
+			piano.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
+			piano.transform.position = new Vector3 (
+				block.transform.position.x + Random.Range (-0.5f, 0.5f), 
+				randomYSpawnPosition, 
+				block.transform.position.z + Random.Range (-0.5f, 0.5f)
+			);
+			piano.GetComponent<Rigidbody> ().useGravity = true;
+			piano.GetComponent<Rigidbody> ().isKinematic = false;
+		} else {  
+			GameObject sphereTemp = GameObject.Find ("Sphere");
+			GameObject sphere = Instantiate (sphereTemp);
+			sphere.AddComponent<RigidbodySounds> ();
+			sphere.name = sphereTemp.name + "_Clone";
+			sphere.transform.position = new Vector3 (
+				block.transform.position.x, 
+				randomYSpawnPosition, 
+				block.transform.position.z
+			);
+			sphere.transform.Rotate (Random.Range (0.0f, 360.0f), Random.Range (0.0f, 360.0f), Random.Range (0.0f, 360.0f));
+			sphere.GetComponent<Rigidbody> ().velocity += Vector3.forward * Random.Range (-0.25f, 0.25f);
+			sphere.GetComponent<Rigidbody> ().velocity += Vector3.right * Random.Range (-0.25f, 0.25f);
+			sphere.GetComponent<Rigidbody> ().useGravity = true;
+			sphere.GetComponent<Rigidbody> ().isKinematic = false;
 		}
 	}
 
