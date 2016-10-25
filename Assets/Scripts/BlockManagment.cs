@@ -44,6 +44,9 @@ public class BlockManagment : MonoBehaviour {
 							if (roadBlocks [i].name.Split ('_') [0] == AllBlockNames.chainBlock) {
 								Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
 								if (!roadBlocks [i].GetComponent<BlockActivated> ().hasActivated) {
+									if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
+										Camera.main.GetComponent<SoundEffects> ().playChainOffSound (roadBlocks [i].transform.position);
+									}
 									Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
 								}
 							}

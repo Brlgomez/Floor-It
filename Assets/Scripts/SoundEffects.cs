@@ -32,6 +32,8 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip expSound;
 	public AudioClip evilCarSound;
 	public AudioClip metalSound;
+	public AudioClip chainOnSound;
+	public AudioClip chainOffSound;
 
 	private AudioSource source;
 
@@ -118,6 +120,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playExpSound() {
 		if (playSoundEffects == 0) {
+			source.pitch = 1;
 			source.clip = expSound;
 			source.loop = false;
 			source.Play ();
@@ -237,6 +240,20 @@ public class SoundEffects : MonoBehaviour {
 			source.clip = evilCarSound;
 			source.loop = true;
 			source.Play ();
+		}
+	}
+
+	public void playChainOnSound (AudioSource source, float pitch) {
+		if (playSoundEffects == 0) {
+			source.pitch = pitch;
+			source.clip = chainOnSound;
+			source.Play ();
+		}
+	}
+
+	public void playChainOffSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (chainOffSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
 		}
 	}
 }

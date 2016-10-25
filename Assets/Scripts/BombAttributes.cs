@@ -85,18 +85,22 @@ public class BombAttributes : MonoBehaviour {
 		for (int i = 0; i < roadBlocks.Length; i++) {
 			if (roadBlocks [i].transform.position.x == transform.position.x - 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z - 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x - 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z + 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x + 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z - 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x + 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z + 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			}
@@ -108,18 +112,22 @@ public class BombAttributes : MonoBehaviour {
 		for (int i = 0; i < roadBlocks.Length; i++) {
 			if (roadBlocks [i].transform.position.x == transform.position.x && 
 				roadBlocks [i].transform.position.z == transform.position.z - 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x && 
 				roadBlocks [i].transform.position.z == transform.position.z + 2) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x - 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			} else if (roadBlocks [i].transform.position.x == transform.position.x + 2 && 
 				roadBlocks [i].transform.position.z == transform.position.z) {
+				checkChainBlock (roadBlocks [i]);
 				Destroy (roadBlocks [i]);
 				continue;
 			}
@@ -134,6 +142,18 @@ public class BombAttributes : MonoBehaviour {
 			if (rb != null) {
 				rb.AddExplosionForce (power, explosionPos, radius, upwardForce);
 			}
+		}
+	}
+
+	void checkChainBlock (GameObject block) {
+		if (block.name.Split('_')[0] == AllBlockNames.chainBlock) {
+			Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
+			if (!block.GetComponent<BlockActivated> ().hasActivated) {
+				if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
+					Camera.main.GetComponent<SoundEffects> ().playChainOffSound (block.transform.position);
+				}
+				Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
+			} 
 		}
 	}
 }

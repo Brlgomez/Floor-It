@@ -417,8 +417,10 @@ public class AllBlockAttributes : MonoBehaviour {
 				chainCount++;
 				Camera.main.GetComponent<Points> ().incrementPoints (chainCount, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
+				Camera.main.GetComponent<SoundEffects> ().playChainOnSound (Camera.main.GetComponent<AudioSource>(), 0.4f + (chainCount * 0.05f));
 				blockActivated++;
 			} else {
+				Camera.main.GetComponent<SoundEffects> ().playChainOffSound (block.transform.position);
 				chainCount = 0;
 			}
 		}
