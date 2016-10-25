@@ -13,7 +13,7 @@ public class Interface : MonoBehaviour {
 
 	public Button restartButton, mainMenuButton, pauseButton, leftButton, rightButton, jumpButton;
 
-	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText;
+	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText, instructions;
 	public Text multiplierText, expText, chainText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
@@ -127,10 +127,10 @@ public class Interface : MonoBehaviour {
 			}
 		}
 		if (multiplierMove) {
-			moveText (multiplierText, moveTextMulti, multiplierMove);
+			moveText (multiplierText, moveTextMulti);
 		}
 		if (chainMove) {
-			moveText (chainText, moveTextChain, chainMove);
+			moveText (chainText, moveTextChain);
 		}
 	}
 
@@ -214,28 +214,29 @@ public class Interface : MonoBehaviour {
 		chainText.GetComponent<Text> ().color = textOff;
 		speedText.GetComponent<Text> ().color = textOff;
 		carPointText.GetComponent<Text> ().color = textOff;
+		disableTextureOverlay ();
 		if (level == LevelManagement.floorIt) {
 			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
+			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
-				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
 		} else if (level == LevelManagement.bowl) {
-			nextBlockSprite.GetComponent<Image> ().color = buttonOff;
+			nextBlockSprite.GetComponent<Image> ().color = buttonOff;				
+			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
-				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
 		} else if (level == LevelManagement.drive) {			
 			turnOffDriveButtons();
 			jumpProgressBar.GetComponent<Image> ().color = buttonOff;
+			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreDriving);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
-				sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreDriving);
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
@@ -258,7 +259,7 @@ public class Interface : MonoBehaviour {
 		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 0;
-			loadingText.GetComponentInChildren<Text>().text = "Paused";
+			instructions.GetComponentInChildren<Text>().text = "Paused";
 			pauseButton.GetComponentInChildren<Image> ().sprite = resume;
 			pauseOverlay.GetComponent<Image> ().color = new Color (0, 0, 0, 0.5f);
 			turnOnMainButtons ();
@@ -272,7 +273,7 @@ public class Interface : MonoBehaviour {
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
 			Time.timeScale = 1;
-			loadingText.GetComponentInChildren<Text>().text = "";
+			instructions.GetComponentInChildren<Text>().text = "";
 			pauseButton.GetComponentInChildren<Image> ().sprite = pause;
 			pauseOverlay.GetComponent<Image> ().color = new Color (0, 0, 0, 0);
 			turnOffMainButtons ();
@@ -340,29 +341,37 @@ public class Interface : MonoBehaviour {
 	 */
 		
 	public void changePointsText(float pointAmount, GameObject obj){
-		blockPointText.text = "+" + pointAmount;
-		blockPointOn = true;
-		blockPointAlpha = 1.0f;
-		blockPointText.GetComponent<Text> ().color = textOn;
-		Vector3 pointPosition = new Vector3 (
-			obj.transform.position.x,
-			obj.transform.position.y,
-			obj.transform.position.z + 1
-		);
-		blockPointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint(pointPosition);
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			blockPointText.text = "+" + pointAmount;
+			blockPointOn = true;
+			blockPointAlpha = 1.0f;
+			blockPointText.GetComponent<Text> ().color = textOn;
+			Vector3 pointPosition = new Vector3 (
+				obj.transform.position.x,
+				obj.transform.position.y,
+				obj.transform.position.z + 1
+			);
+			blockPointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint (pointPosition);
+		}
 	}
 
 	public void changeCarPointsText(float pointAmount) {
-		carPointText.text = "+" + pointAmount;
-		carPointOn = true;
-		carPointAlpha = 1.0f;
-		carPointText.GetComponent<Text> ().color = textOn;
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			carPointText.text = "+" + pointAmount;
+			carPointOn = true;
+			carPointAlpha = 1.0f;
+			carPointText.GetComponent<Text> ().color = textOn;
+		}
 	}
 
 	public void multiplierOn(){
-		multiplierText.transform.position = GameObject.Find ("Instructions").transform.position;
-		multiplierText.GetComponent<Text> ().color = textOn;
-		multiplierMove = true;
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			if (!multiplierMove) {
+				multiplierText.transform.position = GameObject.Find ("Instructions").transform.position;
+			}
+			multiplierText.GetComponent<Text> ().color = textOn;
+			multiplierMove = true;
+		}
 	}
 
 	public void multiplierOff(){
@@ -371,9 +380,13 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void chainOn(){
-		chainText.transform.position = GameObject.Find ("Instructions").transform.position;
-		chainText.GetComponent<Text> ().color = textOn;
-		chainMove = true;
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			if (!chainMove) {
+				chainText.transform.position = GameObject.Find ("Instructions").transform.position;
+				chainText.GetComponent<Text> ().color = textOn;
+			}
+			chainMove = true;
+		}
 	}
 
 	public void chainOff(){
@@ -434,20 +447,22 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void setTextureOverlay(string blockName){
-		if (blockName == AllBlockNames.superDecelerateBlock) {
-			overlay.GetComponent<Image>().sprite = superDecelerateOverlay;
-		} else if (blockName == AllBlockNames.superAccelerateBlock) {
-			overlay.GetComponent<Image>().sprite = superAccelerateOverlay;
-		} else if (blockName == AllBlockNames.superBouncyBlock) {
-			overlay.GetComponent<Image>().sprite = superBouncyOverlay;
-		} else if (blockName == AllBlockNames.superBullseyeBlock) {
-			overlay.GetComponent<Image>().sprite = superBullseyeOverlay;
-		} else if (blockName == AllBlockNames.superPointBlock) {
-			overlay.GetComponent<Image>().sprite = superPointOverlay;
-		} else if (blockName == AllBlockNames.superBlock) {
-			overlay.GetComponent<Image>().sprite = superOverlay;
-		} 
-		overlay.GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+		if (!Camera.main.GetComponent<CarMangment> ().trueGameOver) {
+			if (blockName == AllBlockNames.superDecelerateBlock) {
+				overlay.GetComponent<Image> ().sprite = superDecelerateOverlay;
+			} else if (blockName == AllBlockNames.superAccelerateBlock) {
+				overlay.GetComponent<Image> ().sprite = superAccelerateOverlay;
+			} else if (blockName == AllBlockNames.superBouncyBlock) {
+				overlay.GetComponent<Image> ().sprite = superBouncyOverlay;
+			} else if (blockName == AllBlockNames.superBullseyeBlock) {
+				overlay.GetComponent<Image> ().sprite = superBullseyeOverlay;
+			} else if (blockName == AllBlockNames.superPointBlock) {
+				overlay.GetComponent<Image> ().sprite = superPointOverlay;
+			} else if (blockName == AllBlockNames.superBlock) {
+				overlay.GetComponent<Image> ().sprite = superOverlay;
+			} 
+			overlay.GetComponent<Image> ().color = new Color (1, 1, 1, 1);
+		}
 	}
 
 	public void disableTextureOverlay(){ 
@@ -518,15 +533,13 @@ public class Interface : MonoBehaviour {
 		}
 	}
 
-	void moveText (Text text, Image moveTowards, bool moving) { 
+	void moveText (Text text, Image moveTowards) { 
 		if (Vector3.Distance(text.transform.position, moveTowards.transform.position) > 0.05f) {
-			text.transform.position = Vector3.Lerp (
+			text.transform.position = Vector3.Slerp (
 				text.transform.position, 
 				moveTowards.transform.position, 
 				deltaTime * 2
 			);
-		} else {
-			moving = false;
 		}
 	}
 }

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class AllBlockAttributes : MonoBehaviour {
 
 	static float onSpeedBlockAcc = 3;
-	static int speedUpForce = 130;
-	static int speedDownForce = -120;
+	static int speedUpForce = 125;
+	static int speedDownForce = -125;
 	static float onJumpBlockHeight = 4;
 	static float sizeBig = 1.5f;
 	static float sizeSmall = 0.5f;
@@ -415,10 +415,13 @@ public class AllBlockAttributes : MonoBehaviour {
 			Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
 			if (car.tag == TagManagement.car) {
 				chainCount++;
-				Camera.main.GetComponent<Points> ().incrementPoints (chainCount, block);
+				Camera.main.GetComponent<Points> ().incrementPoints (chainCount * chainCount, block);
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
-				Camera.main.GetComponent<SoundEffects> ().playChainOnSound (Camera.main.GetComponent<AudioSource>(), 0.95f + (chainCount * 0.05f));
-				Camera.main.GetComponent<Interface> ().chainText.text = "Chain\n x" + chainCount;
+				Camera.main.GetComponent<SoundEffects> ().playChainOnSound (
+					GameObject.Find("Chain Audio").GetComponent<AudioSource>(), 
+					0.95f + (chainCount * 0.05f)
+				);
+				Camera.main.GetComponent<Interface> ().chainText.text = "Chain\n" + chainCount + "x"+ chainCount;
 				Camera.main.GetComponent<Interface> ().chainOn ();
 				blockActivated++;
 			} else {
