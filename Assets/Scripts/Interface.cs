@@ -17,7 +17,7 @@ public class Interface : MonoBehaviour {
 	public Text multiplierText, expText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
-	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar;
+	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar, chain;
 	public Image nextBlockSprite, jumpProgressBar;
 	public Sprite pause, resume;
 
@@ -391,6 +391,8 @@ public class Interface : MonoBehaviour {
 			nextBlockSprite.sprite = invisible;
 		} else if (blockName == AllBlockNames.evilCarBlock) {
 			nextBlockSprite.sprite = evilCar;
+		} else if (blockName == AllBlockNames.chainBlock) {
+			nextBlockSprite.sprite = chain;
 		} else if (blockName == AllBlockNames.bombBlock) {
 			if (GameObject.Find (fullBlockName).GetComponent<BombAttributes> ().isBombX) {
 				nextBlockSprite.sprite = bombX;

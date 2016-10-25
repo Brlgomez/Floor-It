@@ -27,7 +27,7 @@ public class AddBlock : MonoBehaviour {
 	float bombBlockDistSpawn = 70;
 	float evilCarDistSpawn = 105;
 	float superBlockDistSpawn = 130;
-	float chainBlockDistSpawn = 50;
+	float chainBlockDistSpawn = 35;
 
 	/* counters */
 	// a counter that will increment when the player activated a super block
@@ -139,7 +139,7 @@ public class AddBlock : MonoBehaviour {
 			evilCarDistSpawn = 20;
 			superBlockDistSpawn = 25;
 			distDifference = 5;
-			chainBlockDistSpawn = 20;
+			chainBlockDistSpawn = 10;
 		}
 
 		// initial block
