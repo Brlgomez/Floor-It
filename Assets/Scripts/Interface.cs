@@ -14,7 +14,7 @@ public class Interface : MonoBehaviour {
 	public Button restartButton, mainMenuButton, pauseButton, leftButton, rightButton, jumpButton;
 
 	public Text highScoreText ,loadingText, scoreText, blockPointText ,carPointText, speedText;
-	public Text multiplierText, expText;
+	public Text multiplierText, expText, chainText;
 
 	public Sprite accelerate, decelerate, bullseye, bouncy, fly, car, point, resizeBig, multiThree, multiTwo;
 	public Sprite hill, jagged, shuffle, invisible, standard, super, bombT, bombX, resizeSmall, evilCar, chain;
@@ -25,6 +25,9 @@ public class Interface : MonoBehaviour {
 	public Image overlay;
 	public Sprite superAccelerateOverlay, superDecelerateOverlay, superBullseyeOverlay;
 	public Sprite superBouncyOverlay, superOverlay, superPointOverlay;
+
+	public Image moveTextMulti;
+	public Image moveTextChain;
 
 	Vector4 buttonOn;
 	Vector4 buttonOff;
@@ -40,7 +43,8 @@ public class Interface : MonoBehaviour {
 	float blockPointAlpha = 0;
 	bool carPointOn = false;
 	float carPointAlpha = 0;
-	bool multiplierBig = false;
+	bool multiplierMove = false;
+	bool chainMove = false;
 
 	float carSpeed;
 	float scoreAndSpeedUpdateCount;
@@ -122,13 +126,11 @@ public class Interface : MonoBehaviour {
 				carPointOn = false;
 			}
 		}
-		if (multiplierBig) {
-			if (multiplierText.transform.localScale.x <= 1) {
-				float multiScale = multiplierText.transform.localScale.x + deltaTime * 3;
-				multiplierText.transform.localScale = new Vector3 (multiScale, multiScale, multiScale);
-			} else {
-				multiplierBig = false;
-			}
+		if (multiplierMove) {
+			moveText (multiplierText, moveTextMulti, multiplierMove);
+		}
+		if (chainMove) {
+			moveText (chainText, moveTextChain, chainMove);
 		}
 	}
 
@@ -209,6 +211,7 @@ public class Interface : MonoBehaviour {
 		highScoreText.GetComponent<Text> ().color = textOn;
 		blockPointText.GetComponent<Text> ().color = textOff;
 		multiplierText.GetComponent<Text> ().color = textOff;
+		chainText.GetComponent<Text> ().color = textOff;
 		speedText.GetComponent<Text> ().color = textOff;
 		carPointText.GetComponent<Text> ().color = textOff;
 		if (level == LevelManagement.floorIt) {
@@ -357,13 +360,25 @@ public class Interface : MonoBehaviour {
 	}
 
 	public void multiplierOn(){
+		multiplierText.transform.position = GameObject.Find ("Instructions").transform.position;
 		multiplierText.GetComponent<Text> ().color = textOn;
-		multiplierBig = true;
+		multiplierMove = true;
 	}
 
 	public void multiplierOff(){
 		multiplierText.GetComponent<Text> ().color = textOff;
-		multiplierText.transform.localScale = new Vector3 (0.1f, 0.1f, 0.1f);
+		multiplierMove = false;
+	}
+
+	public void chainOn(){
+		chainText.transform.position = GameObject.Find ("Instructions").transform.position;
+		chainText.GetComponent<Text> ().color = textOn;
+		chainMove = true;
+	}
+
+	public void chainOff(){
+		chainText.GetComponent<Text> ().color = textOff;
+		chainMove = false;
 	}
 		
 	public void changeHUDSprite (string blockName, string fullBlockName) {
@@ -500,6 +515,18 @@ public class Interface : MonoBehaviour {
 			Camera.main.GetComponent<EdgeDetection> ().enabled = true;
 		} else if (PlayerPrefs.GetInt (PlayerPrefManagement.visual) == 3) {;
 			Camera.main.GetComponent<Chunky> ().enabled = true;
+		}
+	}
+
+	void moveText (Text text, Image moveTowards, bool moving) { 
+		if (Vector3.Distance(text.transform.position, moveTowards.transform.position) > 0.05f) {
+			text.transform.position = Vector3.Lerp (
+				text.transform.position, 
+				moveTowards.transform.position, 
+				deltaTime * 2
+			);
+		} else {
+			moving = false;
 		}
 	}
 }

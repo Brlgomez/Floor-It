@@ -94,6 +94,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playButtonClick() {
 		if (playSoundEffects == 0) {
+			source.pitch = 1;
 			source.PlayOneShot (buttonClickSound);
 		}
 	}
@@ -112,6 +113,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playHighScoreSound() {
 		if (playSoundEffects == 0) {
+			source.pitch = 1;
 			source.clip = highScoreSound;
 			source.loop = false;
 			source.Play ();
@@ -237,6 +239,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playEvilCarSound (AudioSource source) {
 		if (playSoundEffects == 0) {
+			source.pitch = 1;
 			source.clip = evilCarSound;
 			source.loop = true;
 			source.Play ();

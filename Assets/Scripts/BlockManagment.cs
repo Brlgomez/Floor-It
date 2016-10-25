@@ -47,6 +47,7 @@ public class BlockManagment : MonoBehaviour {
 									if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
 										Camera.main.GetComponent<SoundEffects> ().playChainOffSound (roadBlocks [i].transform.position);
 									}
+									Camera.main.GetComponent<Interface> ().chainOff ();
 									Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
 								}
 							}
