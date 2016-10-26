@@ -11,7 +11,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public GameObject car;
 
 	public Button playButton, playBowlingButton, playDriveButton;
-	public Button storeButton, settingsButton, statsButton, leaderboardButton, achievementButton;
+	public Button storeButton, settingsButton, statsButton, leaderboardButton, achievementButton, helpButton;
 	public Button soundButton, musicButton, vibrationButton;
 	public Button sudanButton, limoButton, truckButton, sportButton, monsterTruckButton, coneButton, busButton, abstractButton;
 	public Button normalVisual, nightVisual, outlineVisual, pixelVisual;
@@ -36,6 +36,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 	public bool viewStore = false;
 	public bool viewStats = false;
 	public bool viewConfirmation = false;
+	public bool viewHelp = false;
 	bool loading = false;
 	bool carConfirmation = false;
 
@@ -61,6 +62,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		playDriveButton.onClick.AddListener (delegate { playDrivingButtonClick (); });
 		storeButton.onClick.AddListener (delegate { storeButtonClick (); });
 		settingsButton.onClick.AddListener (delegate { settingsButtonClick (); });
+		helpButton.onClick.AddListener (delegate { helpButtonClick (); });
 		soundButton.onClick.AddListener (delegate { soundEffectsButtonClick (); });
 		musicButton.onClick.AddListener (delegate { musicButtonClick (); });
 		vibrationButton.onClick.AddListener (delegate { vibrationButtonClick (); });
@@ -171,6 +173,18 @@ public class InterfaceMainMenu : MonoBehaviour {
 		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
 	}
 
+	public void helpButtonClick () {
+		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
+		viewHelp = true;
+		viewLevelSelect = false;
+		if (viewHelp) {
+			Camera.main.GetComponent<InterfaceMainMenuTools>().helpOn ();
+		} else {
+			Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
+		}
+		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;
+	}
+
 	public void achievementButtonClick () {
 		Camera.main.GetComponent<OnlineServices> ().revealUnlockAchievements ();
 		Camera.main.GetComponent<OnlineServices> ().activatedAchievements ();
@@ -186,6 +200,7 @@ public class InterfaceMainMenu : MonoBehaviour {
 		viewStore = false;
 		viewSettings = false;
 		viewConfirmation = false;
+		viewHelp = false;
 		viewLevelSelect = true;
 		Camera.main.GetComponent<InterfaceMainMenuTools>().menuOn ();
 		Camera.main.GetComponent<interfaceMainMenuMovement> ().titleShift = true;

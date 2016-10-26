@@ -66,6 +66,12 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
 	}
 
+	public void helpOn () {
+		turnOffAll ();
+		Camera.main.GetComponent<interfaceMainMenuMovement>().titleText = "Instructions";
+		turnOnButtonAndText (Camera.main.GetComponent<InterfaceMainMenu>().backButton);
+	}
+
 	public void confirmationOn (string itemName, int amount, Sprite image) {
 		Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation = true;
 		Camera.main.GetComponent<InterfaceMainMenu>().viewStore = false;

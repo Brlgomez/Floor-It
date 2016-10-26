@@ -8,6 +8,7 @@ public class interfaceMainMenuMovement : MonoBehaviour {
 	public GameObject settings;
 	public GameObject backButton;
 	public Image stats;
+	public Image help;
 	public Image store;
 	public Image bottomButtons;
 	public Image confirmation;
@@ -31,7 +32,8 @@ public class interfaceMainMenuMovement : MonoBehaviour {
 
 		if (Camera.main.GetComponent<InterfaceMainMenu> ().viewSettings || 
 			Camera.main.GetComponent<InterfaceMainMenu> ().viewStore || 
-			Camera.main.GetComponent<InterfaceMainMenu> ().viewStats) {
+			Camera.main.GetComponent<InterfaceMainMenu> ().viewStats ||
+			Camera.main.GetComponent<InterfaceMainMenu> ().viewHelp) {
 			shiftUp (backButton.transform);
 		} else {
 			shiftDown (backButton.transform);
@@ -74,6 +76,12 @@ public class interfaceMainMenuMovement : MonoBehaviour {
 			shiftUp (stats.transform);
 		} else {
 			shiftDown (stats.transform);
+		}
+
+		if (Camera.main.GetComponent<InterfaceMainMenu>().viewHelp) {
+			shiftUp (help.transform);
+		} else {
+			shiftDown (help.transform);
 		}
 
 		if (Camera.main.GetComponent<InterfaceMainMenu>().viewConfirmation) {
