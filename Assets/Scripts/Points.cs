@@ -95,7 +95,7 @@ public class Points : MonoBehaviour {
 				if (highestMulti >= 10) {
 					Camera.main.GetComponent<OnlineServices> ().revealStrikeAchievement ();
 				}
-				if (Camera.main.GetComponent<AllBlockAttributes> ().blockActivated == 0) {
+				if (Camera.main.GetComponent<AllBlockAttributes> ().blockActivated == 0 && Camera.main.GetComponent<FollowCar>().inPinArea) {
 					Camera.main.GetComponent<OnlineServices> ().revealNoActivationBowlAchievement ();
 				}
 				if (Mathf.FloorToInt (total * tempHighestMulti) > highscoreBowling) {

@@ -51,7 +51,7 @@ public class AddBlock : MonoBehaviour {
 	// if the counter goes above the limit, an extra block can now possibly spawn
 	static float extraCarLimit = 15;
 
-	public bool canSpawnChain = true;
+	bool canSpawnChain = true;
 
 	/* which super block is activated */
 	public bool superBlockActivated = false;
@@ -379,5 +379,9 @@ public class AddBlock : MonoBehaviour {
 			intArray [i] = intArray [rand];
 			intArray [rand] = tmp;
 		}
+	}
+
+	public void canSpawnChainBlock () {
+		canSpawnChain = true;
 	}
 }

@@ -147,11 +147,11 @@ public class BombAttributes : MonoBehaviour {
 
 	void checkChainBlock (GameObject block) {
 		if (block.name.Split('_')[0] == AllBlockNames.chainBlock) {
-			Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
 			if (!block.GetComponent<BlockActivated> ().hasActivated) {
 				if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
 					Camera.main.GetComponent<SoundEffects> ().playChainOffSound (block.transform.position);
 				}
+				Camera.main.GetComponent<AddBlock> ().canSpawnChainBlock ();
 				Camera.main.GetComponent<Interface> ().chainOff ();
 				Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
 			} 

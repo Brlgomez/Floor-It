@@ -42,11 +42,11 @@ public class BlockManagment : MonoBehaviour {
 					if (distanceToLastCar < maxDistAway && !Camera.main.GetComponent<FollowCar> ().inPinArea) {
 						if (roadBlocks [i] != null) {
 							if (roadBlocks [i].name.Split ('_') [0] == AllBlockNames.chainBlock) {
-								Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
 								if (!roadBlocks [i].GetComponent<BlockActivated> ().hasActivated) {
 									if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
 										Camera.main.GetComponent<SoundEffects> ().playChainOffSound (roadBlocks [i].transform.position);
 									}
+									Camera.main.GetComponent<AddBlock> ().canSpawnChainBlock ();
 									Camera.main.GetComponent<Interface> ().chainOff ();
 									Camera.main.GetComponent<AllBlockAttributes> ().chainCount = 0;
 								}

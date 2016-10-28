@@ -256,8 +256,8 @@ public class Interface : MonoBehaviour {
 
 	public void pauseButtonClick() {
 		paused = !paused;
-		Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 		if (paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
+			Camera.main.GetComponent<SoundEffects> ().playPauseButtonClick (Camera.main.transform.position);
 			Time.timeScale = 0;
 			instructions.GetComponentInChildren<Text>().text = "Paused";
 			pauseButton.GetComponentInChildren<Image> ().sprite = resume;
@@ -272,6 +272,7 @@ public class Interface : MonoBehaviour {
 			}
 		}
 		if (!paused && !Camera.main.GetComponent<CarMangment>().trueGameOver) {
+			Camera.main.GetComponent<SoundEffects> ().playButtonClick ();
 			Time.timeScale = 1;
 			instructions.GetComponentInChildren<Text>().text = "";
 			pauseButton.GetComponentInChildren<Image> ().sprite = pause;

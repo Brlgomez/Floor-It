@@ -100,6 +100,12 @@ public class SoundEffects : MonoBehaviour {
 		}
 	}
 
+	public void playPauseButtonClick(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (buttonClickSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.8f));
+		}
+	}
+
 	public void playBoughtItemSound() {
 		if (playSoundEffects == 0) {
 			source.PlayOneShot (boughtItemSound);

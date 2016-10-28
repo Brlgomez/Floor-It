@@ -426,7 +426,7 @@ public class AllBlockAttributes : MonoBehaviour {
 	public void onChainBlock (GameObject block, GameObject car){
 		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated (true);
-			Camera.main.GetComponent<AddBlock> ().canSpawnChain = true;
+			Camera.main.GetComponent<AddBlock> ().canSpawnChainBlock ();
 			if (car.tag == TagManagement.car) {
 				chainCount++;
 				Camera.main.GetComponent<Points> ().incrementPoints (chainCount * chainCount, block);

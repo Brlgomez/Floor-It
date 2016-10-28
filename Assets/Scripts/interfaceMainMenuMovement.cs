@@ -26,8 +26,7 @@ public class interfaceMainMenuMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		deltaTime = Time.deltaTime * 7.5f;
-
+		deltaTime = Time.smoothDeltaTime * 7.5f;
 		titleMovement ();
 
 		if (Camera.main.GetComponent<InterfaceMainMenu> ().viewSettings || 
