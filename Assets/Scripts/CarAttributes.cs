@@ -122,7 +122,7 @@ public class CarAttributes : MonoBehaviour {
 		} else if (blockName == AllBlockNames.extraCarBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onExtraLifeBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.flyBlock) {
-			Camera.main.GetComponent<AllBlockAttributes> ().onFlyingBlock (car, rb);
+			Camera.main.GetComponent<AllBlockAttributes> ().onFlyingBlock (GameObject.Find (hit.transform.name), car, rb);
 		} else if (blockName == AllBlockNames.shuffleBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().onShuffleBlock (GameObject.Find (hit.transform.name), car);
 		} else if (blockName == AllBlockNames.invisibleBlock) {

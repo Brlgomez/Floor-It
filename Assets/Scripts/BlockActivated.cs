@@ -7,6 +7,7 @@ public class BlockActivated : MonoBehaviour {
 	public bool hasActivated = false;
 	public bool isTransparent = false;
 
+
 	void Start() {
 		newMaterialRef = GameObject.Find (AllBlockNames.standardBlock).GetComponent<Renderer> ().material;
 	}
@@ -16,5 +17,6 @@ public class BlockActivated : MonoBehaviour {
 			GetComponent<Renderer> ().material = newMaterialRef;
 		}
 		hasActivated = true;
+		GetComponentInChildren<ParticleSystem> ().Play ();
 	}
 }

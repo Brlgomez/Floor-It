@@ -55,7 +55,7 @@ public class AllBlockNames : MonoBehaviour {
 	public static string[] blocksThatCanBeDeactivated = {
 		extraCarBlock, shuffleBlock, superDecelerateBlock, superAccelerateBlock, superBlock, superBullseyeBlock,
 		superBouncyBlock, pointBlock, superPointBlock, sizeBlock, invisibleBlock, accelerateBlock, superAccelerateBlock,
-		decelerateBlock, superDecelerateBlock, multiplierBlock, chainBlock
+		decelerateBlock, superDecelerateBlock, multiplierBlock, chainBlock, flyBlock
 	};
 
 	// blocks that have limits

@@ -228,6 +228,6 @@ public class OnlineServices : MonoBehaviour {
 	}
 
 	public void errorMessage () {
-		errorText.text = "Connection Failed";
+		errorText.text = "Not Signed In";
 	}
 }

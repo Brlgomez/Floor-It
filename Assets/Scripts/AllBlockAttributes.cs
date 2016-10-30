@@ -88,8 +88,9 @@ public class AllBlockAttributes : MonoBehaviour {
 		}
 	}
 
-	public void onFlyingBlock (GameObject car, Rigidbody rb) {
-		if (!car.GetComponent<CarMovement> ().flying) {
+	public void onFlyingBlock (GameObject block, GameObject car, Rigidbody rb) {
+		if (!car.GetComponent<CarMovement> ().flying && !block.GetComponent<BlockActivated> ().hasActivated) {
+			block.GetComponent<BlockActivated> ().activated (true);
 			car.GetComponent<CarMovement> ().flying = true;
 			Camera.main.GetComponent<SoundEffects> ().playBubbleSound (transform.position);
 			if (car.tag == TagManagement.car) {
