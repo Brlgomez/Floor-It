@@ -507,12 +507,12 @@ public class Interface : MonoBehaviour {
 	void turnOnOrOffButton(Button button, bool setting){
 		button.GetComponent<Button> ().enabled = setting;
 		if (setting) {
-			button.GetComponent<Image> ().raycastTarget = true;
 			button.interactable = true;
+			button.GetComponent<Image> ().raycastTarget = true;
 			button.GetComponent<Image> ().color = buttonOn;
 		} else {
-			button.GetComponent<Image> ().raycastTarget = false;
 			button.interactable = false;
+			button.GetComponent<Image> ().raycastTarget = false;
 			button.GetComponent<Image> ().color = buttonOff;
 		}
 	}
