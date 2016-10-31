@@ -94,6 +94,7 @@ public class CarAttributes : MonoBehaviour {
 				Camera.main.GetComponent<SoundEffects> ().playBounceSound (car.transform.position);
 				Camera.main.GetComponent<Interface> ().lastJumpTime = 0;
 				Camera.main.GetComponent<Interface>().jumpProgressBar.transform.localScale = new Vector3 (0, 1, 1);
+				car.GetComponentsInChildren<ParticleSystem> () [2].Play ();
 			}
 		}
 	}

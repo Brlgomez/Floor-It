@@ -110,9 +110,9 @@ public class AddBlock : MonoBehaviour {
 	// number of standard blocks
 	static int numOfStandard = 25;
 	// number of hill blocks
-	static int numOfHill = 7;
+	static int numOfHill = 6;
 	// number of jagged blocks
-	static int numOfJagged = 7;
+	static int numOfJagged = 6;
 	// number of all blocks
 	static int numOfAllBlocks;
 
