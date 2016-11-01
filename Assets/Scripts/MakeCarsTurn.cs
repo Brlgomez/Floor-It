@@ -128,11 +128,11 @@ public class MakeCarsTurn : MonoBehaviour {
 	}
 
 	void lookAtLeadCar(){
-		GameObject leadCar = GameObject.FindGameObjectsWithTag(TagManagement.car)[0];
+		GameObject leadCar = GameObject.FindGameObjectsWithTag (TagManagement.car) [0];
 		for (int i = 1; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 			GameObject aiCar = Camera.main.GetComponent<CarMangment> ().cars [i];
-			if (aiCar!= null) {
-				if (!(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
+			if (aiCar != null && !(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
+				if (aiCar.transform.position.z < leadCar.transform.position.z) {
 					if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
 						Vector3 targetPosition = leadCar.transform.position;
 						targetPosition.y = aiCar.transform.position.y;

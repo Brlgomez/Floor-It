@@ -89,7 +89,7 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	public void onFlyingBlock (GameObject block, GameObject car, Rigidbody rb) {
-		if (!car.GetComponent<CarMovement> ().flying && !block.GetComponent<BlockActivated> ().hasActivated) {
+		if (!block.GetComponent<BlockActivated> ().hasActivated) {
 			block.GetComponent<BlockActivated> ().activated (true);
 			car.GetComponent<CarMovement> ().flying = true;
 			Camera.main.GetComponent<SoundEffects> ().playBubbleSound (transform.position);
@@ -98,10 +98,11 @@ public class AllBlockAttributes : MonoBehaviour {
 				Camera.main.GetComponent<PlayerPrefManagement> ().increaseBlocksActivated ();
 				blockActivated++;
 			}
+			car.GetComponent<CarMovement>().flyingTimer = 0;
 			Behaviour halo = (Behaviour)car.transform.GetChild (0).GetComponent ("Halo");
 			halo.enabled = true;
 			rb.useGravity = false;
-			rb.angularDrag = 100;
+			rb.angularDrag = 2;
 			rb.velocity += Vector3.up / 2;
 		}
 	}
@@ -406,19 +407,34 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else {
+			float xPos = Random.Range (-0.25f, 0.25f);
+			float zPos = Random.Range (-0.25f, 0.25f);
+			int numOfCones = Random.Range (1, 4);
 			obj = "Cone";
 			temp = GameObject.Find (obj);
-			nextObject = Instantiate (temp);
-			nextObject.transform.position = new Vector3 (
-				block.transform.position.x + Random.Range (-0.75f, 0.75f), 
-				0.5f, 
-				block.transform.position.z + Random.Range (-0.75f, 0.75f)
-			);
-			nextObject.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
-			nextObject.GetComponent<Rigidbody> ().useGravity = true;
-			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+			for (int i = 0; i < numOfCones; i++) {
+				float posNegX = Random.Range (-1.0f, 1.0f);
+				float posNegZ = Random.Range (-1.0f, 1.0f);
+				int posOrNegX = 1;
+				int posOrNegZ = 1;
+				if (posNegX < 0) {
+					posOrNegX = -1;
+				}
+				if (posNegZ < 0) {
+					posOrNegZ = -1;
+				}
+				nextObject = Instantiate (temp);
+				nextObject.transform.position = new Vector3 (
+					block.transform.position.x + xPos + (i * 0.5f * posOrNegX), 
+					0.5f, 
+					block.transform.position.z + zPos + (i * 0.5f * posOrNegZ)
+				);
+				nextObject.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
+				nextObject.GetComponent<Rigidbody> ().useGravity = true;
+				nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+			}
 		} 
-		nextObject.name = temp.name + "_Clone";
+		//nextObject.name = temp.name + "_Clone";
 	}
 
 	public void onMultiplayerBlock (GameObject block, GameObject car){
