@@ -23,7 +23,8 @@ public class EvilCarAttributes : MonoBehaviour {
 	private AudioSource source;
 
 	void Start () {
-		source = GameObject.Find("Evil Car Audio").GetComponent<AudioSource> ();
+		source = GetComponent<AudioSource> ();
+		//source = GameObject.Find("Evil Car Audio").GetComponent<AudioSource> ();
 		invisibleFloor = GameObject.Find ("InvisibleFloor");
 		smoke = gameObject.GetComponentsInChildren<ParticleSystem>()[2];
 		transform.Rotate(0, Random.Range(0.0f, 360.0f), 0);
