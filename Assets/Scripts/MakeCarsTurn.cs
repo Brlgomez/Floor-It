@@ -132,17 +132,15 @@ public class MakeCarsTurn : MonoBehaviour {
 		for (int i = 1; i < Camera.main.GetComponent<CarMangment> ().cars.Length; i++) {
 			GameObject aiCar = Camera.main.GetComponent<CarMangment> ().cars [i];
 			if (aiCar != null && !(Vector3.Dot (aiCar.transform.up, Vector3.down) > -0.50f)) {
-				if (aiCar.transform.position.z < leadCar.transform.position.z) {
-					if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
-						Vector3 targetPosition = leadCar.transform.position;
-						targetPosition.y = aiCar.transform.position.y;
-						Quaternion targetRotation = Quaternion.LookRotation (targetPosition - aiCar.transform.position);
-						aiCar.transform.rotation = Quaternion.Slerp (
-							aiCar.transform.rotation, 
-							targetRotation, 
-							Time.deltaTime * turnSpeed / 7.5f
-						);
-					}
+				if (Mathf.Abs (aiCar.transform.rotation.y - leadCar.transform.rotation.y) > maxDiffAngle) {
+					Vector3 targetPosition = leadCar.transform.position;
+					targetPosition.y = aiCar.transform.position.y;
+					Quaternion targetRotation = Quaternion.LookRotation (targetPosition - aiCar.transform.position);
+					aiCar.transform.rotation = Quaternion.Slerp (
+						aiCar.transform.rotation, 
+						targetRotation, 
+						Time.deltaTime * turnSpeed / 7.5f
+					);
 				}
 			}
 		}

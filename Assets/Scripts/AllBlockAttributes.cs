@@ -406,10 +406,22 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.transform.Rotate (Random.Range(-5, 5), Random.Range (0.0f, 360.0f), Random.Range(-5, 5));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
-		} else {
-			float xPos = Random.Range (-0.25f, 0.25f);
-			float zPos = Random.Range (-0.25f, 0.25f);
-			int numOfCones = Random.Range (1, 4);
+		} else if (rand == 4) {
+			obj = "Building1";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (
+				block.transform.position.x, 
+				0.5f, 
+				block.transform.position.z
+			);
+			nextObject.transform.Rotate (Random.Range(-5, 5), 0, Random.Range(-5, 5));
+			nextObject.GetComponent<Rigidbody> ().useGravity = true;
+			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+		}else {
+			float xPos = Random.Range (-0.4f, 0.4f);
+			float zPos = Random.Range (-0.4f, 0.4f);
+			int numOfCones = Random.Range (1, 3);
 			obj = "Cone";
 			temp = GameObject.Find (obj);
 			for (int i = 0; i < numOfCones; i++) {
@@ -425,9 +437,9 @@ public class AllBlockAttributes : MonoBehaviour {
 				}
 				nextObject = Instantiate (temp);
 				nextObject.transform.position = new Vector3 (
-					block.transform.position.x + xPos + (i * 0.5f * posOrNegX), 
+					block.transform.position.x + xPos + (i * 0.6f * posOrNegX), 
 					0.5f, 
-					block.transform.position.z + zPos + (i * 0.5f * posOrNegZ)
+					block.transform.position.z + zPos + (i * 0.6f * posOrNegZ)
 				);
 				nextObject.transform.Rotate (Random.Range (-15f, 15f), Random.Range (0.0f, 360.0f), Random.Range (-15f, 15f));
 				nextObject.GetComponent<Rigidbody> ().useGravity = true;
