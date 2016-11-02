@@ -84,7 +84,7 @@ public class CarMovement : MonoBehaviour {
 			if (evilCarWithinRange) {
 				if (!evilCarFirstLooked) {
 					evilCarFirstLooked = true;
-					speed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed * 1.1f;
+					speed = Camera.main.GetComponent<FollowCar> ().leadCar.GetComponent<CarMovement> ().speed * 1.15f;
 				}
 				carFlipped = false;
 				rb.MovePosition (transform.position + forward * deltaTime * speed);

@@ -102,7 +102,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			Behaviour halo = (Behaviour)car.transform.GetChild (0).GetComponent ("Halo");
 			halo.enabled = true;
 			rb.useGravity = false;
-			rb.angularDrag = 2;
+			rb.angularDrag = 20;
 			rb.velocity += Vector3.up / 2;
 		}
 	}
@@ -403,7 +403,7 @@ public class AllBlockAttributes : MonoBehaviour {
 				0.5f, 
 				block.transform.position.z + Random.Range (-0.75f, 0.75f)
 			);
-			nextObject.transform.Rotate (Random.Range(-5, 5), Random.Range (0.0f, 360.0f), Random.Range(-5, 5));
+			nextObject.transform.Rotate (Random.Range(-2, 2), Random.Range (0.0f, 360.0f), Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else if (rand == 4) {
@@ -412,15 +412,27 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (
 				block.transform.position.x, 
-				0.5f, 
+				1, 
 				block.transform.position.z
 			);
-			nextObject.transform.Rotate (Random.Range(-5, 5), 0, Random.Range(-5, 5));
+			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
-		}else {
-			float xPos = Random.Range (-0.4f, 0.4f);
-			float zPos = Random.Range (-0.4f, 0.4f);
+		} else if (rand == 5) {
+			obj = "Building2";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (
+				block.transform.position.x, 
+				1, 
+				block.transform.position.z
+			);
+			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
+			nextObject.GetComponent<Rigidbody> ().useGravity = true;
+			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+		} else {
+			float xPos = Random.Range (-0.3f, 0.3f);
+			float zPos = Random.Range (-0.3f, 0.3f);
 			int numOfCones = Random.Range (1, 3);
 			obj = "Cone";
 			temp = GameObject.Find (obj);

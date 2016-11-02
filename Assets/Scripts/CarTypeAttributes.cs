@@ -61,11 +61,11 @@ public class CarTypeAttributes : MonoBehaviour {
 		pointSpeed [0] = 2.0f;
 		pointSpeed [1] = 2.8f;
 		pointSpeed [2] = 2.4f;
-		pointSpeed [3] = 1.6f;
+		pointSpeed [3] = 1.8f;
 		pointSpeed [4] = 2.6f;
 		pointSpeed [5] = 1.4f;
 		pointSpeed [6] = 2.2f;
-		pointSpeed [7] = 1.8f;
+		pointSpeed [7] = 1.6f;
 		newCarSpawnDist [0] = -1.25f;
 		newCarSpawnDist [1] = -2.0f;
 		newCarSpawnDist [2] = -1.5f;
