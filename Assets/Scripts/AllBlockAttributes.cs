@@ -430,7 +430,15 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.transform.Rotate (0, Random.Range (-30f, 30f), 0);
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
-		}else {
+		} else if (rand == 7) {
+			obj = "Building3";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 1, block.transform.position.z);
+			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
+			nextObject.GetComponent<Rigidbody> ().useGravity = true;
+			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+		} else {
 			float xPos = Random.Range (-0.3f, 0.3f);
 			float zPos = Random.Range (-0.3f, 0.3f);
 			int numOfCones = Random.Range (1, 3);
