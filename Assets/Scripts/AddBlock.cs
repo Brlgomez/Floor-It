@@ -128,7 +128,7 @@ public class AddBlock : MonoBehaviour {
 	float deltaTime;
 
 	int addBlockIndex = 0;
-	int distDifference = 20;
+	int distDifference = 25;
 
 	void Start () {
 		level = Camera.main.GetComponent<LevelManagement> ().level;
@@ -333,7 +333,7 @@ public class AddBlock : MonoBehaviour {
 			Camera.main.GetComponent<AllBlockAttributes> ().spawnEvilCar (hudBlock, leadCarSpeed);
 		} else if (blockName == AllBlockNames.objectBlock) {
 			Camera.main.GetComponent<AllBlockAttributes> ().spawnObject (hudBlock);
-		}
+		} 
 	}
 
 	int nextBlockXPosition () {

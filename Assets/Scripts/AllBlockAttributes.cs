@@ -438,6 +438,13 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+		} else if (rand == 8) {
+			obj = "Spinner";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.75f, block.transform.position.z);
+			nextObject.AddComponent<Spinner>();
+			nextObject.transform.parent = block.transform;
 		} else {
 			float xPos = Random.Range (-0.3f, 0.3f);
 			float zPos = Random.Range (-0.3f, 0.3f);
