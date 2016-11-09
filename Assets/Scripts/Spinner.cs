@@ -6,9 +6,9 @@ public class Spinner : MonoBehaviour {
 	int speed = 0;
 
 	void Start () {
-		speed = Random.Range (50, 200);
+		speed = Random.Range (10, 100);
 		if (speed % 2 == 0) {
-			speed = -speed;
+			speed *= -1;
 		}
 	}
 

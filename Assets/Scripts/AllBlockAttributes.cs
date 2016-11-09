@@ -411,7 +411,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 1, block.transform.position.z);
-			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
+			nextObject.transform.Rotate (Random.Range(-2, 2), Random.Range (0.0f, 360.0f), Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else if (rand == 5) {
@@ -419,7 +419,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 1, block.transform.position.z);
-			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
+			nextObject.transform.Rotate (Random.Range(-2, 2), Random.Range (0.0f, 360.0f), Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else if (rand == 6) {
@@ -435,7 +435,7 @@ public class AllBlockAttributes : MonoBehaviour {
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 1, block.transform.position.z);
-			nextObject.transform.Rotate (Random.Range(-2, 2), 0, Random.Range(-2, 2));
+			nextObject.transform.Rotate (Random.Range(-2, 2), Random.Range(-2, 2), Random.Range (0.0f, 360.0f));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 		} else if (rand == 8) {

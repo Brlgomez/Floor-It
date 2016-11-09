@@ -6,10 +6,24 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Cube
+    100004: Pivot
+    100006: Spin
     400000: //RootNode
+    400002: Cube
+    400004: Pivot
+    400006: Spin
     2300000: //RootNode
+    2300002: Cube
+    2300004: Pivot
+    2300006: Spin
     3300000: //RootNode
+    3300002: Cube
+    3300004: Pivot
+    3300006: Spin
     4300000: Cube
+    4300002: Pivot
+    4300004: Spin
     7400000: Default Take
     9500000: //RootNode
   materials:
