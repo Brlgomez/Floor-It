@@ -442,7 +442,15 @@ public class AllBlockAttributes : MonoBehaviour {
 			obj = "Spinner";
 			temp = GameObject.Find (obj);
 			nextObject = Instantiate (temp);
-			nextObject.transform.position = new Vector3 (block.transform.position.x, 0.75f, block.transform.position.z);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+			nextObject.AddComponent<Spinner>();
+			nextObject.transform.parent = block.transform;
+		} else if (rand == 9) {
+			obj = "MissileLauncher";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+			nextObject.AddComponent<MissileLauncher>();
 			nextObject.AddComponent<Spinner>();
 			nextObject.transform.parent = block.transform;
 		} else {

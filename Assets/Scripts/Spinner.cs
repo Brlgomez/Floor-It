@@ -13,6 +13,6 @@ public class Spinner : MonoBehaviour {
 	}
 
 	void Update () {
-		transform.Rotate (Time.deltaTime * speed, 0 , 0);
+		transform.Rotate (0, Time.deltaTime * speed, 0);
 	}
 }

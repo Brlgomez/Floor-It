@@ -69,7 +69,7 @@ public class AddBlock : MonoBehaviour {
 	// where the next z position of the block will spawn
 	int nextBlockZ = 14;
 	// how far away from the from the car will blocks spawn
-	static int nextBlockZLimit = 6;
+	static int nextBlockZLimit = 8;
 	// how much the blocks in a row will be shifted
 	int shiftAmount = 0;
 	// how many blocks per row
@@ -228,8 +228,8 @@ public class AddBlock : MonoBehaviour {
 		}
 		if (Camera.main.GetComponent<FollowCar> ().leadCar != null) {
 			leadCar = Camera.main.GetComponent<FollowCar> ().leadCar;
-			if (leadCar.transform.position.z + leadCarSpeed > nextBlockZ - nextBlockZLimit) {
-				countForNextBlock += deltaTime; 
+			if (leadCar.transform.position.z + (leadCarSpeed * 5) > nextBlockZ - nextBlockZLimit) {
+				countForNextBlock += deltaTime * 2; 
 				float leadCarZ = leadCar.transform.position.z;
 				if (countForNextBlock > (nextBlockZ - leadCarZ - (distBlocksSpawn + leadCarSpeed/5)) / (blockPerRow)) {
 					automaticallyAddBlocks ();
