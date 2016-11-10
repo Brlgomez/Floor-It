@@ -350,12 +350,9 @@ public class Interface : MonoBehaviour {
 			blockPointOn = true;
 			blockPointAlpha = 1.0f;
 			blockPointText.GetComponent<Text> ().color = textOn;
-			Vector3 pointPosition = new Vector3 (
-				obj.transform.position.x,
-				obj.transform.position.y,
-				obj.transform.position.z + 1
-			);
-			blockPointText.GetComponent<Text> ().rectTransform.position = Camera.main.WorldToScreenPoint (pointPosition);
+			Vector3 pointPosition = obj.transform.position;
+			pointPosition = Vector3.Lerp (pointPosition, GameObject.Find("Canvas").transform.position, 0.5f); 
+			blockPointText.GetComponent<Text> ().rectTransform.position = pointPosition;
 		}
 	}
 
@@ -540,7 +537,7 @@ public class Interface : MonoBehaviour {
 	}
 
 	void moveText (Text text, Image moveTowards) { 
-		if (Vector3.Distance(text.transform.position, moveTowards.transform.position) > 0.05f) {
+		if (Vector3.Distance(text.transform.position, moveTowards.transform.position) > 0.01f) {
 			text.transform.position = Vector3.Slerp (
 				text.transform.position, 
 				moveTowards.transform.position, 

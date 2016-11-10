@@ -160,28 +160,28 @@ public class InterfaceMainMenuTools : MonoBehaviour {
 
 	public void setCarPosition (int carNumber) {
 		if (carNumber == 1) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.4f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.5f);
 		} else if (carNumber == 2) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.2f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.4f, -0.1f);
 		} else if (carNumber == 3) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.2f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.15f);
 		} else if (carNumber == 4) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.4f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.9f, -0.2f);
 		} else if (carNumber == 5) {
 			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = Vector3.zero;
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.35f, 0);
 		} else if (carNumber == 6) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.4f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.4f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.5f, -0.3f);
 		} else if (carNumber == 7) {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.3f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.3f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.6f, 0);
 		} else {
-			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, -0.2f);
+			Camera.main.GetComponent<InterfaceMainMenu>().car.transform.position = new Vector3 (0, 0, 0.2f);
 			GameObject.Find ("Point light").transform.position = new Vector3 (0, 0.3f, -0.1f);
 		}
 	}

@@ -51,7 +51,7 @@ public class SoundEffects : MonoBehaviour {
 		playMusic = PlayerPrefs.GetInt (PlayerPrefManagement.music, 0);
 
 		blockSource = GameObject.Find("Block Audio").GetComponent<AudioSource>();
-		blockSource.volume = 0.33f;
+		blockSource.volume = 0.25f;
 	}
 
 	public void playMenuMusic() {
@@ -143,7 +143,7 @@ public class SoundEffects : MonoBehaviour {
 
 	public void playeDropBlockSound() {
 		if (playSoundEffects == 0) {
-			blockSource.pitch = Random.Range (0.5f, 2f);
+			blockSource.pitch = Random.Range (0.5f, 3f);
 			blockSource.clip = dropBlockSound;
 			blockSource.Play ();
 		}
