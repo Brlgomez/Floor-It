@@ -119,7 +119,7 @@ public class Draggable : MonoBehaviour {
 				spawnPos = new Vector3 (spawnPos.x, -2, spawnPos.z);
 				if (!Physics.CheckSphere (spawnPos, 0.5f)) {
 					addNewPieceByClick (hit.point);
-					Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hit.point);
+					Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound ();
 				}
 			} else if (target.tag.Equals (TagManagement.moveableObject) || target.tag.Equals (TagManagement.blockOnRoad)) {
 				return target;

@@ -35,8 +35,10 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip chainOnSound;
 	public AudioClip chainOffSound;
 	public AudioClip pianoDropSound;
+	public AudioClip missileSound;
 
 	private AudioSource source;
+	AudioSource blockSource;
 
 	public int playSoundEffects;
 	public int playMusic;
@@ -47,6 +49,9 @@ public class SoundEffects : MonoBehaviour {
 		playMusic = 0;
 		playSoundEffects = PlayerPrefs.GetInt (PlayerPrefManagement.soundEffects, 0);
 		playMusic = PlayerPrefs.GetInt (PlayerPrefManagement.music, 0);
+
+		blockSource = GameObject.Find("Block Audio").GetComponent<AudioSource>();
+		blockSource.volume = 0.33f;
 	}
 
 	public void playMenuMusic() {
@@ -136,9 +141,11 @@ public class SoundEffects : MonoBehaviour {
 		}
 	}
 
-	public void playeDropBlockSound(Vector3 playAt) {
+	public void playeDropBlockSound() {
 		if (playSoundEffects == 0) {
-			AudioSource.PlayClipAtPoint (dropBlockSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.8f));
+			blockSource.pitch = Random.Range (0.5f, 2f);
+			blockSource.clip = dropBlockSound;
+			blockSource.Play ();
 		}
 	}
 
@@ -270,6 +277,12 @@ public class SoundEffects : MonoBehaviour {
 	public void playChainOffSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (chainOffSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playMissileSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (missileSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
 		}
 	}
 }

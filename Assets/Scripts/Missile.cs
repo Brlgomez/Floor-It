@@ -3,10 +3,13 @@ using System.Collections;
 
 public class Missile : MonoBehaviour {
 
+	float totalTime;
+	int lifetime = 5;
+
 	void Update () {
+		totalTime += Time.deltaTime;
 		transform.Translate (Vector3.forward * Time.deltaTime * 7.5f);
-		transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, Time.deltaTime/5);
-		if (transform.localScale.x < 0.01f) {
+		if (totalTime > lifetime) {
 			Destroy (gameObject);
 		}
 	}

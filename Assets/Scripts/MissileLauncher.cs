@@ -9,7 +9,8 @@ public class MissileLauncher : MonoBehaviour {
 
 	void Start () {
 		missile = GameObject.Find ("Missile");
-		timeBetweenFire = Random.Range (2, 6);
+		timeBetweenFire = Random.Range (1, 6);
+		timer = Random.Range (0, timeBetweenFire);
 	}
 	
 	void Update () {
@@ -26,6 +27,9 @@ public class MissileLauncher : MonoBehaviour {
 			missileLeft.transform.position = new Vector3 (transform.position.x, 0.5f, transform.position.z);
 			missileLeft.transform.Rotate(0, 270 + transform.eulerAngles.y, 0);
 			missileLeft.AddComponent<Missile> ();
+			GetComponentsInChildren<ParticleSystem> () [0].Play ();
+			GetComponentsInChildren<ParticleSystem> () [1].Play ();
+			Camera.main.GetComponent<SoundEffects> ().playMissileSound (transform.position);
 		}
 	}
 }

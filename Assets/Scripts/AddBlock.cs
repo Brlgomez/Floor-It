@@ -247,7 +247,7 @@ public class AddBlock : MonoBehaviour {
 		}
 		blockAttributes (hudBlock.name);
 		spawnNextBlock ();
-		Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound (hudBlock.transform.position);
+		Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound ();
 		Vector3 positionOfNewBlock = new Vector3 (nextX, -1, nextBlockZ);
 		hudBlock.transform.position = positionOfNewBlock;
 		hudBlock.tag = TagManagement.blockOnRoad;	
