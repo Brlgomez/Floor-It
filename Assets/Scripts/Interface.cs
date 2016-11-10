@@ -168,7 +168,7 @@ public class Interface : MonoBehaviour {
 				GameObject.Find ("Instructions").transform.position, 
 				deltaTime * 3
 			);
-			if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 1) {
+			if (Vector2.Distance (scoreText.transform.position, GameObject.Find ("Instructions").transform.position) < 0.01f) {
 				expText.text = exp + " EXP";
 				timePassed += deltaTime;
 				playSoundTime += deltaTime;
@@ -220,6 +220,7 @@ public class Interface : MonoBehaviour {
 			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreInfinite);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
+				highScoreText.GetComponentInChildren<ParticleSystem> ().Play ();
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreInfinite;
 			}
@@ -228,6 +229,7 @@ public class Interface : MonoBehaviour {
 			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreBowling);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
+				highScoreText.GetComponentInChildren<ParticleSystem> ().Play ();
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreBowling;
 			}
@@ -237,6 +239,7 @@ public class Interface : MonoBehaviour {
 			sendToAnalytics (Camera.main.GetComponent<Points> ().highscoreDriving);
 			if (Camera.main.GetComponent<Points> ().newHighScore) {
 				highScoreText.text = "New High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
+				highScoreText.GetComponentInChildren<ParticleSystem> ().Play ();
 			} else {
 				highScoreText.text = "High Score\n" + Camera.main.GetComponent<Points> ().highscoreDriving;
 			}
@@ -377,6 +380,7 @@ public class Interface : MonoBehaviour {
 
 	public void multiplierOff(){
 		multiplierText.GetComponent<Text> ().color = textOff;
+		multiplierText.GetComponentInChildren<ParticleSystem> ().Play ();
 		multiplierMove = false;
 	}
 
@@ -392,6 +396,7 @@ public class Interface : MonoBehaviour {
 
 	public void chainOff(){
 		chainText.GetComponent<Text> ().color = textOff;
+		chainText.GetComponentInChildren<ParticleSystem> ().Play ();
 		chainMove = false;
 	}
 		

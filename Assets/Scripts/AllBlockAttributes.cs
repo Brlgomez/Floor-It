@@ -445,6 +445,13 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
 			nextObject.AddComponent<Spinner>();
 			nextObject.transform.parent = block.transform;
+			if (Random.value > 0.5f) {
+				GameObject nextObjectChild;
+				nextObjectChild = Instantiate (temp);
+				nextObjectChild.transform.Rotate (0, 180, 0);
+				nextObjectChild.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+				nextObjectChild.transform.parent = nextObject.transform;
+			}
 		} else if (rand == 9) {
 			obj = "MissileLauncher";
 			temp = GameObject.Find (obj);
@@ -453,6 +460,14 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.AddComponent<MissileLauncher>();
 			nextObject.AddComponent<Spinner>();
 			nextObject.transform.parent = block.transform;
+			if (Random.value > 0.75f) {
+				GameObject nextObjectChild;
+				nextObjectChild = Instantiate (temp);
+				nextObjectChild.transform.Rotate (0, 90, 0);
+				nextObjectChild.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+				nextObjectChild.AddComponent<MissileLauncher>();
+				nextObjectChild.transform.parent = nextObject.transform;
+			}
 		} else {
 			float xPos = Random.Range (-0.3f, 0.3f);
 			float zPos = Random.Range (-0.3f, 0.3f);
@@ -481,7 +496,6 @@ public class AllBlockAttributes : MonoBehaviour {
 				nextObject.GetComponent<Rigidbody> ().isKinematic = false;
 			}
 		} 
-		//nextObject.name = temp.name + "_Clone";
 	}
 
 	public void onMultiplayerBlock (GameObject block, GameObject car){
