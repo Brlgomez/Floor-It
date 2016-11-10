@@ -169,9 +169,9 @@ public class OnlineServices : MonoBehaviour {
 				Social.ReportProgress (FloorItResources.achievement_all_for_myself, 100.0f, (bool success) => {});
 			}
 		}
-		if (PlayerPrefs.GetInt (PlayerPrefManagement.totalDistance, 0) >= 10000) {
+		if (PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0) >= 10000) {
 			Social.ReportProgress (FloorItResources.achievement_road_blocks, 100.0f, (bool success) => {});
-			if (PlayerPrefs.GetInt (PlayerPrefManagement.totalDistance, 0) >= 100000) {
+			if (PlayerPrefs.GetFloat (PlayerPrefManagement.totalDistance, 0) >= 100000) {
 				Social.ReportProgress (FloorItResources.achievement_highwayman, 100.0f, (bool success) => {});
 			}
 		}
