@@ -393,7 +393,9 @@ public class Interface : MonoBehaviour {
 
 	public void chainOff(){
 		chainText.GetComponent<Text> ().color = textOff;
-		chainText.GetComponentInChildren<ParticleSystem> ().Play ();
+		if (Camera.main.GetComponent<AllBlockAttributes> ().chainCount > 0) {
+			chainText.GetComponentInChildren<ParticleSystem> ().Play ();
+		}
 		chainMove = false;
 	}
 		

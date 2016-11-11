@@ -22,7 +22,7 @@ public class BombAttributes : MonoBehaviour {
 	Material clearMaterial;
 
 	void Awake () {
-		smoke = gameObject.GetComponent<ParticleSystem> ();
+		smoke = gameObject.GetComponentInChildren<ParticleSystem> ();
 		if (Random.Range (0, 2) < 1 && name != AllBlockNames.bombBlock) {
 			GetComponent<Renderer> ().material = GameObject.Find("XBombPlaceHolder").GetComponent<Renderer>().material;
 			isBombX = true;
@@ -54,7 +54,7 @@ public class BombAttributes : MonoBehaviour {
 					rend.material = clearMaterial;
 				}
 			}
-			if (timer > timeLimit - 0.2f && !particlePlayed) {
+			if (timer > timeLimit - 0.3f && !particlePlayed) {
 				smoke.Play ();
 				ParticleSystem.EmissionModule em = smoke.emission;
 				em.enabled = true;

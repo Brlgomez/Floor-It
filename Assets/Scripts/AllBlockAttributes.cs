@@ -365,11 +365,12 @@ public class AllBlockAttributes : MonoBehaviour {
 			ySpawnPosition,
 			block.transform.position.z
 		);
+		evilCar.transform.LookAt (Camera.main.GetComponent<CarMangment>().cars[0].transform.position);
 		evilCar.GetComponentsInChildren<ParticleSystem> () [1].Play ();
 	}
 
 	public void spawnObject (GameObject block) {
-		float rand = Random.Range (0, 10);
+		float rand = Random.Range (0, 11);
 		string obj;
 		GameObject temp;
 		GameObject nextObject;
@@ -470,6 +471,13 @@ public class AllBlockAttributes : MonoBehaviour {
 				nextObjectChild.AddComponent<MissileLauncher>();
 				nextObjectChild.transform.parent = nextObject.transform;
 			}
+		} else if (rand == 10) {
+			obj = "Hydraulic";
+			temp = GameObject.Find (obj);
+			nextObject = Instantiate (temp);
+			nextObject.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
+			nextObject.AddComponent<Hydraulic>();
+			nextObject.transform.parent = block.transform;
 		} else {
 			float xPos = Random.Range (-0.3f, 0.3f);
 			float zPos = Random.Range (-0.3f, 0.3f);
