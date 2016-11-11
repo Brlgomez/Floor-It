@@ -21,11 +21,13 @@ public class Hydraulic : MonoBehaviour {
 			transform.localScale = Vector3.Lerp (transform.localScale, enlarged, Time.deltaTime * 4);
 			if (transform.localScale.y > maxSize - 0.01f) {
 				enlarge = false;
+				Camera.main.GetComponent<SoundEffects> ().playHydraulicDownSound (transform.position);
 			}
 		} else {
 			transform.localScale = Vector3.Lerp (transform.localScale, Vector3.one, Time.deltaTime * 5);
 			if (transform.localScale.y < 1.01f) {
 				enlarge = true;
+				Camera.main.GetComponent<SoundEffects> ().playHydraulicUpSound (transform.position);
 			}
 		}
 	}

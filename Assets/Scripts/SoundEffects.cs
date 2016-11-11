@@ -36,6 +36,8 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip chainOffSound;
 	public AudioClip pianoDropSound;
 	public AudioClip missileSound;
+	public AudioClip hydraulicSound;
+	public AudioClip hydraulicDownSound;
 
 	private AudioSource source;
 	AudioSource blockSource;
@@ -283,6 +285,18 @@ public class SoundEffects : MonoBehaviour {
 	public void playMissileSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (missileSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playHydraulicUpSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (hydraulicSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playHydraulicDownSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (hydraulicDownSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
 		}
 	}
 }
