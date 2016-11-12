@@ -8,7 +8,7 @@ public class Hydraulic : MonoBehaviour {
 	Vector3 enlarged;
 
 	void Start () {
-		maxSize = Random.Range (100, 250);
+		maxSize = Random.Range (100, 200);
 		enlarged = new Vector3 (1, maxSize, 1);
 		transform.localScale = new Vector3 (1, Random.Range (1, maxSize), 1);
 		if (maxSize % 2 == 0) {

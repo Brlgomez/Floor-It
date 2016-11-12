@@ -15,6 +15,7 @@ public class Draggable : MonoBehaviour {
 	static int yPosition = -1;
 	float dragTime = 0;
 	static float dragTimeToMove = 0.1f;
+	bool highlightOn = false;
 
 	void Start () {
 		highlight = GameObject.Find ("Highlight");
@@ -63,9 +64,13 @@ public class Draggable : MonoBehaviour {
 		if (target != null) {
 			if (target.tag.Equals (TagManagement.pickedUp)) {
 				target.tag = TagManagement.blockOnRoad;
+				if (highlightOn) {
+					Camera.main.GetComponent<SoundEffects> ().playDropRoadBlockSound (target.transform.position);
+				}
 			}
 			target.transform.position = roundVector (target.transform.position);
 			highlight.transform.position = new Vector3 (0, yPosition, -10);
+			highlightOn = false;
 		}
 	}
 
@@ -88,10 +93,14 @@ public class Draggable : MonoBehaviour {
 					currentPosition = roundVector (currentPosition);
 					// will create a sphere and will determine if object can be dragged
 					// if no object is where the mouse it, the object will drag to it
-					Vector3 spawnPos = new Vector3 (currentPosition.x, -2f, currentPosition.z);
+					Vector3 spawnPos = new Vector3 (currentPosition.x, -1f, currentPosition.z);
 					Vector3 targetPos = target.transform.position;
+					highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
+					if (!highlightOn) {
+						Camera.main.GetComponent<SoundEffects> ().playPickUpRoadBlockSound (target.transform.position);
+						highlightOn = true;
+					}
 					if (!Physics.CheckSphere (spawnPos, 0.5f) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {
-						highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
 						target.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
 					}
 				}
@@ -116,7 +125,7 @@ public class Draggable : MonoBehaviour {
 			target = hit.collider.gameObject;
 			if (target.tag.Equals (TagManagement.invisibleFloor)) {
 				Vector3 spawnPos = roundVector (hit.point);
-				spawnPos = new Vector3 (spawnPos.x, -2, spawnPos.z);
+				spawnPos = new Vector3 (spawnPos.x, -1, spawnPos.z);
 				if (!Physics.CheckSphere (spawnPos, 0.5f)) {
 					addNewPieceByClick (hit.point);
 					Camera.main.GetComponent<SoundEffects> ().playeDropBlockSound ();

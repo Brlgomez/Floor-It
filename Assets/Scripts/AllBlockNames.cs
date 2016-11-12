@@ -23,6 +23,7 @@ public class AllBlockNames : MonoBehaviour {
 	public static string bombBlock = "BombBlock";
 	public static string evilCarBlock = "EvilCarBlock";
 	public static string objectBlock = "ObjectBlock";
+	public static string cylinder = "Cylinder";
 
 	public static string superAccelerateBlock = "SuperAccelerateBlock";
 	public static string superDecelerateBlock = "SuperDecelerateBlock";
@@ -38,7 +39,7 @@ public class AllBlockNames : MonoBehaviour {
 	};
 
 	public static string[] blocksToBeAdded = {
-		pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock, objectBlock
+		cylinder, pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock, objectBlock
 	};
 
 	public static string[] superBlockActivated = {

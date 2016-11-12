@@ -38,6 +38,8 @@ public class SoundEffects : MonoBehaviour {
 	public AudioClip missileSound;
 	public AudioClip hydraulicSound;
 	public AudioClip hydraulicDownSound;
+	public AudioClip dropRoadBlockSound;
+	public AudioClip pickUpRoadBlockSound;
 
 	private AudioSource source;
 	AudioSource blockSource;
@@ -297,6 +299,18 @@ public class SoundEffects : MonoBehaviour {
 	public void playHydraulicDownSound(Vector3 playAt) {
 		if (playSoundEffects == 0) {
 			AudioSource.PlayClipAtPoint (hydraulicDownSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playDropRoadBlockSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (dropRoadBlockSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
+		}
+	}
+
+	public void playPickUpRoadBlockSound(Vector3 playAt) {
+		if (playSoundEffects == 0) {
+			AudioSource.PlayClipAtPoint (pickUpRoadBlockSound, Vector3.Lerp(playAt, Camera.main.transform.position, 0.9f));
 		}
 	}
 }

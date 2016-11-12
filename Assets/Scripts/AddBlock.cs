@@ -314,6 +314,8 @@ public class AddBlock : MonoBehaviour {
 		numBlocksCount++;
 		if (nextBlock == AllBlockNames.bombBlock) {
 			hudBlock.AddComponent<BombAttributes> ();
+		} else if (nextBlock == AllBlockNames.cylinder) {
+			hudBlock.AddComponent<Cylinder> ();
 		}
 	}
 

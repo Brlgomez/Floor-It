@@ -545,4 +545,10 @@ public class AllBlockAttributes : MonoBehaviour {
 			}
 		}
 	}
+
+	public void onRotatingCylinder (GameObject cylinder, GameObject car){
+		int speed = cylinder.GetComponent<Cylinder> ().getSpeed ();
+		Vector3 rotationDirection = new Vector3 (car.transform.position.x, car.transform.position.y, car.transform.position.z + speed);
+		car.GetComponent<Rigidbody> ().MovePosition (car.transform.position + rotationDirection * Time.deltaTime);
+	}
 }

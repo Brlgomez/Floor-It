@@ -169,4 +169,11 @@ public class CarAttributes : MonoBehaviour {
 			}
 		} 
 	}
+
+	public void onBlockStay (Collision hit, GameObject car){
+		string blockName = hit.transform.name.Split ('_') [0];
+		if (blockName == AllBlockNames.cylinder) {
+			Camera.main.GetComponent<AllBlockAttributes> ().onRotatingCylinder (GameObject.Find (hit.transform.name), car);
+		} 
+	}
 }
