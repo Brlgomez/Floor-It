@@ -123,7 +123,8 @@ public class AllBlockAttributes : MonoBehaviour {
 				float previousZ = 0;
 				float currentZ = 0;
 				float spawnZ = 0;
-				GameObject lastCar = Camera.main.GetComponent<FollowCar> ().lastCar;
+				GameObject lastCar = Camera.main.GetComponent<FollowCar> ().lastCar;				
+				float spawnX;
 				for (int i = 0; i < aliveCarsZPos.Count; i++) {
 					currentZ = aliveCarsZPos [i];
 					float zPos = Camera.main.GetComponent<CarMangment> ().newCarSpawnDist;
@@ -148,14 +149,16 @@ public class AllBlockAttributes : MonoBehaviour {
 					if (lastCar.transform.localScale.x > 1) {
 						zPos *= lastCar.transform.localScale.x;
 					}
+					spawnX = getXpos (nextCar.transform.position.x, lastCar.transform.position.z + zPos);
 					nextCar.transform.position = new Vector3 (
-						lastCar.transform.position.x + Random.Range (-0.5f, 0.5f), 
+						spawnX, 
 						lastCar.GetComponent<CarMovement> ().distToGround, 
 						lastCar.transform.position.z + zPos 
 					);
 				} else {
+					spawnX = getXpos (nextCar.transform.position.x, spawnZ);
 					nextCar.transform.position = new Vector3 (
-						temp.transform.position.x + Random.Range (-0.5f, 0.5f), 
+						spawnX, 
 						temp.GetComponent<CarMovement> ().distToGround, 
 						spawnZ
 					);
@@ -177,6 +180,24 @@ public class AllBlockAttributes : MonoBehaviour {
 				spawnEvilCar (block, GameObject.FindGameObjectsWithTag (TagManagement.car) [0].GetComponent<CarMovement> ().speed);
 			}
 		}
+	}
+
+	float getXpos (float xPos, float zPos) {
+		for (float i = 0; i < 3; i += 0.5f) {
+			Vector3 spawnPos = new Vector3 (xPos + i, -1, zPos);
+			Vector3 spawnPosAbove = new Vector3 (xPos + i, 1, zPos);
+			if (Physics.CheckSphere (spawnPos, 0.1f) && !Physics.CheckSphere (spawnPosAbove, 0.25f)) {
+				return xPos + i + Random.Range (-0.25f, 0.25f);
+				break;
+			}
+			spawnPos = new Vector3 (xPos - i, -1, zPos);
+			spawnPosAbove = new Vector3 (xPos - i, 1, zPos);
+			if (Physics.CheckSphere (spawnPos, 0.1f) && !Physics.CheckSphere (spawnPosAbove, 0.25f)) {
+				return xPos + i + Random.Range (-0.25f, 0.25f);
+				break;
+			}
+		}
+		return xPos + Random.Range (-0.5f, 0.5f);
 	}
 
 	public void onShuffleBlock (GameObject block, GameObject car) {
