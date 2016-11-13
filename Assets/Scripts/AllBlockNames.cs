@@ -35,11 +35,12 @@ public class AllBlockNames : MonoBehaviour {
 
 	// common special blocks and can spawn at any time
 	public static string[] commonBlocks = {
-		accelerateBlock, bullseyeBlock, bouncyBlock, decelerateBlock, objectBlock,
+		accelerateBlock, bullseyeBlock, bouncyBlock, decelerateBlock, objectBlock
 	};
 
 	public static string[] blocksToBeAdded = {
-		cylinder, pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock, objectBlock
+		cylinder, pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock, 
+		objectBlock
 	};
 
 	public static string[] superBlockActivated = {
