@@ -142,6 +142,9 @@ public class CarMovement : MonoBehaviour {
 
 	void setToGameOver () {
 		Camera.main.GetComponent<SoundEffects> ().playCarDeathSound (gameObject.transform.position);
+		if (gameObject.tag == TagManagement.car) {
+			GetComponentsInChildren<ParticleSystem> () [3].Play ();
+		}
 		if (tag.Equals (TagManagement.car) && level == LevelManagement.drive) {
 			gameObject.tag = TagManagement.deadCar;
 

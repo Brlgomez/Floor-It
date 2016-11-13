@@ -37,7 +37,7 @@ public class Missile : MonoBehaviour {
 			foreach (Collider hit in colliders) {
 				Rigidbody rb = hit.GetComponent<Rigidbody> ();
 				if (rb != null) {
-					rb.AddExplosionForce (500, explosionPos, 2, 50);
+					rb.AddExplosionForce (1000, explosionPos, 2, 50);
 				}
 			}
 			smoke.Play ();
