@@ -98,6 +98,11 @@ public class Draggable : MonoBehaviour {
 					highlight.transform.position = new Vector3 (currentPosition.x, yPosition, currentPosition.z);
 					if (!highlightOn) {
 						Camera.main.GetComponent<SoundEffects> ().playPickUpRoadBlockSound (target.transform.position);
+						highlight.transform.localScale = new Vector3 (
+							0.1f + target.GetComponent<Renderer> ().bounds.size.x / 2,
+							0.15f + target.GetComponent<Renderer> ().bounds.size.y / 2,
+							0.1f + target.GetComponent<Renderer> ().bounds.size.z / 2
+						);
 						highlightOn = true;
 					}
 					if (!Physics.CheckSphere (spawnPos, 0.5f) || (spawnPos.x == targetPos.x && spawnPos.z == targetPos.z)) {

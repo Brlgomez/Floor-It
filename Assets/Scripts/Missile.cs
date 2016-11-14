@@ -29,7 +29,7 @@ public class Missile : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter () {
+	void OnCollisionEnter (Collision obj) {
 		if (!exploded) {
 			Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 			Vector3 explosionPos = transform.position;
@@ -37,13 +37,16 @@ public class Missile : MonoBehaviour {
 			foreach (Collider hit in colliders) {
 				Rigidbody rb = hit.GetComponent<Rigidbody> ();
 				if (rb != null) {
-					rb.AddExplosionForce (1000, explosionPos, 2, 50);
+					rb.AddExplosionForce (1000, explosionPos, 2, 25);
 				}
 			}
 			smoke.Play ();
 			GetComponent<Collider> ().enabled = false;
 			GetComponent<Renderer> ().material = GameObject.Find ("InvisibleFloor").GetComponent<Renderer> ().material;
 			exploded = true;
+			if (obj.transform.tag == TagManagement.evilCar) {
+				obj.transform.GetComponent<EvilCarAttributes> ().explodeNow = true;
+			}
 		}
 	}
 }
