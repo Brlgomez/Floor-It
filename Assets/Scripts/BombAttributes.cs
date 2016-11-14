@@ -54,7 +54,7 @@ public class BombAttributes : MonoBehaviour {
 					rend.material = clearMaterial;
 				}
 			}
-			if (timer > timeLimit - 0.3f && !particlePlayed) {
+			if (timer > timeLimit - 0.4f && !particlePlayed) {
 				smoke.Play ();
 				ParticleSystem.EmissionModule em = smoke.emission;
 				em.enabled = true;

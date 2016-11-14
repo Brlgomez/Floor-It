@@ -9,8 +9,8 @@ public class MissileLauncher : MonoBehaviour {
 
 	void Start () {
 		missile = GameObject.Find ("Missile");
-		timeBetweenFire = Random.Range (1, 6);
-		timer = Random.Range (0, timeBetweenFire);
+		timeBetweenFire = Random.Range (2, 6);
+		timer = Random.Range (0f, timeBetweenFire);
 	}
 	
 	void Update () {
