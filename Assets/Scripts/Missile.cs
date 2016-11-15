@@ -7,6 +7,9 @@ public class Missile : MonoBehaviour {
 	int lifetime = 1;
 	bool exploded = false;
 	ParticleSystem smoke;
+	int explosionForce = 1000;
+	int explosionRadius = 1;
+	int explosionForceUp = 25;
 
 	void Start () {
 		smoke = gameObject.GetComponentInChildren<ParticleSystem> ();
@@ -33,11 +36,11 @@ public class Missile : MonoBehaviour {
 		if (!exploded) {
 			Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 			Vector3 explosionPos = transform.position;
-			Collider[] colliders = Physics.OverlapSphere (explosionPos, 1);
+			Collider[] colliders = Physics.OverlapSphere (explosionPos, explosionRadius);
 			foreach (Collider hit in colliders) {
 				Rigidbody rb = hit.GetComponent<Rigidbody> ();
 				if (rb != null) {
-					rb.AddExplosionForce (1000, explosionPos, 1, 25);
+					rb.AddExplosionForce (explosionForce, explosionPos, explosionRadius, explosionForceUp);
 				}
 			}
 			smoke.Play ();
