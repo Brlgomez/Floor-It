@@ -49,7 +49,7 @@ public class AddBlock : MonoBehaviour {
 	// a counter that will increment for extra blocks
 	float extraCarCounter = 0;
 	// if the counter goes above the limit, an extra block can now possibly spawn
-	static float extraCarLimit = 15;
+	static float extraCarLimit = 20;
 
 	bool canSpawnChain = true;
 

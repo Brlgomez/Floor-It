@@ -184,19 +184,18 @@ public class AllBlockAttributes : MonoBehaviour {
 
 	float getXpos (float xPos, float zPos) {
 		for (float i = 0; i < 6; i += 0.5f) {
-			Vector3 spawnPos = new Vector3 (xPos + i, -1, zPos);
+			Vector3 spawnPos = new Vector3 (xPos + i, -0.25f, zPos);
 			Vector3 spawnPosAbove = new Vector3 (xPos + i, 1, zPos);
 			Vector3 boxSize = new Vector3 (0.5f, 0.5f, 0.5f);
 			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
 				return xPos + i + Random.Range (-0.25f, 0.25f);
 			}
-			spawnPos = new Vector3 (xPos - i, -1, zPos);
-			spawnPosAbove = new Vector3 (xPos - i, 0.51f, zPos);
+			spawnPos = new Vector3 (xPos - i, -0.25f, zPos);
+			spawnPosAbove = new Vector3 (xPos - i, 1, zPos);
 			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
 				return xPos + i + Random.Range (-0.25f, 0.25f);
 			}
 		}
-		Debug.Log ("it broke");
 		return xPos + Random.Range (-0.5f, 0.5f);
 	}
 
