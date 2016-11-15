@@ -33,11 +33,11 @@ public class Missile : MonoBehaviour {
 		if (!exploded) {
 			Camera.main.GetComponent<SoundEffects> ().playExplosionSound (transform.position);
 			Vector3 explosionPos = transform.position;
-			Collider[] colliders = Physics.OverlapSphere (explosionPos, 2);
+			Collider[] colliders = Physics.OverlapSphere (explosionPos, 1);
 			foreach (Collider hit in colliders) {
 				Rigidbody rb = hit.GetComponent<Rigidbody> ();
 				if (rb != null) {
-					rb.AddExplosionForce (1000, explosionPos, 2, 25);
+					rb.AddExplosionForce (1000, explosionPos, 1, 25);
 				}
 			}
 			smoke.Play ();

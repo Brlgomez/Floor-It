@@ -156,7 +156,7 @@ public class AllBlockAttributes : MonoBehaviour {
 						lastCar.transform.position.z + zPos 
 					);
 				} else {
-					spawnX = getXpos (nextCar.transform.position.x, spawnZ);
+					spawnX = getXpos (temp.transform.position.x, spawnZ);
 					nextCar.transform.position = new Vector3 (
 						spawnX, 
 						temp.GetComponent<CarMovement> ().distToGround, 
@@ -183,18 +183,20 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	float getXpos (float xPos, float zPos) {
-		for (float i = 0; i < 3; i += 0.5f) {
+		for (float i = 0; i < 6; i += 0.5f) {
 			Vector3 spawnPos = new Vector3 (xPos + i, -1, zPos);
-			Vector3 spawnPosAbove = new Vector3 (xPos + i, 0.55f, zPos);
-			if (Physics.CheckSphere (spawnPos, 0.1f) && !Physics.CheckSphere (spawnPosAbove, 0.25f)) {
+			Vector3 spawnPosAbove = new Vector3 (xPos + i, 1, zPos);
+			Vector3 boxSize = new Vector3 (0.5f, 0.5f, 0.5f);
+			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
 				return xPos + i + Random.Range (-0.25f, 0.25f);
 			}
 			spawnPos = new Vector3 (xPos - i, -1, zPos);
-			spawnPosAbove = new Vector3 (xPos - i, 1, zPos);
-			if (Physics.CheckSphere (spawnPos, 0.1f) && !Physics.CheckSphere (spawnPosAbove, 0.25f)) {
+			spawnPosAbove = new Vector3 (xPos - i, 0.51f, zPos);
+			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
 				return xPos + i + Random.Range (-0.25f, 0.25f);
 			}
 		}
+		Debug.Log ("it broke");
 		return xPos + Random.Range (-0.5f, 0.5f);
 	}
 
