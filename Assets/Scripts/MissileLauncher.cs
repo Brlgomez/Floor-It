@@ -16,22 +16,24 @@ public class MissileLauncher : MonoBehaviour {
 	void Update () {
 		timer += Time.deltaTime;
 		if (timer > timeBetweenFire) {
-			timer = 0;
-			GameObject missileRight;
-			missileRight = Instantiate (missile);
-			missileRight.transform.position = new Vector3 (transform.position.x, 0.5f, transform.position.z + 0.4f);
-			missileRight.transform.Rotate(0, transform.eulerAngles.y + 90, 0);
-			missileRight.AddComponent<Missile> ();
+			if (Camera.main.GetComponent<CarMangment>().cars.Length > 0) {
+				timer = 0;
+				GameObject missileRight;
+				missileRight = Instantiate (missile);
+				missileRight.transform.position = new Vector3 (transform.position.x, 0.5f, transform.position.z + 0.4f);
+				missileRight.transform.Rotate(0, transform.eulerAngles.y + 90, 0);
+				missileRight.AddComponent<Missile> ();
 
-			GameObject missileLeft;
-			missileLeft = Instantiate (missile);
-			missileLeft.transform.position = new Vector3 (transform.position.x, 0.5f, transform.position.z - 0.4f);
-			missileLeft.transform.Rotate(0, transform.eulerAngles.y + 270, 0);
-			missileLeft.AddComponent<Missile> ();
+				GameObject missileLeft;
+				missileLeft = Instantiate (missile);
+				missileLeft.transform.position = new Vector3 (transform.position.x, 0.5f, transform.position.z - 0.4f);
+				missileLeft.transform.Rotate(0, transform.eulerAngles.y + 270, 0);
+				missileLeft.AddComponent<Missile> ();
 
-			GetComponentsInChildren<ParticleSystem> () [0].Play ();
-			GetComponentsInChildren<ParticleSystem> () [1].Play ();
-			Camera.main.GetComponent<SoundEffects> ().playMissileSound (transform.position);
+				GetComponentsInChildren<ParticleSystem> () [0].Play ();
+				GetComponentsInChildren<ParticleSystem> () [1].Play ();
+				Camera.main.GetComponent<SoundEffects> ().playMissileSound (transform.position);
+			}
 		}
 	}
 }
