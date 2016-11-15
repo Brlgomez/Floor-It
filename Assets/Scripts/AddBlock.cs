@@ -258,6 +258,7 @@ public class AddBlock : MonoBehaviour {
 		string nextBlock = "";
 		float rand = Random.Range (0, 100);
 		int numberOfCars = Camera.main.GetComponent<CarMangment> ().cars.Length;
+		bool renderFlare = false;
 		if (superSlowBlockActivated) {
 			nextBlock = AllBlockNames.decelerateBlock;
 		} else if (superSpeedBlockActivated) {
@@ -287,9 +288,11 @@ public class AddBlock : MonoBehaviour {
 			} else if (rand == superAccPercent && leadCarSpeed < speedUnderForSuperAcc && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				nextBlock = AllBlockNames.superAccelerateBlock;
+				renderFlare = true;
 			} else if (rand == superDecPercent && leadCarSpeed > speedForSuperDec && superCounter > superLimit && cameraZPos > superBlockDistSpawn) {
 				superCounter = 0;
 				nextBlock = AllBlockNames.superDecelerateBlock;
+				renderFlare = true;
 			} else if (rand == bombPercent && blockPerRow >= blocksPerRowForBomb && bombCounter > bombLimit && cameraZPos > bombBlockDistSpawn) {
 				bombCounter = 0;
 				nextBlock = AllBlockNames.bombBlock;
@@ -297,6 +300,7 @@ public class AddBlock : MonoBehaviour {
 				superCounter = 0;
 				randBlockIndex = (int)Random.Range (0, AllBlockNames.commonSuperBlocks.Length);
 				nextBlock = AllBlockNames.commonSuperBlocks [randBlockIndex];
+				renderFlare = true;
 			} else if (rand == evilCarPercent && blockPerRow >= blocksPerRowForEvilCar && evilCarCounter > evilCarLimit && cameraZPos > evilCarDistSpawn) {
 				evilCarCounter = 0;
 				nextBlock = AllBlockNames.evilCarBlock;
@@ -316,6 +320,8 @@ public class AddBlock : MonoBehaviour {
 			hudBlock.AddComponent<BombAttributes> ();
 		} else if (nextBlock == AllBlockNames.cylinder) {
 			hudBlock.AddComponent<Cylinder> ();
+		} else if (renderFlare) {
+			hudBlock.GetComponent<LensFlare> ().enabled = true;
 		}
 	}
 

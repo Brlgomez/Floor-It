@@ -183,19 +183,20 @@ public class AllBlockAttributes : MonoBehaviour {
 	}
 
 	float getXpos (float xPos, float zPos) {
-		for (float i = 0; i < 6; i += 0.5f) {
+		for (float i = 0; i < 6; i += 1) {
 			Vector3 spawnPos = new Vector3 (xPos + i, -0.25f, zPos);
-			Vector3 spawnPosAbove = new Vector3 (xPos + i, 1, zPos);
+			Vector3 spawnPosAbove = new Vector3 (xPos + i, 0.55f, zPos);
 			Vector3 boxSize = new Vector3 (0.5f, 0.5f, 0.5f);
 			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
 				return xPos + i + Random.Range (-0.25f, 0.25f);
 			}
 			spawnPos = new Vector3 (xPos - i, -0.25f, zPos);
-			spawnPosAbove = new Vector3 (xPos - i, 1, zPos);
+			spawnPosAbove = new Vector3 (xPos - i, 0.55f, zPos);
 			if (Physics.CheckSphere (spawnPos, 0.01f) && !Physics.CheckBox (spawnPosAbove, boxSize)) {
-				return xPos + i + Random.Range (-0.25f, 0.25f);
+				return xPos - i + Random.Range (-0.25f, 0.25f);
 			}
 		}
+		Debug.Log ("I dun goofed");
 		return xPos + Random.Range (-0.5f, 0.5f);
 	}
 
@@ -427,6 +428,8 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.transform.Rotate (Random.Range(-2, 2), Random.Range (0.0f, 360.0f), Random.Range(-2, 2));
 			nextObject.GetComponent<Rigidbody> ().useGravity = true;
 			nextObject.GetComponent<Rigidbody> ().isKinematic = false;
+			Behaviour halo = (Behaviour)nextObject.transform.GetChild (0).GetComponent ("Halo");
+			halo.enabled = true;
 			nextObject.AddComponent<RigidbodySounds> ();
 		} else if (rand == 4) {
 			obj = "Building1";
@@ -483,14 +486,6 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject.AddComponent<MissileLauncher>();
 			nextObject.AddComponent<Spinner>();
 			nextObject.transform.parent = block.transform;
-			if (Random.value > 0.75f) {
-				GameObject nextObjectChild;
-				nextObjectChild = Instantiate (temp);
-				nextObjectChild.transform.Rotate (0, 90, 0);
-				nextObjectChild.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
-				nextObjectChild.AddComponent<MissileLauncher>();
-				nextObjectChild.transform.parent = nextObject.transform;
-			}
 		} else if (rand == 10) {
 			obj = "Hydraulic";
 			temp = GameObject.Find (obj);

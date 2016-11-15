@@ -5,7 +5,7 @@ public class BlockManagment : MonoBehaviour {
 
 	float timerCount;
 	static float timerLimit = 5;
-	static float maxDistAway = -10f;
+	static float maxDistAway = -11f;
 	Vector3 lastCarPosition;
 	bool carStill = false;
 	Vector3 prevLastCarPosition;
@@ -22,7 +22,7 @@ public class BlockManagment : MonoBehaviour {
 			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject> ();
 			// destroy objects that have fallen
 			foreach (GameObject go in allObjects) {
-				if (go.transform.position.y < -200 && (go.tag != TagManagement.pin && (go.layer == 2 || go.layer == 8))) {
+				if (go.transform.position.y < -100 && (go.tag != TagManagement.pin && (go.layer == 2 || go.layer == 8))) {
 					Destroy (go);
 				}
 			}

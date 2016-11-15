@@ -14,6 +14,7 @@ public class FollowCar : MonoBehaviour {
 	string level;
 	float timeLapsed;
 	static float timeLimit = 0.075f;
+	static float cameraHeight = 15;
 
 	void Start (){
 		level = Camera.main.GetComponent<LevelManagement>().level;
@@ -49,23 +50,10 @@ public class FollowCar : MonoBehaviour {
 			}
 			if (leadCar != null) {
 				yPositionOfCam = getYPositionOfCam (leadCar, lastCar, leftMostCar, rightMostCar);
-				int yPosShift = 10;
-				if (Screen.width < Screen.height) {
-					yPositionOfCam = yPositionOfCam + 5;
-					yPosShift = 15;
-				}
-				Vector3 end;
-				float xShift;
-				if (level != LevelManagement.drive) {
-					xShift = leadCar.transform.rotation.y * 2;
-				} else {
-					xShift = leadCar.transform.rotation.y / 2;
-				}
-				xShift = Mathf.Clamp (xShift, -1, 1);
-				end = new Vector3 (
-					xPositionOfCam + xShift, 
+				Vector3 end = new Vector3 (
+					xPositionOfCam, 
 					yPositionOfCam, 
-					leadCar.transform.position.z - ((yPositionOfCam - yPosShift) / 2) - 1
+					leadCar.transform.position.z - ((yPositionOfCam - cameraHeight) / 2) - 1
 				);
 				if (level == LevelManagement.bowl && leadCar.transform.position.z > pinZPosition - 6) {
 					end = new Vector3 (0, 25, pinZPosition - 6);
@@ -83,7 +71,7 @@ public class FollowCar : MonoBehaviour {
 			}
 			if (level == LevelManagement.bowl && transform.rotation.x < 0.61f) {
 				Quaternion newRotation = new Quaternion (0.65f, transform.rotation.y, transform.rotation.z, transform.rotation.w);
-				transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime/2);
+				transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime / 2);
 			}
 		}
 	}
@@ -185,10 +173,10 @@ public class FollowCar : MonoBehaviour {
 	}
 
 	float getYPositionOfCam (GameObject a, GameObject b, GameObject c, GameObject d) {
-		float zPosDiff = Mathf.Abs (a.transform.position.z - b.transform.position.z) + 10;
-		float xPosDiff = Mathf.Abs (c.transform.position.x - d.transform.position.x) + 10;
-		if (zPosDiff <= 10 && xPosDiff <= 10) {
-			return 10.0f;
+		float zPosDiff = Mathf.Abs (a.transform.position.z - b.transform.position.z) + cameraHeight;
+		float xPosDiff = Mathf.Abs (c.transform.position.x - d.transform.position.x) + cameraHeight;
+		if (zPosDiff <= cameraHeight && xPosDiff <= cameraHeight) {
+			return cameraHeight;
 		} else {
 			if (xPosDiff > zPosDiff) {
 				return xPosDiff;
