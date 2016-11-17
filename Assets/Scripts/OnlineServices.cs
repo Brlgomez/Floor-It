@@ -22,8 +22,10 @@ public class OnlineServices : MonoBehaviour {
 			Social.localUser.Authenticate ((bool success) => {
 				if (success) {
 					PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 0);
+					PlayerPrefs.Save ();
 				} else {
 					PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 1);
+					PlayerPrefs.Save ();
 				}
 			});
 		}
@@ -33,9 +35,11 @@ public class OnlineServices : MonoBehaviour {
 		Social.localUser.Authenticate((bool success) => {
 			if (success) {
 				PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 0);
+				PlayerPrefs.Save ();
 				Social.ShowLeaderboardUI();
 			} else {
 				PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 1);
+				PlayerPrefs.Save ();
 				errorMessage ();
 			}
 		});
@@ -45,9 +49,11 @@ public class OnlineServices : MonoBehaviour {
 		Social.localUser.Authenticate((bool success) => {
 			if (success) {
 				PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 0);
+				PlayerPrefs.Save ();
 				Social.ShowAchievementsUI();
 			} else {
 				PlayerPrefs.SetInt (PlayerPrefManagement.usingOnlineServices, 1);
+				PlayerPrefs.Save ();
 				errorMessage ();
 			}
 		});
