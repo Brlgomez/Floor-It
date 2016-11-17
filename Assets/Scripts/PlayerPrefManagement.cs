@@ -23,6 +23,7 @@ public class PlayerPrefManagement : MonoBehaviour {
 	static public string nightVisual = "night visual";
 	static public string outlineVisual = "outline visual";
 	static public string pixelVisual = "classic handheld visual";
+	static public string usingOnlineServices = "online services";
 
 	// stats
 	static public string highScoreFloorIt = "High Score Infinite";
