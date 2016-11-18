@@ -6,14 +6,20 @@ public class MissileLauncher : MonoBehaviour {
 	GameObject missile;
 	int timeBetweenFire = 3;
 	float timer;
+	int speed = 0;
 
 	void Start () {
 		missile = GameObject.Find ("Missile");
 		timeBetweenFire = Random.Range (2, 6);
 		timer = Random.Range (0f, timeBetweenFire);
+		speed = Random.Range (25, 75);
+		if (speed % 2 == 0) {
+			speed *= -1;
+		}
 	}
 	
 	void Update () {
+		transform.Rotate (0, Time.deltaTime * speed, 0);
 		timer += Time.deltaTime;
 		if (timer > timeBetweenFire) {
 			if (Camera.main.GetComponent<CarMangment>().cars.Length > 0) {

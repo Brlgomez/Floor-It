@@ -484,7 +484,6 @@ public class AllBlockAttributes : MonoBehaviour {
 			nextObject = Instantiate (temp);
 			nextObject.transform.position = new Vector3 (block.transform.position.x, 0, block.transform.position.z);
 			nextObject.AddComponent<MissileLauncher>();
-			nextObject.AddComponent<Spinner>();
 			nextObject.transform.parent = block.transform;
 		} else if (rand == 10) {
 			obj = "Hydraulic";
