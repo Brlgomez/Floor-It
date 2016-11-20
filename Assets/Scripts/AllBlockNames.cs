@@ -39,8 +39,7 @@ public class AllBlockNames : MonoBehaviour {
 	};
 
 	public static string[] blocksToBeAdded = {
-		cylinder, pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock, 
-		objectBlock
+		cylinder, pointBlock, flyBlock, invisibleBlock, objectBlock, sizeBlock, shuffleBlock, multiplierBlock
 	};
 
 	public static string[] superBlockActivated = {
