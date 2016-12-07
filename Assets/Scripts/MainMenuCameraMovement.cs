@@ -4,9 +4,10 @@ using System.Collections;
 public class MainMenuCameraMovement : MonoBehaviour {
 
 	Vector3 lookPosition;
-	public bool loading;
+	bool loading;
 
 	void Start(){
+		loading = false;
 		lookPosition = new Vector3 (0, 0, 0);
 	}
 
@@ -15,5 +16,13 @@ public class MainMenuCameraMovement : MonoBehaviour {
 			transform.LookAt (lookPosition);
 			transform.Translate (Vector3.right * Time.smoothDeltaTime);
 		}
+	}
+
+	public bool getLoading () {
+		return loading;
+	}
+
+	public void setLoading (bool b) {
+		loading = b;
 	}
 }
